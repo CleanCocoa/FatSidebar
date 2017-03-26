@@ -4,12 +4,7 @@ import class Cocoa.NSColor
 
 struct DefaultTheme: FatSidebarTheme {
 
-    let sidebarStyle: FatSidebarStyle = DefaultSidebarStyle()
     let itemStyle: FatSidebarItemStyle = DefaultItemStyle()
-
-    struct DefaultSidebarStyle: FatSidebarStyle {
-        let background = NSColor.lightGray
-    }
 
     struct DefaultItemStyle: FatSidebarItemStyle {
         let background = StatefulColor(

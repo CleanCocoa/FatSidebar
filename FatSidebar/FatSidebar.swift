@@ -169,14 +169,7 @@ public class FatSidebar: NSView {
 
         super.draw(wholeFrame)
 
-        drawBackground(wholeFrame)
         drawItems()
-    }
-
-    fileprivate func drawBackground(_ dirtyRect: NSRect) {
-
-        theme.sidebarStyle.background.set()
-        NSRectFill(dirtyRect)
     }
 
     fileprivate func drawItems() {
