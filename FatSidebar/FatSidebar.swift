@@ -5,6 +5,34 @@ import Cocoa
 @IBDesignable
 public class FatSidebar: NSView {
 
+    // MARK: - Content
+
+    fileprivate var items: [FatSidebarItem] = []
+
+    public var itemCount: Int {
+        return items.count
+    }
+
+    @discardableResult
+    public func appendItem(title: String, callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem {
+
+        let item = FatSidebarItem(
+            title: title,
+            callback: callback)
+
+        items.append(item)
+
+        return item
+    }
+
+    public func item(at index: Int) -> FatSidebarItem? {
+
+        return items[safe: index]
+    }
+
+
+    // MARK: - Drawing
+
     @IBInspectable var backgroundColor: NSColor?
 
     public override func draw(_ dirtyRect: NSRect) {

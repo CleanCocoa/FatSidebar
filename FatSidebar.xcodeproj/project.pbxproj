@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		506D6C7D1E879AA500C366BF /* FatSidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C7C1E879AA500C366BF /* FatSidebarItem.swift */; };
+		506D6C801E879F9C00C366BF /* Collection+SafeSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C7F1E879F9C00C366BF /* Collection+SafeSubscript.swift */; };
 		507CF3711E8797D000623B5E /* FatSidebar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; };
-		507CF3761E8797D000623B5E /* FatSidebarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3751E8797D000623B5E /* FatSidebarTests.swift */; };
 		507CF3781E8797D000623B5E /* FatSidebar.h in Headers */ = {isa = PBXBuildFile; fileRef = 507CF36A1E8797D000623B5E /* FatSidebar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		507CF3881E8797E000623B5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3871E8797E000623B5E /* AppDelegate.swift */; };
 		507CF38A1E8797E000623B5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 507CF3891E8797E000623B5E /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 		507CF3931E87982A00623B5E /* FatSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3921E87982A00623B5E /* FatSidebar.swift */; };
 		507CF3941E8798AC00623B5E /* FatSidebar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; };
 		507CF3951E8798AC00623B5E /* FatSidebar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		507CF39A1E879A0500623B5E /* ItemCreationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3991E879A0500623B5E /* ItemCreationTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,11 +52,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		506D6C7C1E879AA500C366BF /* FatSidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatSidebarItem.swift; sourceTree = "<group>"; };
+		506D6C7F1E879F9C00C366BF /* Collection+SafeSubscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+SafeSubscript.swift"; sourceTree = "<group>"; };
 		507CF3671E8797D000623B5E /* FatSidebar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FatSidebar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CF36A1E8797D000623B5E /* FatSidebar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FatSidebar.h; sourceTree = "<group>"; };
 		507CF36B1E8797D000623B5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		507CF3701E8797D000623B5E /* FatSidebarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FatSidebarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		507CF3751E8797D000623B5E /* FatSidebarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FatSidebarTests.swift; sourceTree = "<group>"; };
 		507CF3771E8797D000623B5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		507CF3851E8797E000623B5E /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CF3871E8797E000623B5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +65,7 @@
 		507CF38C1E8797E000623B5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		507CF38E1E8797E000623B5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		507CF3921E87982A00623B5E /* FatSidebar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatSidebar.swift; sourceTree = "<group>"; };
+		507CF3991E879A0500623B5E /* ItemCreationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCreationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +121,8 @@
 				507CF36A1E8797D000623B5E /* FatSidebar.h */,
 				507CF36B1E8797D000623B5E /* Info.plist */,
 				507CF3921E87982A00623B5E /* FatSidebar.swift */,
+				506D6C7C1E879AA500C366BF /* FatSidebarItem.swift */,
+				506D6C7F1E879F9C00C366BF /* Collection+SafeSubscript.swift */,
 			);
 			path = FatSidebar;
 			sourceTree = "<group>";
@@ -124,8 +130,8 @@
 		507CF3741E8797D000623B5E /* FatSidebarTests */ = {
 			isa = PBXGroup;
 			children = (
-				507CF3751E8797D000623B5E /* FatSidebarTests.swift */,
 				507CF3771E8797D000623B5E /* Info.plist */,
+				507CF3991E879A0500623B5E /* ItemCreationTests.swift */,
 			);
 			path = FatSidebarTests;
 			sourceTree = "<group>";
@@ -229,6 +235,7 @@
 					507CF36F1E8797D000623B5E = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = FRMDA3XRGC;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					507CF3841E8797E000623B5E = {
@@ -290,6 +297,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				507CF3931E87982A00623B5E /* FatSidebar.swift in Sources */,
+				506D6C801E879F9C00C366BF /* Collection+SafeSubscript.swift in Sources */,
+				506D6C7D1E879AA500C366BF /* FatSidebarItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				507CF3761E8797D000623B5E /* FatSidebarTests.swift in Sources */,
+				507CF39A1E879A0500623B5E /* ItemCreationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,12 +490,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = FRMDA3XRGC;
 				INFOPLIST_FILE = FatSidebarTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.christiantietze.FatSidebarTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -495,6 +506,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = FRMDA3XRGC;
 				INFOPLIST_FILE = FatSidebarTests/Info.plist;
@@ -554,6 +566,7 @@
 				507CF37D1E8797D000623B5E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		507CF37E1E8797D000623B5E /* Build configuration list for PBXNativeTarget "FatSidebarTests" */ = {
 			isa = XCConfigurationList;
@@ -562,6 +575,7 @@
 				507CF3801E8797D000623B5E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		507CF38F1E8797E000623B5E /* Build configuration list for PBXNativeTarget "Example" */ = {
 			isa = XCConfigurationList;
@@ -570,6 +584,7 @@
 				507CF3911E8797E000623B5E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -11,7 +11,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var fatSidebar: FatSidebar!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+
+//        NSMenu().addItem(withTitle: <#T##String#>, action: <#T##Selector?#>, keyEquivalent: <#T##String#>)
+//        fatSidebar.addItem(title: "Inbox", callback: { _ in print("Inbox") })
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
