@@ -16,6 +16,7 @@
 		506D6C8C1E87D64A00C366BF /* StatefulColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C8B1E87D64A00C366BF /* StatefulColor.swift */; };
 		506D6C8E1E87D67400C366BF /* DefaultTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C8D1E87D67400C366BF /* DefaultTheme.swift */; };
 		506D6C941E88302500C366BF /* Borders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C931E88302500C366BF /* Borders.swift */; };
+		506D6C961E88332600C366BF /* NSTextField+Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C951E88332600C366BF /* NSTextField+Label.swift */; };
 		507CF3711E8797D000623B5E /* FatSidebar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; };
 		507CF3781E8797D000623B5E /* FatSidebar.h in Headers */ = {isa = PBXBuildFile; fileRef = 507CF36A1E8797D000623B5E /* FatSidebar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		507CF3881E8797E000623B5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3871E8797E000623B5E /* AppDelegate.swift */; };
@@ -68,6 +69,7 @@
 		506D6C8B1E87D64A00C366BF /* StatefulColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatefulColor.swift; sourceTree = "<group>"; };
 		506D6C8D1E87D67400C366BF /* DefaultTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultTheme.swift; sourceTree = "<group>"; };
 		506D6C931E88302500C366BF /* Borders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Borders.swift; sourceTree = "<group>"; };
+		506D6C951E88332600C366BF /* NSTextField+Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTextField+Label.swift"; sourceTree = "<group>"; };
 		507CF3671E8797D000623B5E /* FatSidebar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FatSidebar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CF36A1E8797D000623B5E /* FatSidebar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FatSidebar.h; sourceTree = "<group>"; };
 		507CF36B1E8797D000623B5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				506D6C921E88301C00C366BF /* Theming */,
 				506D6C7F1E879F9C00C366BF /* Collection+SafeSubscript.swift */,
 				506D6C891E87C36400C366BF /* NSSize+Quadratic.swift */,
+				506D6C951E88332600C366BF /* NSTextField+Label.swift */,
 			);
 			path = FatSidebar;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				506D6C941E88302500C366BF /* Borders.swift in Sources */,
 				507CF3931E87982A00623B5E /* FatSidebar.swift in Sources */,
 				506D6C8C1E87D64A00C366BF /* StatefulColor.swift in Sources */,
+				506D6C961E88332600C366BF /* NSTextField+Label.swift in Sources */,
 				506D6C861E87BA1900C366BF /* Theme.swift in Sources */,
 				506D6C8A1E87C36400C366BF /* NSSize+Quadratic.swift in Sources */,
 				506D6C801E879F9C00C366BF /* Collection+SafeSubscript.swift in Sources */,

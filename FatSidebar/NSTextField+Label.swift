@@ -1,0 +1,39 @@
+//  Copyright © 2017 Christian Tietze. All rights reserved. Distributed under the MIT License.
+
+import Cocoa
+
+/// via <http://stackoverflow.com/a/41177330/1460929>
+extension NSTextField {
+
+    /// Return an `NSTextField` configured exactly like one created by dragging a “Label” into a storyboard.
+    class func newLabel(
+        title: String = "",
+        controlSize: NSControlSize = NSRegularControlSize) -> NSTextField {
+
+        let label = NSTextField()
+        label.isEditable = false
+        label.isSelectable = false
+        label.textColor = .labelColor
+        label.backgroundColor = .controlColor
+        label.drawsBackground = false
+        label.isBezeled = false
+        label.alignment = .natural
+        label.controlSize = controlSize
+        label.font = NSFont.systemFont(ofSize: NSFont.systemFontSize(for: label.controlSize))
+        label.lineBreakMode = .byClipping
+        label.cell?.isScrollable = true
+        label.cell?.wraps = false
+        label.stringValue = title
+        return label
+    }
+
+    /// Return an `NSTextField` configured exactly like one created by dragging a “Wrapping Label” into a storyboard.
+    class func newWrappingLabel() -> NSTextField {
+        
+        let label = newLabel()
+        label.lineBreakMode = .byWordWrapping
+        label.cell?.isScrollable = false
+        label.cell?.wraps = true
+        return label
+    }
+}

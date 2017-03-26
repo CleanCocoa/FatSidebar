@@ -7,6 +7,8 @@ public class FatSidebarItem: NSView {
     public let title: String
     public let callback: (FatSidebarItem) -> Void
 
+    let label: NSTextField
+
     public internal(set) var theme: FatSidebarTheme = DefaultTheme() {
         didSet {
             redraw()
@@ -20,8 +22,16 @@ public class FatSidebarItem: NSView {
 
         self.title = title
         self.callback = callback
+        self.label = NSTextField.newLabel(title: title, controlSize: NSSmallControlSize)
 
         super.init(frame: frame)
+
+        self.label.translatesAutoresizingMaskIntoConstraints = false
+        self.addConstraints([
+            NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.label, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 5),
+            NSLayoutConstraint(item: self.label, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0),
+            ])
+        self.addSubview(self.label)
     }
 
     required public init?(coder: NSCoder) {
