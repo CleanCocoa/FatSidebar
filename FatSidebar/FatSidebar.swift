@@ -2,19 +2,26 @@
 
 import Cocoa
 
-extension NSSize {
-    init(quadratic width: CGFloat) {
-        self.init(width: width, height: width)
-    }
-}
-
-@IBDesignable
 public class FatSidebar: NSView {
+
+    public var theme: FatSidebarTheme = DefaultTheme() {
+        didSet {
+            applyThemeToItems()
+        }
+    }
+
+    fileprivate func applyThemeToItems() {
+
+        for item in items {
+            item.theme = self.theme
+        }
+    }
 
     // MARK: - Content
 
     fileprivate var items: [FatSidebarItem] = [] {
         didSet {
+            applyThemeToItems()
             layoutItems()
         }
     }
@@ -155,8 +162,6 @@ public class FatSidebar: NSView {
 
     // MARK: Drawing
 
-    @IBInspectable var backgroundColor: NSColor?
-
     public override func draw(_ dirtyRect: NSRect) {
 
         let wholeFrame = self.frame
@@ -169,9 +174,7 @@ public class FatSidebar: NSView {
 
     fileprivate func drawBackground(_ dirtyRect: NSRect) {
 
-        guard let backgroundColor = backgroundColor else { return }
-
-        backgroundColor.set()
+        theme.sidebarStyle.background.set()
         NSRectFill(dirtyRect)
     }
 

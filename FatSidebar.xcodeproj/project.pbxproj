@@ -10,8 +10,11 @@
 		506D6C7D1E879AA500C366BF /* FatSidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C7C1E879AA500C366BF /* FatSidebarItem.swift */; };
 		506D6C801E879F9C00C366BF /* Collection+SafeSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C7F1E879F9C00C366BF /* Collection+SafeSubscript.swift */; };
 		506D6C821E87A03D00C366BF /* ItemRemovalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C811E87A03D00C366BF /* ItemRemovalTests.swift */; };
-		506D6C861E87BA1900C366BF /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C851E87BA1900C366BF /* Colors.swift */; };
+		506D6C861E87BA1900C366BF /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C851E87BA1900C366BF /* Theme.swift */; };
 		506D6C881E87BF4F00C366BF /* ItemSelectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C871E87BF4F00C366BF /* ItemSelectionTests.swift */; };
+		506D6C8A1E87C36400C366BF /* NSSize+Quadratic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C891E87C36400C366BF /* NSSize+Quadratic.swift */; };
+		506D6C8C1E87D64A00C366BF /* StatefulColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C8B1E87D64A00C366BF /* StatefulColor.swift */; };
+		506D6C8E1E87D67400C366BF /* DefaultTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C8D1E87D67400C366BF /* DefaultTheme.swift */; };
 		507CF3711E8797D000623B5E /* FatSidebar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; };
 		507CF3781E8797D000623B5E /* FatSidebar.h in Headers */ = {isa = PBXBuildFile; fileRef = 507CF36A1E8797D000623B5E /* FatSidebar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		507CF3881E8797E000623B5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3871E8797E000623B5E /* AppDelegate.swift */; };
@@ -58,8 +61,11 @@
 		506D6C7C1E879AA500C366BF /* FatSidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatSidebarItem.swift; sourceTree = "<group>"; };
 		506D6C7F1E879F9C00C366BF /* Collection+SafeSubscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+SafeSubscript.swift"; sourceTree = "<group>"; };
 		506D6C811E87A03D00C366BF /* ItemRemovalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemRemovalTests.swift; sourceTree = "<group>"; };
-		506D6C851E87BA1900C366BF /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		506D6C851E87BA1900C366BF /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		506D6C871E87BF4F00C366BF /* ItemSelectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemSelectionTests.swift; sourceTree = "<group>"; };
+		506D6C891E87C36400C366BF /* NSSize+Quadratic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSSize+Quadratic.swift"; sourceTree = "<group>"; };
+		506D6C8B1E87D64A00C366BF /* StatefulColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatefulColor.swift; sourceTree = "<group>"; };
+		506D6C8D1E87D67400C366BF /* DefaultTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultTheme.swift; sourceTree = "<group>"; };
 		507CF3671E8797D000623B5E /* FatSidebar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FatSidebar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CF36A1E8797D000623B5E /* FatSidebar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FatSidebar.h; sourceTree = "<group>"; };
 		507CF36B1E8797D000623B5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -128,8 +134,11 @@
 				507CF36B1E8797D000623B5E /* Info.plist */,
 				507CF3921E87982A00623B5E /* FatSidebar.swift */,
 				506D6C7C1E879AA500C366BF /* FatSidebarItem.swift */,
-				506D6C851E87BA1900C366BF /* Colors.swift */,
+				506D6C8B1E87D64A00C366BF /* StatefulColor.swift */,
+				506D6C851E87BA1900C366BF /* Theme.swift */,
+				506D6C8D1E87D67400C366BF /* DefaultTheme.swift */,
 				506D6C7F1E879F9C00C366BF /* Collection+SafeSubscript.swift */,
+				506D6C891E87C36400C366BF /* NSSize+Quadratic.swift */,
 			);
 			path = FatSidebar;
 			sourceTree = "<group>";
@@ -305,8 +314,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506D6C8E1E87D67400C366BF /* DefaultTheme.swift in Sources */,
 				507CF3931E87982A00623B5E /* FatSidebar.swift in Sources */,
-				506D6C861E87BA1900C366BF /* Colors.swift in Sources */,
+				506D6C8C1E87D64A00C366BF /* StatefulColor.swift in Sources */,
+				506D6C861E87BA1900C366BF /* Theme.swift in Sources */,
+				506D6C8A1E87C36400C366BF /* NSSize+Quadratic.swift in Sources */,
 				506D6C801E879F9C00C366BF /* Collection+SafeSubscript.swift in Sources */,
 				506D6C7D1E879AA500C366BF /* FatSidebarItem.swift in Sources */,
 			);

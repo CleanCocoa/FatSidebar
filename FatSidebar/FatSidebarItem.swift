@@ -7,6 +7,12 @@ public class FatSidebarItem: NSView {
     public let title: String
     public let callback: (FatSidebarItem) -> Void
 
+    public internal(set) var theme: FatSidebarTheme = DefaultTheme() {
+        didSet {
+            redraw()
+        }
+    }
+
     required public init(
         title: String,
         frame: NSRect = NSRect.zero,
@@ -31,11 +37,11 @@ public class FatSidebarItem: NSView {
 
         super.draw(dirtyRect)
 
-        Colors.Item.background.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
+        theme.itemStyle.background.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
         NSRectFill(dirtyRect)
 
         let border = NSRect(x: 0, y: dirtyRect.minY, width: dirtyRect.width, height: 1)
-        Colors.Item.bottomBorder.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
+        theme.itemStyle.bottomBorder.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
         NSRectFill(border)
     }
 
