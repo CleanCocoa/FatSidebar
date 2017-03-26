@@ -12,8 +12,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
-//        NSMenu().addItem(withTitle: <#T##String#>, action: <#T##Selector?#>, keyEquivalent: <#T##String#>)
-//        fatSidebar.addItem(title: "Inbox", callback: { _ in print("Inbox") })
+        fatSidebar.appendItem(title: "Inbox", callback: { _ in print("Inbox") })
+        fatSidebar.appendItem(title: "Sent", callback: { _ in print("Sent") })
+        fatSidebar.appendItem(title: "Drafts", callback: { _ in print("Drafts") })
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

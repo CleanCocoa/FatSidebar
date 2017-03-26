@@ -2,12 +2,22 @@
 
 import Cocoa
 
+extension NSSize {
+    init(quadratic width: CGFloat) {
+        self.init(width: width, height: width)
+    }
+}
+
 @IBDesignable
 public class FatSidebar: NSView {
 
     // MARK: - Content
 
-    fileprivate var items: [FatSidebarItem] = []
+    fileprivate var items: [FatSidebarItem] = [] {
+        didSet {
+            layoutItems()
+        }
+    }
 
     public var itemCount: Int {
         return items.count
@@ -52,15 +62,55 @@ public class FatSidebar: NSView {
         return removedItems
     }
 
-    // MARK: - Drawing
+
+    // MARK: - 
+    // MARK: Layout
+
+    fileprivate var laidOutItemBox: NSRect = NSRect.null
+    public override var intrinsicContentSize: NSSize {
+        return laidOutItemBox.size
+    }
+
+    public override var frame: NSRect {
+        didSet {
+            layoutItems()
+        }
+    }
+
+    fileprivate func layoutItems() {
+
+        let wholeFrame = self.frame
+        let itemSize = NSSize(quadratic: wholeFrame.width)
+
+        var allItemsFrame = NSRect.zero
+        for (i, item) in items.enumerated() {
+
+            let origin = NSPoint(
+                x: 0,
+                // On macOS, the coordinate system starts in the bottom-left corner
+                y: wholeFrame.maxY - CGFloat(i + 1) * itemSize.height)
+            let newItemFrame = NSRect(origin: origin, size: itemSize)
+
+            item.frame = newItemFrame
+
+            allItemsFrame = allItemsFrame.union(newItemFrame)
+        }
+
+        laidOutItemBox = allItemsFrame
+    }
+
+    // MARK: Drawing
 
     @IBInspectable var backgroundColor: NSColor?
 
     public override func draw(_ dirtyRect: NSRect) {
 
-        super.draw(dirtyRect)
+        let wholeFrame = self.frame
 
-        drawBackground(dirtyRect)
+        super.draw(wholeFrame)
+
+        drawBackground(wholeFrame)
+        drawItems()
     }
 
     fileprivate func drawBackground(_ dirtyRect: NSRect) {
@@ -69,5 +119,12 @@ public class FatSidebar: NSView {
 
         backgroundColor.set()
         NSRectFill(dirtyRect)
+    }
+
+    fileprivate func drawItems() {
+
+        for item in items {
+            item.draw(item.frame)
+        }
     }
 }
