@@ -31,19 +31,29 @@ public class FatSidebarItem: NSView {
 
         super.draw(dirtyRect)
 
-        if isHighlighted {
-            NSColor.controlHighlightColor.setFill()
-        } else {
-            NSColor.controlColor.setFill()
-        }
-
+        Colors.Item.background.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
         NSRectFill(dirtyRect)
+
+        let border = NSRect(x: 0, y: dirtyRect.minY, width: dirtyRect.width, height: 1)
+        Colors.Item.bottomBorder.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
+        NSRectFill(border)
     }
 
-    var isHighlighted = false {
+    public internal(set) var isSelected = false {
         didSet {
-            self.needsDisplay = true
+            redraw()
         }
+    }
+
+    public fileprivate(set) var isHighlighted = false {
+        didSet {
+            redraw()
+        }
+    }
+
+    fileprivate func redraw() {
+
+        self.needsDisplay = true
     }
 
     public override func mouseDown(with event: NSEvent) {
@@ -54,6 +64,11 @@ public class FatSidebarItem: NSView {
     public override func mouseUp(with event: NSEvent) {
 
         isHighlighted = false
+
+        if let sidebar = superview as? FatSidebar {
+            sidebar.selectItem(self)
+        }
+
         sendAction()
     }
 

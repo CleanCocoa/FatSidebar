@@ -23,6 +23,19 @@ public class FatSidebar: NSView {
         return items.count
     }
 
+    public func item(at index: Int) -> FatSidebarItem? {
+
+        return items[safe: index]
+    }
+
+    public func contains(_ item: FatSidebarItem) -> Bool {
+
+        return items.contains(item)
+    }
+
+
+    // MARK: Insertion
+
     @discardableResult
     public func appendItem(title: String, callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem {
 
@@ -52,10 +65,7 @@ public class FatSidebar: NSView {
         return item
     }
 
-    public func item(at index: Int) -> FatSidebarItem? {
-
-        return items[safe: index]
-    }
+    // MARK: Removal
 
     @discardableResult
     public func removeAllItems() -> [FatSidebarItem] {
@@ -64,6 +74,20 @@ public class FatSidebar: NSView {
         items.removeAll()
         removedItems.forEach { $0.removeFromSuperview() }
         return removedItems
+    }
+
+    // MARK: Selection
+
+    @discardableResult
+    public func selectItem(_ item: FatSidebarItem) -> Bool {
+
+        guard self.contains(item) else { return false }
+
+        for existingItem in items {
+            existingItem.isSelected = (existingItem === item)
+        }
+
+        return true
     }
 
 
