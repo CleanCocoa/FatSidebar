@@ -30,6 +30,13 @@ public class FatSidebar: NSView {
         return items[safe: index]
     }
 
+    @discardableResult
+    public func removeAllItems() -> [FatSidebarItem] {
+
+        let removedItems = items
+        items.removeAll()
+        return removedItems
+    }
 
     // MARK: - Drawing
 
