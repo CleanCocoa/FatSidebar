@@ -127,7 +127,7 @@ public class FatSidebar: NSView {
     // MARK: - 
     // MARK: Layout
 
-    fileprivate var laidOutItemBox: NSRect = NSRect.null
+    public var laidOutItemBox: NSRect = NSRect.zero
     public override var intrinsicContentSize: NSSize {
         return laidOutItemBox.size
     }
@@ -137,6 +137,8 @@ public class FatSidebar: NSView {
             layoutItems()
         }
     }
+
+    public override var isFlipped: Bool { return true }
 
     fileprivate func layoutItems() {
 
@@ -148,8 +150,7 @@ public class FatSidebar: NSView {
 
             let origin = NSPoint(
                 x: 0,
-                // On macOS, the coordinate system starts in the bottom-left corner
-                y: wholeFrame.maxY - CGFloat(i + 1) * itemSize.height)
+                y: CGFloat(i) * itemSize.height)
             let newItemFrame = NSRect(origin: origin, size: itemSize)
 
             item.frame = newItemFrame

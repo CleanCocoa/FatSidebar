@@ -7,10 +7,15 @@ import FatSidebar
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var window: NSWindow!
-
+    @IBOutlet weak var scrollView: NSScrollView!
     @IBOutlet weak var fatSidebar: FatSidebar!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+
+        fatSidebar.removeFromSuperview()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        fatSidebar.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.documentView = fatSidebar
 
         fatSidebar.appendItem(title: "Inbox", callback: { _ in print("Inbox") })
         fatSidebar.appendItem(title: "Sent", callback: { _ in print("Sent") })
@@ -21,6 +26,4 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-
 }
-

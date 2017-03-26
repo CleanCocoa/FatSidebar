@@ -16,6 +16,7 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Example" customModuleProvider="target">
             <connections>
                 <outlet property="fatSidebar" destination="d8J-Nl-xpm" id="u6o-Fo-Mjs"/>
+                <outlet property="scrollView" destination="CLc-Gb-2bX" id="YGp-sN-iBw"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -684,28 +685,52 @@
         <window title="Example" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="480" height="360"/>
+            <rect key="contentRect" x="335" y="390" width="480" height="400"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="400"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d8J-Nl-xpm" customClass="FatSidebar" customModule="FatSidebar">
-                        <rect key="frame" x="0.0" y="264" width="163" height="96"/>
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CLc-Gb-2bX">
+                        <rect key="frame" x="0.0" y="0.0" width="72" height="400"/>
+                        <clipView key="contentView" copiesOnScroll="NO" id="tYD-sv-ytN">
+                            <rect key="frame" x="0.0" y="0.0" width="72" height="400"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="d8J-Nl-xpm" customClass="FatSidebar" customModule="FatSidebar">
+                                    <rect key="frame" x="0.0" y="0.0" width="72" height="400"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                            <color key="value" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </customView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="d8J-Nl-xpm" secondAttribute="trailing" id="0RZ-9m-ZcO"/>
+                                <constraint firstAttribute="bottom" secondItem="d8J-Nl-xpm" secondAttribute="bottom" id="6He-1n-rrl"/>
+                                <constraint firstItem="d8J-Nl-xpm" firstAttribute="top" secondItem="tYD-sv-ytN" secondAttribute="top" id="P9J-XC-1Ms"/>
+                                <constraint firstItem="d8J-Nl-xpm" firstAttribute="leading" secondItem="tYD-sv-ytN" secondAttribute="leading" id="vVZ-uk-vB1"/>
+                            </constraints>
+                            <color key="backgroundColor" red="0.49979412560000003" green="0.49987018109999998" blue="0.49976348879999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </clipView>
                         <constraints>
-                            <constraint firstAttribute="width" constant="100" id="x1d-mT-fGq"/>
+                            <constraint firstAttribute="width" constant="72" id="RGa-Ey-OR6"/>
                         </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </customView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="ga1-5P-D23">
+                            <rect key="frame" x="-100" y="-100" width="70" height="15"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="TbO-ae-Ve0">
+                            <rect key="frame" x="-100" y="-100" width="15" height="343"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="d8J-Nl-xpm" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="YnJ-gF-2UD"/>
-                    <constraint firstItem="d8J-Nl-xpm" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="jS2-kr-5qG"/>
-                    <constraint firstAttribute="bottom" secondItem="d8J-Nl-xpm" secondAttribute="bottom" id="uvV-35-8Ev"/>
+                    <constraint firstItem="CLc-Gb-2bX" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="6tM-rT-z43"/>
+                    <constraint firstItem="CLc-Gb-2bX" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="WpH-DQ-kvH"/>
+                    <constraint firstAttribute="bottom" secondItem="CLc-Gb-2bX" secondAttribute="bottom" id="tm5-hv-SEl"/>
                 </constraints>
             </view>
         </window>
