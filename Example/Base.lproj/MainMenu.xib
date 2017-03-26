@@ -693,8 +693,13 @@
                     <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d8J-Nl-xpm" customClass="FatSidebar" customModule="FatSidebar">
                         <rect key="frame" x="0.0" y="264" width="163" height="96"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="120" id="x1d-mT-fGq"/>
+                            <constraint firstAttribute="width" constant="100" id="x1d-mT-fGq"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </customView>
                 </subviews>
                 <constraints>
