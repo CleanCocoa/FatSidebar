@@ -90,6 +90,32 @@ public class FatSidebar: NSView {
         return true
     }
 
+    @discardableResult
+    public func deselectItem(_ item: FatSidebarItem) -> Bool {
+
+        guard self.contains(item),
+            item.isSelected
+            else { return false }
+
+        item.isSelected = false
+
+        return true
+    }
+
+    /// First selected item (if any).
+    ///
+    /// **See** `selectedItems` for all selected items.
+    public var selectedItem: FatSidebarItem? {
+        return items.first(where: { $0.isSelected })
+    }
+
+    /// Collection of all selected items.
+    ///
+    /// **See** `selectedItem` for the first (or only) selected item.
+    public var selectedItems: [FatSidebarItem] {
+        return items.filter { $0.isSelected }
+    }
+
 
     // MARK: - 
     // MARK: Layout
