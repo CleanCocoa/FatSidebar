@@ -28,22 +28,61 @@ public class FatSidebarItem: NSView {
         fatalError("init(coder:) not implemented")
     }
 
-    public func sendAction() {
-        
-        callback(self)
+    // MARK: - Custom Drawing
+
+    fileprivate func redraw() {
+
+        self.needsDisplay = true
     }
+
+    var borderWidth: CGFloat = 1
 
     public override func draw(_ dirtyRect: NSRect) {
 
         super.draw(dirtyRect)
 
+        drawBackground(dirtyRect)
+        drawBorders(dirtyRect)
+    }
+
+    fileprivate func drawBackground(_ dirtyRect: NSRect) {
+
         theme.itemStyle.background.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
         NSRectFill(dirtyRect)
-
-        let border = NSRect(x: 0, y: dirtyRect.minY, width: dirtyRect.width, height: 1)
-        theme.itemStyle.bottomBorder.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
-        NSRectFill(border)
     }
+
+    fileprivate func drawBorders(_ dirtyRect: NSRect) {
+
+        if let leftBorderColor = theme.itemStyle.borders.left {
+
+            let border = NSRect(x: 0, y: 0, width: borderWidth, height: dirtyRect.height)
+            leftBorderColor.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
+            NSRectFill(border)
+        }
+
+        if let topBorderColor = theme.itemStyle.borders.top {
+
+            let border = NSRect(x: 0, y: dirtyRect.maxY - borderWidth, width: dirtyRect.width, height: borderWidth)
+            topBorderColor.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
+            NSRectFill(border)
+        }
+
+        if let rightBorderColor = theme.itemStyle.borders.right {
+
+            let border = NSRect(x: dirtyRect.maxX - borderWidth, y: 0, width: borderWidth, height: dirtyRect.height)
+            rightBorderColor.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
+            NSRectFill(border)
+        }
+
+        if let bottomBorderColor = theme.itemStyle.borders.bottom {
+
+            let border = NSRect(x: 0, y: dirtyRect.minY, width: dirtyRect.width, height: borderWidth)
+            bottomBorderColor.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
+            NSRectFill(border)
+        }
+    }
+
+    // MARK: - Interaction
 
     public internal(set) var isSelected = false {
         didSet {
@@ -55,11 +94,6 @@ public class FatSidebarItem: NSView {
         didSet {
             redraw()
         }
-    }
-
-    fileprivate func redraw() {
-
-        self.needsDisplay = true
     }
 
     public override func mouseDown(with event: NSEvent) {
@@ -78,4 +112,8 @@ public class FatSidebarItem: NSView {
         sendAction()
     }
 
+    public func sendAction() {
+
+        callback(self)
+    }
 }

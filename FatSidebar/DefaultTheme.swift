@@ -6,11 +6,22 @@ struct DefaultTheme: FatSidebarTheme {
 
     let itemStyle: FatSidebarItemStyle = DefaultItemStyle()
 
+    static var selectedColor: NSColor {
+        return NSColor.controlLightHighlightColor
+    }
+
     struct DefaultItemStyle: FatSidebarItemStyle {
+
         let background = StatefulColor(
             normal: NSColor.controlColor,
-            selected: NSColor.controlLightHighlightColor,
+            selected: DefaultTheme.selectedColor,
             highlighted: NSColor.lightGray)
-        let bottomBorder = StatefulColor(normal: NSColor.darkGray, selected: NSColor.darkGray, highlighted: NSColor.darkGray)
+
+        let borders = Borders(
+            bottom: StatefulColor(single: NSColor.darkGray),
+            right: StatefulColor(
+                normal: NSColor.darkGray,
+                selected: DefaultTheme.selectedColor,
+                highlighted: NSColor.darkGray))
     }
 }

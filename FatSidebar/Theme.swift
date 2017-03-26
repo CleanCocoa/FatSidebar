@@ -8,5 +8,5 @@ public protocol FatSidebarTheme {
 
 public protocol FatSidebarItemStyle {
     var background: StatefulColor { get }
-    var bottomBorder: StatefulColor { get }
+    var borders: Borders { get }
 }
