@@ -31,9 +31,30 @@ public class FatSidebarItem: NSView {
 
         super.draw(dirtyRect)
 
-        NSColor.blue.setFill()
+        if isHighlighted {
+            NSColor.controlHighlightColor.setFill()
+        } else {
+            NSColor.controlColor.setFill()
+        }
+
         NSRectFill(dirtyRect)
     }
 
+    var isHighlighted = false {
+        didSet {
+            self.needsDisplay = true
+        }
+    }
+
+    public override func mouseDown(with event: NSEvent) {
+
+        isHighlighted = true
+    }
+
+    public override func mouseUp(with event: NSEvent) {
+
+        isHighlighted = false
+        sendAction()
+    }
 
 }

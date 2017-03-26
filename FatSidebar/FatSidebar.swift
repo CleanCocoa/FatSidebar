@@ -31,6 +31,7 @@ public class FatSidebar: NSView {
             callback: callback)
 
         items.append(item)
+        addSubview(item)
 
         return item
     }
@@ -44,7 +45,9 @@ public class FatSidebar: NSView {
         let item = FatSidebarItem(
             title: title,
             callback: callback)
+
         items.insert(item, at: index + 1)
+        addSubview(item)
 
         return item
     }
@@ -59,6 +62,7 @@ public class FatSidebar: NSView {
 
         let removedItems = items
         items.removeAll()
+        removedItems.forEach { $0.removeFromSuperview() }
         return removedItems
     }
 
