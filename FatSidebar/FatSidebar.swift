@@ -25,6 +25,20 @@ public class FatSidebar: NSView {
         return item
     }
 
+    /// - returns: `nil` if `item` is not part of this sidebar, an instance of `FatSidebarItem` otherwise.
+    @discardableResult
+    public func insertItem(after item: FatSidebarItem, title: String, callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem? {
+
+        guard let index = items.index(where: { $0 === item }) else { return nil }
+
+        let item = FatSidebarItem(
+            title: title,
+            callback: callback)
+        items.insert(item, at: index + 1)
+
+        return item
+    }
+
     public func item(at index: Int) -> FatSidebarItem? {
 
         return items[safe: index]

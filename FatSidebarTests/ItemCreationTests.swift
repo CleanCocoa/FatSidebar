@@ -20,14 +20,18 @@ extension Array {
     }
 }
 
+func irrelevantCallback(item: FatSidebarItem) { }
+
 class ItemCreationTests: XCTestCase {
+
+    // MARK: Appending
 
     func testAppend_1Item_IncreasesCount() {
 
         let sidebar = FatSidebar()
         XCTAssertEqual(sidebar.itemCount, 0)
 
-        _ = sidebar.appendItem(title: "irrelevant", callback: { _ in })
+        _ = sidebar.appendItem(title: "irrelevant", callback: irrelevantCallback)
 
         XCTAssertEqual(sidebar.itemCount, 1)
     }
@@ -54,7 +58,7 @@ class ItemCreationTests: XCTestCase {
         XCTAssertEqual(sidebar.itemCount, 0)
 
         5.times {
-            _ = sidebar.appendItem(title: "irrelevant", callback: { _ in })
+            _ = sidebar.appendItem(title: "irrelevant", callback: irrelevantCallback)
         }
 
         XCTAssertEqual(sidebar.itemCount, 5)
@@ -89,12 +93,76 @@ class ItemCreationTests: XCTestCase {
 
         let sidebar = FatSidebar()
 
-        _ = sidebar.appendItem(title: "first", callback: { _ in })
-        _ = sidebar.appendItem(title: "second", callback: { _ in })
-        _ = sidebar.appendItem(title: "third", callback: { _ in })
+        _ = sidebar.appendItem(title: "first", callback: irrelevantCallback)
+        _ = sidebar.appendItem(title: "second", callback: irrelevantCallback)
+        _ = sidebar.appendItem(title: "third", callback: irrelevantCallback)
 
         XCTAssertEqual(sidebar.item(at: 0)?.title, "first")
         XCTAssertEqual(sidebar.item(at: 1)?.title, "second")
         XCTAssertEqual(sidebar.item(at: 2)?.title, "third")
+    }
+
+
+    // MARK: Inserting
+
+    var irrelevantItem: FatSidebarItem {
+        return FatSidebarItem(title: "irrelevant", callback: irrelevantCallback)
+    }
+
+    func testInsertAfter_EmptySidebar_ReturnsNil() {
+
+        let sidebar = FatSidebar()
+
+        let result = sidebar.insertItem(
+            after: irrelevantItem,
+            title: "won't exist",
+            callback: irrelevantCallback)
+
+        XCTAssertNil(result)
+    }
+
+    func testInsertAfter_SidebarDoesNotContainReferenceItem_ReturnsNil() {
+
+        let sidebar = FatSidebar()
+        sidebar.appendItem(title: "first", callback: irrelevantCallback)
+
+        let result = sidebar.insertItem(
+            after: irrelevantItem,
+            title: "won't exist",
+            callback: irrelevantCallback)
+
+        XCTAssertNil(result)
+    }
+
+    func testInsertAfter_SidebarContainReferenceItemOnly_AppendsItem() {
+
+        let sidebar = FatSidebar()
+        let existingItem = sidebar.appendItem(title: "first", callback: irrelevantCallback)
+
+        let result = sidebar.insertItem(
+            after: existingItem,
+            title: "second",
+            callback: irrelevantCallback)
+
+        XCTAssertEqual(result?.title, "second")
+        XCTAssertEqual(sidebar.itemCount, 2)
+        XCTAssert(sidebar.item(at: 1) === result)
+    }
+
+    func testInsertAfter_SidebarContainReferenceItemBeforeOtherItem_PutsNewItemInMiddle() {
+
+        let sidebar = FatSidebar()
+        _ = sidebar.appendItem(title: "first", callback: irrelevantCallback)
+        let referenceItem = sidebar.appendItem(title: "second", callback: irrelevantCallback)
+        _ = sidebar.appendItem(title: "third", callback: irrelevantCallback)
+
+        let result = sidebar.insertItem(
+            after: referenceItem,
+            title: "after second",
+            callback: irrelevantCallback)
+
+        XCTAssertEqual(result?.title, "after second")
+        XCTAssertEqual(sidebar.itemCount, 4)
+        XCTAssert(sidebar.item(at: 2) === result)
     }
 }
