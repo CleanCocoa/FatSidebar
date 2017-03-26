@@ -11,6 +11,15 @@ extension Int {
     }
 }
 
+extension Array {
+
+    func appending(_ newElement: Element) -> [Element] {
+        var result = self
+        result.append(newElement)
+        return result
+    }
+}
+
 class ItemCreationTests: XCTestCase {
 
     func testAppend_1Item_IncreasesCount() {
@@ -23,6 +32,22 @@ class ItemCreationTests: XCTestCase {
         XCTAssertEqual(sidebar.itemCount, 1)
     }
 
+    func testAppend_1Item_ReturnsItemWithTitleAndCallback() {
+
+        let sidebar = FatSidebar()
+        var didCallCallback = false
+
+        let item = sidebar.appendItem(
+            title: "the title!",
+            callback: { _ in didCallCallback = true })
+
+        XCTAssertEqual(item.title, "the title!")
+
+        XCTAssertFalse(didCallCallback)
+        item.sendAction()
+        XCTAssertTrue(didCallCallback)
+    }
+
     func testAppend_5Items_IncreasesItemCount() {
 
         let sidebar = FatSidebar()
@@ -33,6 +58,31 @@ class ItemCreationTests: XCTestCase {
         }
 
         XCTAssertEqual(sidebar.itemCount, 5)
+    }
+
+    func testAppend_5Items_ReturnsItemsWithTitleAndCallback() {
+
+        let sidebar = FatSidebar()
+        var calledItems = [FatSidebarItem]()
+
+        let items: [FatSidebarItem] = (0..<5).reduce([]) { (memo, i) in
+            let item = sidebar.appendItem(
+                title: "\(i)",
+                callback: { calledItems.append($0) })
+            return memo.appending(item)
+        }
+
+        XCTAssertEqual(items.count, 5)
+        XCTAssertEqual(
+            items.map { $0.title },
+            (0..<5).map { "\($0)" })
+
+        XCTAssertTrue(calledItems.isEmpty)
+        items.forEach { $0.sendAction() }
+        XCTAssertEqual(calledItems.count, 5)
+        for (called, original) in zip(calledItems, items) {
+            XCTAssertEqual(called.title, original.title)
+        }
     }
 
     func testAppend_3Items_InsertsItemsInOrder() {

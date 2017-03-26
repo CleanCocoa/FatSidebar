@@ -44,9 +44,7 @@ class ItemRemovalTests: XCTestCase {
         let sidebarItems: [FatSidebarItem] = (0..<count).reduce([]) { (memo, i) in
             let item = sidebar.appendItem(title: "\(i)", callback: { _ in })
 
-            var result = memo
-            result.append(item)
-            return result
+            return memo.appending(item)
         }
 
         XCTAssertEqual(sidebar.itemCount, count)

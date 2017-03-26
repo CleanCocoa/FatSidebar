@@ -13,4 +13,8 @@ public class FatSidebarItem {
         self.callback = callback
     }
 
+    public func sendAction() {
+        
+        callback(self)
+    }
 }
