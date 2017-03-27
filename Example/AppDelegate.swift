@@ -17,9 +17,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         fatSidebar.translatesAutoresizingMaskIntoConstraints = false
         scrollView.documentView = fatSidebar
 
-        fatSidebar.appendItem(title: "Inbox", callback: { _ in print("Inbox") })
-        fatSidebar.appendItem(title: "Sent", callback: { _ in print("Sent") })
-        fatSidebar.appendItem(title: "Drafts", callback: { _ in print("Drafts") })
+        fatSidebar.appendItem(
+            title: "Inbox",
+            image: #imageLiteral(resourceName: "inbox.png"),
+            callback: { _ in print("Inbox") })
+        fatSidebar.appendItem(
+            title: "Favorites",
+            image: #imageLiteral(resourceName: "heart.png"),
+            callback: { _ in print("Favs") })
+        fatSidebar.appendItem(
+            title: "Ideas",
+            image: #imageLiteral(resourceName: "lightbulb.png"),
+            callback: { _ in print("Ideas") })
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

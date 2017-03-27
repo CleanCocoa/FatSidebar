@@ -17,6 +17,10 @@
 		506D6C8E1E87D67400C366BF /* DefaultTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C8D1E87D67400C366BF /* DefaultTheme.swift */; };
 		506D6C941E88302500C366BF /* Borders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C931E88302500C366BF /* Borders.swift */; };
 		506D6C961E88332600C366BF /* NSTextField+Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6C951E88332600C366BF /* NSTextField+Label.swift */; };
+		506D6C9D1E8914B200C366BF /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 506D6C991E8914B200C366BF /* heart.png */; };
+		506D6C9E1E8914B200C366BF /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 506D6C9A1E8914B200C366BF /* inbox.png */; };
+		506D6C9F1E8914B200C366BF /* layers.png in Resources */ = {isa = PBXBuildFile; fileRef = 506D6C9B1E8914B200C366BF /* layers.png */; };
+		506D6CA01E8914B200C366BF /* lightbulb.png in Resources */ = {isa = PBXBuildFile; fileRef = 506D6C9C1E8914B200C366BF /* lightbulb.png */; };
 		507CF3711E8797D000623B5E /* FatSidebar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; };
 		507CF3781E8797D000623B5E /* FatSidebar.h in Headers */ = {isa = PBXBuildFile; fileRef = 507CF36A1E8797D000623B5E /* FatSidebar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		507CF3881E8797E000623B5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3871E8797E000623B5E /* AppDelegate.swift */; };
@@ -70,6 +74,11 @@
 		506D6C8D1E87D67400C366BF /* DefaultTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultTheme.swift; sourceTree = "<group>"; };
 		506D6C931E88302500C366BF /* Borders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Borders.swift; sourceTree = "<group>"; };
 		506D6C951E88332600C366BF /* NSTextField+Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTextField+Label.swift"; sourceTree = "<group>"; };
+		506D6C991E8914B200C366BF /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = heart.png; path = iconic_icons/heart.png; sourceTree = "<group>"; };
+		506D6C9A1E8914B200C366BF /* inbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = inbox.png; path = iconic_icons/inbox.png; sourceTree = "<group>"; };
+		506D6C9B1E8914B200C366BF /* layers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = layers.png; path = iconic_icons/layers.png; sourceTree = "<group>"; };
+		506D6C9C1E8914B200C366BF /* lightbulb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lightbulb.png; path = iconic_icons/lightbulb.png; sourceTree = "<group>"; };
+		506D6CA21E89311D00C366BF /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = iconic_icons/LICENSE.md; sourceTree = "<group>"; };
 		507CF3671E8797D000623B5E /* FatSidebar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FatSidebar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CF36A1E8797D000623B5E /* FatSidebar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FatSidebar.h; sourceTree = "<group>"; };
 		507CF36B1E8797D000623B5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -120,6 +129,19 @@
 				506D6C931E88302500C366BF /* Borders.swift */,
 			);
 			name = Theming;
+			sourceTree = "<group>";
+		};
+		506D6CA11E8914BE00C366BF /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				506D6CA21E89311D00C366BF /* LICENSE.md */,
+				506D6C991E8914B200C366BF /* heart.png */,
+				506D6C9A1E8914B200C366BF /* inbox.png */,
+				506D6C9B1E8914B200C366BF /* layers.png */,
+				506D6C9C1E8914B200C366BF /* lightbulb.png */,
+			);
+			name = icons;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		507CF35D1E8797D000623B5E = {
@@ -175,6 +197,7 @@
 				507CF3891E8797E000623B5E /* Assets.xcassets */,
 				507CF38B1E8797E000623B5E /* MainMenu.xib */,
 				507CF38E1E8797E000623B5E /* Info.plist */,
+				506D6CA11E8914BE00C366BF /* icons */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -318,6 +341,10 @@
 			files = (
 				507CF38A1E8797E000623B5E /* Assets.xcassets in Resources */,
 				507CF38D1E8797E000623B5E /* MainMenu.xib in Resources */,
+				506D6C9D1E8914B200C366BF /* heart.png in Resources */,
+				506D6C9E1E8914B200C366BF /* inbox.png in Resources */,
+				506D6C9F1E8914B200C366BF /* layers.png in Resources */,
+				506D6CA01E8914B200C366BF /* lightbulb.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

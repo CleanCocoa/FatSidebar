@@ -44,10 +44,14 @@ public class FatSidebar: NSView {
     // MARK: Insertion
 
     @discardableResult
-    public func appendItem(title: String, callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem {
+    public func appendItem(
+        title: String,
+        image: NSImage? = nil,
+        callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem {
 
         let item = FatSidebarItem(
             title: title,
+            image: image,
             callback: callback)
 
         items.append(item)
@@ -58,12 +62,17 @@ public class FatSidebar: NSView {
 
     /// - returns: `nil` if `item` is not part of this sidebar, an instance of `FatSidebarItem` otherwise.
     @discardableResult
-    public func insertItem(after item: FatSidebarItem, title: String, callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem? {
+    public func insertItem(
+        after item: FatSidebarItem,
+        title: String,
+        image: NSImage? = nil,
+        callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem? {
 
         guard let index = items.index(where: { $0 === item }) else { return nil }
 
         let item = FatSidebarItem(
             title: title,
+            image: image,
             callback: callback)
 
         items.insert(item, at: index + 1)
