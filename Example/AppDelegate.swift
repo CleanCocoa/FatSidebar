@@ -7,15 +7,9 @@ import FatSidebar
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var window: NSWindow!
-    @IBOutlet weak var scrollView: NSScrollView!
     @IBOutlet weak var fatSidebar: FatSidebar!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-
-        fatSidebar.removeFromSuperview()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        fatSidebar.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.documentView = fatSidebar
 
         fatSidebar.theme = OmniFocusTheme()
         fatSidebar.appendItem(
@@ -23,7 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             image: #imageLiteral(resourceName: "inbox.png"),
             callback: { _ in print("Inbox") })
         fatSidebar.appendItem(
-            title: "Favorites",
+            title: "My Bestest Favorites",
             image: #imageLiteral(resourceName: "heart.png"),
             callback: { _ in print("Favs") })
         fatSidebar.appendItem(

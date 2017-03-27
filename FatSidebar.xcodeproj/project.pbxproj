@@ -22,12 +22,14 @@
 		506D6C9F1E8914B200C366BF /* layers.png in Resources */ = {isa = PBXBuildFile; fileRef = 506D6C9B1E8914B200C366BF /* layers.png */; };
 		506D6CA01E8914B200C366BF /* lightbulb.png in Resources */ = {isa = PBXBuildFile; fileRef = 506D6C9C1E8914B200C366BF /* lightbulb.png */; };
 		506D6CA41E8931F600C366BF /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6CA31E8931F600C366BF /* Theme.swift */; };
+		506D6CA61E894F8400C366BF /* FatSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6CA51E894F8400C366BF /* FatSidebar.swift */; };
+		506D6CA81E8951E300C366BF /* NSView+ConstrainToSuperviewBounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6CA71E8951E300C366BF /* NSView+ConstrainToSuperviewBounds.swift */; };
 		507CF3711E8797D000623B5E /* FatSidebar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; };
 		507CF3781E8797D000623B5E /* FatSidebar.h in Headers */ = {isa = PBXBuildFile; fileRef = 507CF36A1E8797D000623B5E /* FatSidebar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		507CF3881E8797E000623B5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3871E8797E000623B5E /* AppDelegate.swift */; };
 		507CF38A1E8797E000623B5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 507CF3891E8797E000623B5E /* Assets.xcassets */; };
 		507CF38D1E8797E000623B5E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 507CF38B1E8797E000623B5E /* MainMenu.xib */; };
-		507CF3931E87982A00623B5E /* FatSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3921E87982A00623B5E /* FatSidebar.swift */; };
+		507CF3931E87982A00623B5E /* FatSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3921E87982A00623B5E /* FatSidebarView.swift */; };
 		507CF3941E8798AC00623B5E /* FatSidebar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; };
 		507CF3951E8798AC00623B5E /* FatSidebar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		507CF39A1E879A0500623B5E /* ItemCreationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3991E879A0500623B5E /* ItemCreationTests.swift */; };
@@ -81,6 +83,8 @@
 		506D6C9C1E8914B200C366BF /* lightbulb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lightbulb.png; path = iconic_icons/lightbulb.png; sourceTree = "<group>"; };
 		506D6CA21E89311D00C366BF /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = iconic_icons/LICENSE.md; sourceTree = "<group>"; };
 		506D6CA31E8931F600C366BF /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		506D6CA51E894F8400C366BF /* FatSidebar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatSidebar.swift; sourceTree = "<group>"; };
+		506D6CA71E8951E300C366BF /* NSView+ConstrainToSuperviewBounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSView+ConstrainToSuperviewBounds.swift"; sourceTree = "<group>"; };
 		507CF3671E8797D000623B5E /* FatSidebar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FatSidebar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CF36A1E8797D000623B5E /* FatSidebar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FatSidebar.h; sourceTree = "<group>"; };
 		507CF36B1E8797D000623B5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -91,7 +95,7 @@
 		507CF3891E8797E000623B5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		507CF38C1E8797E000623B5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		507CF38E1E8797E000623B5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		507CF3921E87982A00623B5E /* FatSidebar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatSidebar.swift; sourceTree = "<group>"; };
+		507CF3921E87982A00623B5E /* FatSidebarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatSidebarView.swift; sourceTree = "<group>"; };
 		507CF3991E879A0500623B5E /* ItemCreationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCreationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -171,12 +175,14 @@
 			children = (
 				507CF36A1E8797D000623B5E /* FatSidebar.h */,
 				507CF36B1E8797D000623B5E /* Info.plist */,
-				507CF3921E87982A00623B5E /* FatSidebar.swift */,
+				507CF3921E87982A00623B5E /* FatSidebarView.swift */,
+				506D6CA51E894F8400C366BF /* FatSidebar.swift */,
 				506D6C7C1E879AA500C366BF /* FatSidebarItem.swift */,
 				506D6C921E88301C00C366BF /* Theming */,
 				506D6C7F1E879F9C00C366BF /* Collection+SafeSubscript.swift */,
 				506D6C891E87C36400C366BF /* NSSize+Quadratic.swift */,
 				506D6C951E88332600C366BF /* NSTextField+Label.swift */,
+				506D6CA71E8951E300C366BF /* NSView+ConstrainToSuperviewBounds.swift */,
 			);
 			path = FatSidebar;
 			sourceTree = "<group>";
@@ -360,10 +366,12 @@
 			files = (
 				506D6C8E1E87D67400C366BF /* DefaultTheme.swift in Sources */,
 				506D6C941E88302500C366BF /* Borders.swift in Sources */,
-				507CF3931E87982A00623B5E /* FatSidebar.swift in Sources */,
+				507CF3931E87982A00623B5E /* FatSidebarView.swift in Sources */,
+				506D6CA81E8951E300C366BF /* NSView+ConstrainToSuperviewBounds.swift in Sources */,
 				506D6C8C1E87D64A00C366BF /* StatefulColor.swift in Sources */,
 				506D6C961E88332600C366BF /* NSTextField+Label.swift in Sources */,
 				506D6C861E87BA1900C366BF /* Theme.swift in Sources */,
+				506D6CA61E894F8400C366BF /* FatSidebar.swift in Sources */,
 				506D6C8A1E87C36400C366BF /* NSSize+Quadratic.swift in Sources */,
 				506D6C801E879F9C00C366BF /* Collection+SafeSubscript.swift in Sources */,
 				506D6C7D1E879AA500C366BF /* FatSidebarItem.swift in Sources */,

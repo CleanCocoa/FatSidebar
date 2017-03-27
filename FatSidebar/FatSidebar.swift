@@ -2,46 +2,81 @@
 
 import Cocoa
 
+/// Top-level module facade, acting as a composite view that scrolls.
 public class FatSidebar: NSView {
 
-    public var theme: FatSidebarTheme = DefaultTheme() {
-        didSet {
-            applyThemeToItems()
+    let scrollView = NSScrollView()
+    let sidebarView =  FatSidebarView()//frame: NSRect(x: 0, y: 0, width: 100, height: 100))
+
+    public var theme: FatSidebarTheme {
+        get { return sidebarView.theme }
+        set {
+            sidebarView.theme = newValue
+
+            // Update style
+            scrollView.backgroundColor = theme.sidebarBackground
         }
     }
 
-    fileprivate func applyThemeToItems() {
+    public convenience init() {
 
-        for item in items {
-            item.theme = self.theme
-        }
+        self.init(frame: NSRect.zero)
+
+        layoutSubviews()
     }
 
-    // MARK: - Content
+    public override init(frame frameRect: NSRect) {
 
-    fileprivate var items: [FatSidebarItem] = [] {
-        didSet {
-            applyThemeToItems()
-            layoutItems()
-        }
+        super.init(frame: frameRect)
+
+        layoutSubviews()
     }
+
+    public required init?(coder: NSCoder) {
+
+        super.init(coder: coder)
+
+        layoutSubviews()
+    }
+
+    fileprivate func layoutSubviews() {
+
+        scrollView.borderType = .noBorder
+        scrollView.backgroundColor = theme.sidebarBackground
+        scrollView.hasVerticalScroller = false
+        scrollView.hasHorizontalScroller = false
+
+        addSubview(scrollView)
+
+        // Disable before changing `documentView`:
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        sidebarView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.documentView = sidebarView
+
+        scrollView.constrainToSuperviewBounds()
+
+        guard let clipView = sidebarView.superview
+            else { preconditionFailure("FatSidebarView needs to be embedded in a superview") }
+        
+        clipView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[subview]-0-|", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": sidebarView]))
+        clipView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[subview]", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": sidebarView]))
+    }
+
+    // MARK: - Sidebar Façade
 
     public var itemCount: Int {
-        return items.count
+        return sidebarView.itemCount
     }
 
     public func item(at index: Int) -> FatSidebarItem? {
 
-        return items[safe: index]
+        return sidebarView.item(at: index)
     }
 
     public func contains(_ item: FatSidebarItem) -> Bool {
 
-        return items.contains(item)
+        return sidebarView.contains(item)
     }
-
-
-    // MARK: Insertion
 
     @discardableResult
     public func appendItem(
@@ -49,15 +84,7 @@ public class FatSidebar: NSView {
         image: NSImage? = nil,
         callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem {
 
-        let item = FatSidebarItem(
-            title: title,
-            image: image,
-            callback: callback)
-
-        items.append(item)
-        addSubview(item)
-
-        return item
+        return sidebarView.appendItem(title: title, image: image, callback: callback)
     }
 
     /// - returns: `nil` if `item` is not part of this sidebar, an instance of `FatSidebarItem` otherwise.
@@ -68,123 +95,40 @@ public class FatSidebar: NSView {
         image: NSImage? = nil,
         callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem? {
 
-        guard let index = items.index(where: { $0 === item }) else { return nil }
-
-        let item = FatSidebarItem(
-            title: title,
-            image: image,
-            callback: callback)
-
-        items.insert(item, at: index + 1)
-        addSubview(item)
-
-        return item
+        return sidebarView.insertItem(after: item, title: title, image: image, callback: callback)
     }
-
-    // MARK: Removal
 
     @discardableResult
     public func removeAllItems() -> [FatSidebarItem] {
 
-        let removedItems = items
-        items.removeAll()
-        removedItems.forEach { $0.removeFromSuperview() }
-        return removedItems
+        return sidebarView.removeAllItems()
     }
-
-    // MARK: Selection
 
     @discardableResult
     public func selectItem(_ item: FatSidebarItem) -> Bool {
 
-        guard self.contains(item) else { return false }
-
-        for existingItem in items {
-            existingItem.isSelected = (existingItem === item)
-        }
-
-        return true
+        return sidebarView.selectItem(item)
     }
 
     @discardableResult
     public func deselectItem(_ item: FatSidebarItem) -> Bool {
 
-        guard self.contains(item),
-            item.isSelected
-            else { return false }
-
-        item.isSelected = false
-
-        return true
+        return sidebarView.deselectItem(item)
     }
 
     /// First selected item (if any).
     ///
     /// **See** `selectedItems` for all selected items.
     public var selectedItem: FatSidebarItem? {
-        return items.first(where: { $0.isSelected })
+        return sidebarView.selectedItem
     }
 
     /// Collection of all selected items.
     ///
     /// **See** `selectedItem` for the first (or only) selected item.
     public var selectedItems: [FatSidebarItem] {
-        return items.filter { $0.isSelected }
+        return sidebarView.selectedItems
     }
 
 
-    // MARK: - 
-    // MARK: Layout
-
-    public var laidOutItemBox: NSRect = NSRect.zero
-    public override var intrinsicContentSize: NSSize {
-        return laidOutItemBox.size
-    }
-
-    public override var frame: NSRect {
-        didSet {
-            layoutItems()
-        }
-    }
-
-    public override var isFlipped: Bool { return true }
-
-    fileprivate func layoutItems() {
-
-        let wholeFrame = self.frame
-        let itemSize = NSSize(quadratic: wholeFrame.width)
-
-        var allItemsFrame = NSRect.zero
-        for (i, item) in items.enumerated() {
-
-            let origin = NSPoint(
-                x: 0,
-                y: CGFloat(i) * itemSize.height)
-            let newItemFrame = NSRect(origin: origin, size: itemSize)
-
-            item.frame = newItemFrame
-
-            allItemsFrame = allItemsFrame.union(newItemFrame)
-        }
-
-        laidOutItemBox = allItemsFrame
-    }
-
-    // MARK: Drawing
-
-    public override func draw(_ dirtyRect: NSRect) {
-
-        let wholeFrame = self.frame
-
-        super.draw(wholeFrame)
-
-        drawItems()
-    }
-
-    fileprivate func drawItems() {
-
-        for item in items {
-            item.draw(item.frame)
-        }
-    }
 }

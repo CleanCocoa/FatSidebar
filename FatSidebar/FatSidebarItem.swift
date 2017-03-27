@@ -41,7 +41,8 @@ public class FatSidebarItem: NSView {
         self.addSubview(self.label)
 
         let viewsDict: [String : Any] = ["imageView" : self.imageView, "label" : self.label]
-        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-12-[imageView]-12-[label]-8-|", options: [], metrics: nil, views: viewsDict))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-4-[imageView]-4-[label]-4-|", options: [], metrics: nil, views: viewsDict))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=4)-[label]-(>=4)-|", options: [], metrics: nil, views: viewsDict))
         imageView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: NSLayoutConstraintOrientation.vertical)
         self.addConstraints([
             NSLayoutConstraint(item: self.imageView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0),
@@ -131,7 +132,7 @@ public class FatSidebarItem: NSView {
 
         isHighlighted = false
 
-        if let sidebar = superview as? FatSidebar {
+        if let sidebar = superview as? FatSidebarView {
             sidebar.selectItem(self)
         }
 
