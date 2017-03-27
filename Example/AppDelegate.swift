@@ -3,6 +3,32 @@
 import Cocoa
 import FatSidebar
 
+func templated(_ image: NSImage) -> NSImage {
+    let result = image.copy() as! NSImage
+    result.isTemplate = true
+    return result
+}
+
+extension NSImage {
+    func image(tintColor: NSColor) -> NSImage {
+        if self.isTemplate == false {
+            return self
+        }
+
+        let image = self.copy() as! NSImage
+        image.lockFocus()
+
+        tintColor.set()
+        NSRectFillUsingOperation(NSMakeRect(0, 0, image.size.width, image.size.height), NSCompositingOperation.sourceAtop)
+
+        image.unlockFocus()
+        image.isTemplate = false
+        
+        return image
+    }
+}
+
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
@@ -14,15 +40,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         fatSidebar.theme = OmniFocusTheme()
         fatSidebar.appendItem(
             title: "Inbox",
-            image: #imageLiteral(resourceName: "inbox.png"),
+            image: templated(#imageLiteral(resourceName: "inbox.png")).image(tintColor: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)),
             callback: { _ in print("Inbox") })
         fatSidebar.appendItem(
             title: "My Bestest Favorites",
-            image: #imageLiteral(resourceName: "heart.png"),
+            image: templated(#imageLiteral(resourceName: "heart.png")).image(tintColor: #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)),
             callback: { _ in print("Favs") })
         fatSidebar.appendItem(
             title: "Ideas",
-            image: #imageLiteral(resourceName: "lightbulb.png"),
+            image: templated(#imageLiteral(resourceName: "lightbulb.png")),
             callback: { _ in print("Ideas") })
     }
 
