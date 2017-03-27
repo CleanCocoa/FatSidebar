@@ -28,9 +28,11 @@ extension NSTextField {
     }
 
     /// Return an `NSTextField` configured exactly like one created by dragging a “Wrapping Label” into a storyboard.
-    class func newWrappingLabel() -> NSTextField {
+    class func newWrappingLabel(
+        title: String = "",
+        controlSize: NSControlSize = NSRegularControlSize) -> NSTextField {
         
-        let label = newLabel()
+        let label = newLabel(title: title, controlSize: controlSize)
         label.lineBreakMode = .byWordWrapping
         label.cell?.isScrollable = false
         label.cell?.wraps = true

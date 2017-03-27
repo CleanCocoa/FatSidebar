@@ -24,7 +24,7 @@ public class FatSidebarItem: NSView {
         callback: @escaping (FatSidebarItem) -> Void) {
 
         self.title = title
-        self.label = NSTextField.newLabel(title: title, controlSize: NSSmallControlSize)
+        self.label = NSTextField.newWrappingLabel(title: title, controlSize: NSSmallControlSize)
 
         self.image = image
         self.imageView = NSImageView()
