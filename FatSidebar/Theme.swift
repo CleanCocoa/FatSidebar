@@ -4,6 +4,7 @@ import class Cocoa.NSColor
 
 public protocol FatSidebarTheme {
     var itemStyle: FatSidebarItemStyle { get }
+    var sidebarBackground: NSColor { get }
 }
 
 public protocol FatSidebarItemStyle {

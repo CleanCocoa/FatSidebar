@@ -5,6 +5,7 @@ import class Cocoa.NSColor
 struct DefaultTheme: FatSidebarTheme {
 
     let itemStyle: FatSidebarItemStyle = DefaultItemStyle()
+    let sidebarBackground = NSColor.disabledControlTextColor
 
     static var selectedColor: NSColor {
         return NSColor.controlLightHighlightColor
