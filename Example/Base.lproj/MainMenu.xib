@@ -712,7 +712,7 @@
                                 <constraint firstItem="d8J-Nl-xpm" firstAttribute="top" secondItem="tYD-sv-ytN" secondAttribute="top" id="P9J-XC-1Ms"/>
                                 <constraint firstItem="d8J-Nl-xpm" firstAttribute="leading" secondItem="tYD-sv-ytN" secondAttribute="leading" id="vVZ-uk-vB1"/>
                             </constraints>
-                            <color key="backgroundColor" red="0.49979412560000003" green="0.49987018109999998" blue="0.49976348879999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.79194968939999999" green="0.8197044134" blue="0.81946557760000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </clipView>
                         <constraints>
                             <constraint firstAttribute="width" constant="72" id="RGa-Ey-OR6"/>

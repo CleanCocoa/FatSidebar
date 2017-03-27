@@ -17,6 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         fatSidebar.translatesAutoresizingMaskIntoConstraints = false
         scrollView.documentView = fatSidebar
 
+        fatSidebar.theme = OmniFocusTheme()
         fatSidebar.appendItem(
             title: "Inbox",
             image: #imageLiteral(resourceName: "inbox.png"),

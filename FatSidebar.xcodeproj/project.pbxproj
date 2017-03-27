@@ -21,6 +21,7 @@
 		506D6C9E1E8914B200C366BF /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 506D6C9A1E8914B200C366BF /* inbox.png */; };
 		506D6C9F1E8914B200C366BF /* layers.png in Resources */ = {isa = PBXBuildFile; fileRef = 506D6C9B1E8914B200C366BF /* layers.png */; };
 		506D6CA01E8914B200C366BF /* lightbulb.png in Resources */ = {isa = PBXBuildFile; fileRef = 506D6C9C1E8914B200C366BF /* lightbulb.png */; };
+		506D6CA41E8931F600C366BF /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D6CA31E8931F600C366BF /* Theme.swift */; };
 		507CF3711E8797D000623B5E /* FatSidebar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; };
 		507CF3781E8797D000623B5E /* FatSidebar.h in Headers */ = {isa = PBXBuildFile; fileRef = 507CF36A1E8797D000623B5E /* FatSidebar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		507CF3881E8797E000623B5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3871E8797E000623B5E /* AppDelegate.swift */; };
@@ -79,6 +80,7 @@
 		506D6C9B1E8914B200C366BF /* layers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = layers.png; path = iconic_icons/layers.png; sourceTree = "<group>"; };
 		506D6C9C1E8914B200C366BF /* lightbulb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lightbulb.png; path = iconic_icons/lightbulb.png; sourceTree = "<group>"; };
 		506D6CA21E89311D00C366BF /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = iconic_icons/LICENSE.md; sourceTree = "<group>"; };
+		506D6CA31E8931F600C366BF /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		507CF3671E8797D000623B5E /* FatSidebar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FatSidebar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CF36A1E8797D000623B5E /* FatSidebar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FatSidebar.h; sourceTree = "<group>"; };
 		507CF36B1E8797D000623B5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				507CF3871E8797E000623B5E /* AppDelegate.swift */,
+				506D6CA31E8931F600C366BF /* Theme.swift */,
 				507CF3891E8797E000623B5E /* Assets.xcassets */,
 				507CF38B1E8797E000623B5E /* MainMenu.xib */,
 				507CF38E1E8797E000623B5E /* Info.plist */,
@@ -382,6 +385,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				507CF3881E8797E000623B5E /* AppDelegate.swift in Sources */,
+				506D6CA41E8931F600C366BF /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
