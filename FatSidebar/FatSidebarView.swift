@@ -139,11 +139,15 @@ public class FatSidebarView: NSView {
 
     fileprivate var laidOutItemBox: NSRect = NSRect.zero
     public override var intrinsicContentSize: NSSize {
-        return laidOutItemBox.size
+        return NSSize(width: 22, height: laidOutItemBox.height)
     }
 
     public override var frame: NSRect {
-        didSet {
+        get {
+            return laidOutItemBox
+        }
+        set {
+            super.frame = newValue // Seems to trigger notifications that make this work
             layoutItems()
         }
     }
@@ -152,8 +156,8 @@ public class FatSidebarView: NSView {
 
     fileprivate func layoutItems() {
 
-        let wholeFrame = self.frame
-        let itemSize = NSSize(quadratic: wholeFrame.width)
+        let availableWidth = super.frame.width
+        let itemSize = NSSize(quadratic: availableWidth)
 
         var allItemsFrame = NSRect.zero
         for (i, item) in items.enumerated() {
