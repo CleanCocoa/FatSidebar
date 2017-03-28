@@ -2,6 +2,14 @@
 
 import Cocoa
 
+extension NSLayoutConstraint {
+
+    func prioritized(_ priority: NSLayoutPriority) -> NSLayoutConstraint {
+        self.priority = priority
+        return self
+    }
+}
+
 public class FatSidebarItem: NSView {
 
     public let title: String
@@ -25,6 +33,7 @@ public class FatSidebarItem: NSView {
 
         self.title = title
         self.label = NSTextField.newWrappingLabel(title: title, controlSize: NSSmallControlSize)
+        self.label.alignment = .center
 
         self.image = image
         self.imageView = NSImageView()
@@ -42,25 +51,58 @@ public class FatSidebarItem: NSView {
 
         super.init(frame: frame)
 
+        layoutSubviews()
+    }
+
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) not implemented")
+    }
+
+    fileprivate func layoutSubviews() {
+
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
+        self.imageView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: NSLayoutConstraintOrientation.vertical)
         self.addSubview(self.imageView)
 
         self.label.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(self.label)
 
-        let viewsDict: [String : Any] = ["imageView" : self.imageView, "label" : self.label]
-        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-4-[imageView]-4-[label]-4-|", options: [], metrics: nil, views: viewsDict))
-        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=4)-[label]-(>=4)-|", options: [], metrics: nil, views: viewsDict))
-        imageView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: NSLayoutConstraintOrientation.vertical)
+        let topSpacing = NSView()
+        topSpacing.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(topSpacing)
         self.addConstraints([
-            NSLayoutConstraint(item: self.imageView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.label, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.height, multiplier: 0.2, constant: 1),
+            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
             ])
 
-    }
+        let bottomSpacing = NSView()
+        bottomSpacing.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(bottomSpacing)
+        self.addConstraints([
+            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.height, multiplier: 0.3, constant: 1),
+            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            ])
 
-    required public init?(coder: NSCoder) {
-        fatalError("init(coder:) not implemented")
+        let viewsDict: [String : Any] = [
+            "topSpace" : topSpacing,
+            "imageView" : self.imageView,
+            "label" : self.label,
+            "bottomSpace" : bottomSpacing]
+
+        self.addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "V:|[topSpace][imageView]-(>=4@1000)-[label]-(>=4@1000)-|",
+            options: [], metrics: nil, views: viewsDict))
+        self.addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "V:[imageView]-(0@250)-[bottomSpace]|",
+            options: [], metrics: nil, views: viewsDict))
+
+        self.addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "H:|-4-[label]-4-|",
+            options: [], metrics: nil, views: viewsDict))
+        self.addConstraints([
+            NSLayoutConstraint(item: self.label, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: bottomSpacing, attribute: NSLayoutAttribute.centerY, multiplier: 0.95, constant: 0).prioritized(250),
+            NSLayoutConstraint(item: self.imageView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            ])
     }
 
     // MARK: - Custom Drawing
