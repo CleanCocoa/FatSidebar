@@ -295,6 +295,8 @@ public class FatSidebarItem: NSView {
             return frame
         }()
 
+        NotificationCenter.default.addObserver(float, selector: #selector(FatSidebarItemOverlay.hoverDidStart), name: FatSidebarItemOverlay.hoverStarted, object: nil)
+
         hoverEnabled = false
         float.didExit = { [unowned self] in self.hoverEnabled = true }
     }
