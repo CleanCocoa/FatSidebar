@@ -33,6 +33,7 @@
 		507CF3941E8798AC00623B5E /* FatSidebar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; };
 		507CF3951E8798AC00623B5E /* FatSidebar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		507CF39A1E879A0500623B5E /* ItemCreationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3991E879A0500623B5E /* ItemCreationTests.swift */; };
+		50A60C821E8CF0E30052849E /* FatSidebarItemOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A60C811E8CF0E30052849E /* FatSidebarItemOverlay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		507CF38E1E8797E000623B5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		507CF3921E87982A00623B5E /* FatSidebarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatSidebarView.swift; sourceTree = "<group>"; };
 		507CF3991E879A0500623B5E /* ItemCreationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCreationTests.swift; sourceTree = "<group>"; };
+		50A60C811E8CF0E30052849E /* FatSidebarItemOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatSidebarItemOverlay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +180,7 @@
 				506D6CA51E894F8400C366BF /* FatSidebar.swift */,
 				507CF3921E87982A00623B5E /* FatSidebarView.swift */,
 				506D6C7C1E879AA500C366BF /* FatSidebarItem.swift */,
+				50A60C811E8CF0E30052849E /* FatSidebarItemOverlay.swift */,
 				506D6C921E88301C00C366BF /* Theming */,
 				506D6C7F1E879F9C00C366BF /* Collection+SafeSubscript.swift */,
 				506D6C891E87C36400C366BF /* NSSize+Quadratic.swift */,
@@ -364,6 +367,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50A60C821E8CF0E30052849E /* FatSidebarItemOverlay.swift in Sources */,
 				506D6C8E1E87D67400C366BF /* DefaultTheme.swift in Sources */,
 				506D6C941E88302500C366BF /* Borders.swift in Sources */,
 				507CF3931E87982A00623B5E /* FatSidebarView.swift in Sources */,

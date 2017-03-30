@@ -12,12 +12,18 @@ extension NSLayoutConstraint {
 
 public class FatSidebarItem: NSView {
 
-    public let title: String
-    public let image: NSImage?
     public let callback: (FatSidebarItem) -> Void
 
     let label: NSTextField
+    public var title: String {
+        set { label.stringValue = newValue }
+        get { return label.stringValue }
+    }
     let imageView: NSImageView
+    public var image: NSImage? {
+        set { imageView.image = newValue }
+        get { return imageView.image }
+    }
 
     public internal(set) var theme: FatSidebarTheme = DefaultTheme() {
         didSet {
@@ -31,11 +37,9 @@ public class FatSidebarItem: NSView {
         frame: NSRect = NSRect.zero,
         callback: @escaping (FatSidebarItem) -> Void) {
 
-        self.title = title
         self.label = NSTextField.newWrappingLabel(title: title, controlSize: NSSmallControlSize)
         self.label.alignment = .center
 
-        self.image = image
         self.imageView = NSImageView()
         self.imageView.wantsLayer = true
         self.imageView.shadow = {
@@ -193,4 +197,41 @@ public class FatSidebarItem: NSView {
 
         callback(self)
     }
+
+
+    // MARK: - Mouse Hover
+
+    private var hoverEnabled = true
+
+    public override func mouseEntered(with event: NSEvent) {
+
+        guard hoverEnabled else { return }
+
+        var frame = self.superview!.convert(self.frame, to: nil)
+        frame.size.width *= 2
+
+        let float = FatSidebarItemOverlay(title: title, image: image, frame: frame, callback: callback)
+        float.theme = self.theme
+        self.window?.contentView?.addSubview(float)
+
+        hoverEnabled = false
+        float.didExit = { [unowned self] in self.hoverEnabled = true }
+    }
+
+    private var trackingArea: NSTrackingArea?
+
+    public override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+
+        if let oldTrackingArea = trackingArea { self.removeTrackingArea(oldTrackingArea) }
+
+        let newTrackingArea = NSTrackingArea(
+            rect: self.bounds,
+            options: [.mouseEnteredAndExited, .activeInKeyWindow],
+            owner: self,
+            userInfo: nil)
+        self.addTrackingArea(newTrackingArea)
+        self.trackingArea = newTrackingArea
+    }
+
 }
