@@ -41,14 +41,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         fatSidebar.appendItem(
             title: "Inbox",
             image: templated(#imageLiteral(resourceName: "inbox.png")).image(tintColor: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)),
+            style: .small,
             callback: { _ in print("Inbox") })
         fatSidebar.appendItem(
             title: "My Bestest Favorites",
             image: templated(#imageLiteral(resourceName: "heart.png")).image(tintColor: #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)),
+            style: .small,
             callback: { _ in print("Favs") })
         fatSidebar.appendItem(
             title: "Ideas",
             image: templated(#imageLiteral(resourceName: "lightbulb.png")),
+            style: .small,
             callback: { _ in print("Ideas") })
     }
 

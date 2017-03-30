@@ -48,11 +48,13 @@ public class FatSidebarView: NSView {
     public func appendItem(
         title: String,
         image: NSImage? = nil,
+        style: FatSidebarItem.Style = .regular,
         callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem {
 
         let item = FatSidebarItem(
             title: title,
             image: image,
+            style: style,
             callback: callback)
 
         items.append(item)
@@ -67,6 +69,7 @@ public class FatSidebarView: NSView {
         after item: FatSidebarItem,
         title: String,
         image: NSImage? = nil,
+        style: FatSidebarItem.Style = .regular,
         callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem? {
 
         guard let index = items.index(where: { $0 === item }) else { return nil }
@@ -74,6 +77,7 @@ public class FatSidebarView: NSView {
         let item = FatSidebarItem(
             title: title,
             image: image,
+            style: style,
             callback: callback)
 
         items.insert(item, at: index + 1)

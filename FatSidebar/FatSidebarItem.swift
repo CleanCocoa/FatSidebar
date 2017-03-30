@@ -12,6 +12,16 @@ extension NSLayoutConstraint {
 
 public class FatSidebarItem: NSView {
 
+    public enum Style {
+
+        /// Displays label below image
+        case regular
+
+        /// Displays image only, label in overlay view on hover
+        case small
+    }
+
+    public let style: Style
     public let callback: (FatSidebarItem) -> Void
 
     let label: NSTextField
@@ -34,6 +44,7 @@ public class FatSidebarItem: NSView {
     required public init(
         title: String,
         image: NSImage? = nil,
+        style: Style = .regular,
         frame: NSRect = NSRect.zero,
         callback: @escaping (FatSidebarItem) -> Void) {
 
@@ -52,17 +63,25 @@ public class FatSidebarItem: NSView {
         self.imageView.image = image
 
         self.callback = callback
+        self.style = style
 
         super.init(frame: frame)
 
-        layoutSubviews()
+        layoutSubviews(style: style)
     }
 
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) not implemented")
     }
 
-    fileprivate func layoutSubviews() {
+    fileprivate func layoutSubviews(style: Style) {
+        switch style {
+        case .regular: layoutRegularSubviews()
+        case .small: layoutSmallSubviews()
+        }
+    }
+
+    fileprivate func layoutRegularSubviews() {
 
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
         self.imageView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: NSLayoutConstraintOrientation.vertical)
@@ -91,7 +110,8 @@ public class FatSidebarItem: NSView {
             "topSpace" : topSpacing,
             "imageView" : self.imageView,
             "label" : self.label,
-            "bottomSpace" : bottomSpacing]
+            "bottomSpace" : bottomSpacing
+        ]
 
         self.addConstraints(NSLayoutConstraint.constraints(
             withVisualFormat: "V:|[topSpace][imageView]-(>=4@1000)-[label]-(>=4@1000)-|",
@@ -106,6 +126,64 @@ public class FatSidebarItem: NSView {
         self.addConstraints([
             NSLayoutConstraint(item: self.label, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: bottomSpacing, attribute: NSLayoutAttribute.centerY, multiplier: 0.95, constant: 0).prioritized(250),
             NSLayoutConstraint(item: self.imageView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            ])
+    }
+
+    fileprivate func layoutSmallSubviews() {
+
+        self.label.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(label)
+
+        let imageContainer = NSView()
+        imageContainer.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(imageContainer)
+
+        let topSpacing = NSView()
+        topSpacing.translatesAutoresizingMaskIntoConstraints = false
+        imageContainer.addSubview(topSpacing)
+        self.addConstraints([
+            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.height, multiplier: 0.1, constant: 1),
+            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            ])
+
+        let bottomSpacing = NSView()
+        bottomSpacing.translatesAutoresizingMaskIntoConstraints = false
+        imageContainer.addSubview(bottomSpacing)
+        self.addConstraints([
+            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.height, multiplier: 0.1, constant: 1),
+            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            ])
+
+        self.imageView.translatesAutoresizingMaskIntoConstraints = false
+        self.imageView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: NSLayoutConstraintOrientation.vertical)
+        imageContainer.addSubview(self.imageView)
+
+        let viewsDict: [String : Any] = [
+            "topSpace" : topSpacing,
+            "container" : imageContainer,
+            "imageView" : self.imageView,
+            "label" : self.label,
+            "bottomSpace" : bottomSpacing
+        ]
+
+        self.addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "V:|[container]|",
+            options: [], metrics: nil, views: viewsDict))
+        self.addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "H:|[container][label]",
+            options: [], metrics: nil, views: viewsDict))
+        imageContainer.addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "V:|[topSpace][imageView][bottomSpace]|",
+            options: [], metrics: nil, views: viewsDict))
+        imageContainer.addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "H:|[imageView]|",
+            options: [], metrics: nil, views: viewsDict))
+
+
+        self.addConstraints([
+            NSLayoutConstraint(item: self.label, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: imageContainer, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.imageView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
             ])
     }
 
@@ -207,12 +285,15 @@ public class FatSidebarItem: NSView {
 
         guard hoverEnabled else { return }
 
-        var frame = self.superview!.convert(self.frame, to: nil)
-        frame.size.width *= 2
-
-        let float = FatSidebarItemOverlay(title: title, image: image, frame: frame, callback: callback)
+        let floatFrame = self.superview!.convert(self.frame, to: nil)
+        let float = FatSidebarItemOverlay(title: title, image: image, style: style, frame: floatFrame, callback: callback)
         float.theme = self.theme
         self.window?.contentView?.addSubview(float)
+        float.animator().frame = {
+            var frame = floatFrame
+            frame.size.width += self.label.frame.width + 8//.width *= 2
+            return frame
+        }()
 
         hoverEnabled = false
         float.didExit = { [unowned self] in self.hoverEnabled = true }
