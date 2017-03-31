@@ -32,6 +32,7 @@ extension NSImage {
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    @IBOutlet weak var addItemController: AddItemController!
     @IBOutlet weak var itemContextualMenu: NSMenu!
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var fatSidebar: FatSidebar!
@@ -59,8 +60,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             callback: { _ in print("Ideas") })
     }
 
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+    @IBAction func addSidebarItem(_ sender: Any?) {
+
+        addItemController.showSheet(in: self.window) { newItem in
+
+            guard let newItem = newItem else { return }
+
+            self.appendNewItem(newItem)
+        }
+    }
+
+    private func appendNewItem(_ newItem: NewItem) {
+
+        fatSidebar.appendItem(
+            title: newItem.title,
+            image: newItem.image,
+            style: .small,
+            callback: { print("New: \($0)") })
     }
 
 }

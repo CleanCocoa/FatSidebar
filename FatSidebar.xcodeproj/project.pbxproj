@@ -34,6 +34,7 @@
 		507CF3951E8798AC00623B5E /* FatSidebar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		507CF39A1E879A0500623B5E /* ItemCreationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3991E879A0500623B5E /* ItemCreationTests.swift */; };
 		50A60C821E8CF0E30052849E /* FatSidebarItemOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A60C811E8CF0E30052849E /* FatSidebarItemOverlay.swift */; };
+		50A60C881E8E7CDE0052849E /* AddItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A60C871E8E7CDE0052849E /* AddItemController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		507CF3921E87982A00623B5E /* FatSidebarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatSidebarView.swift; sourceTree = "<group>"; };
 		507CF3991E879A0500623B5E /* ItemCreationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCreationTests.swift; sourceTree = "<group>"; };
 		50A60C811E8CF0E30052849E /* FatSidebarItemOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatSidebarItemOverlay.swift; sourceTree = "<group>"; };
+		50A60C871E8E7CDE0052849E /* AddItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				507CF3871E8797E000623B5E /* AppDelegate.swift */,
+				50A60C871E8E7CDE0052849E /* AddItemController.swift */,
 				506D6CA31E8931F600C366BF /* Theme.swift */,
 				507CF3891E8797E000623B5E /* Assets.xcassets */,
 				507CF38B1E8797E000623B5E /* MainMenu.xib */,
@@ -396,6 +399,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50A60C881E8E7CDE0052849E /* AddItemController.swift in Sources */,
 				507CF3881E8797E000623B5E /* AppDelegate.swift in Sources */,
 				506D6CA41E8931F600C366BF /* Theme.swift in Sources */,
 			);
