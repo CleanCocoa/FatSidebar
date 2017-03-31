@@ -106,12 +106,15 @@ public class FatSidebar: NSView {
         return sidebarView.removeAllItems()
     }
 
+    /// - returns: `true` if `item` is part of the sidebar.
     @discardableResult
     public func selectItem(_ item: FatSidebarItem) -> Bool {
 
         return sidebarView.selectItem(item)
     }
 
+    /// - returns: `true` if `item` is part of the sidebar
+    ///            and was selected before, `false` otherwise.
     @discardableResult
     public func deselectItem(_ item: FatSidebarItem) -> Bool {
 
