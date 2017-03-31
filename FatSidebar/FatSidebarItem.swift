@@ -23,6 +23,7 @@ public class FatSidebarItem: NSView {
 
     public let style: Style
     public let callback: (FatSidebarItem) -> Void
+    public var selectionHandler: ((FatSidebarItem) -> Void)?
 
     let label: NSTextField
     public var title: String {
@@ -186,6 +187,7 @@ public class FatSidebarItem: NSView {
             withVisualFormat: "V:|[container]|",
             options: [], metrics: nil, views: viewsDict))
         self.addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "H:|[container]-1-[label]",
             options: [], metrics: nil, views: viewsDict))
         imageContainer.addConstraints(NSLayoutConstraint.constraints(
             withVisualFormat: "V:|[topSpace][imageView][bottomSpace]|",
@@ -261,6 +263,7 @@ public class FatSidebarItem: NSView {
     public internal(set) var isSelected = false {
         didSet {
             redraw()
+            overlay?.isSelected = isSelected
         }
     }
 
@@ -279,10 +282,7 @@ public class FatSidebarItem: NSView {
 
         isHighlighted = false
 
-        if let sidebar = superview as? FatSidebarView {
-            sidebar.selectItem(self)
-        }
-
+        selectionHandler?(self)
         sendAction()
     }
 
@@ -294,26 +294,46 @@ public class FatSidebarItem: NSView {
 
     // MARK: - Mouse Hover
 
-    private var hoverEnabled = true
+    private var overlay: FatSidebarItemOverlay?
+    private var isHoveringEnabled: Bool { return overlay == nil }
 
     public override func mouseEntered(with event: NSEvent) {
 
-        guard hoverEnabled else { return }
+        guard isHoveringEnabled,
+            self.style == .small,
+            let superview = self.superview
+            else { return }
 
-        let floatFrame = self.superview!.convert(self.frame, to: nil)
-        let float = FatSidebarItemOverlay(title: title, image: image, style: style, frame: floatFrame, callback: callback)
-        float.theme = self.theme
-        self.window?.contentView?.addSubview(float)
-        float.animator().frame = {
-            var frame = floatFrame
-            frame.size.width += self.label.frame.width + 8//.width *= 2
-            return frame
+        self.overlay = {
+
+            let overlayFrame = superview.convert(self.frame, to: nil)
+            let overlay = FatSidebarItemOverlay(
+                title: self.title,
+                image: self.image,
+                style: self.style,
+                frame: overlayFrame,
+                callback: self.callback)
+            overlay.theme = self.theme
+            overlay.isSelected = self.isSelected
+
+            overlay.selectionHandler = { [unowned self] _ in self.selectionHandler?(self) }
+            overlay.overlayFinished = { [unowned self] in self.overlay = nil }
+
+            self.window?.contentView?.addSubview(overlay)
+            overlay.animator().frame = {
+                var frame = overlayFrame
+                frame.size.width += self.label.frame.width + 8
+                return frame
+            }()
+
+            NotificationCenter.default.addObserver(
+                overlay,
+                selector: #selector(FatSidebarItemOverlay.hoverDidStart),
+                name: FatSidebarItemOverlay.hoverStarted,
+                object: nil)
+
+            return overlay
         }()
-
-        NotificationCenter.default.addObserver(float, selector: #selector(FatSidebarItemOverlay.hoverDidStart), name: FatSidebarItemOverlay.hoverStarted, object: nil)
-
-        hoverEnabled = false
-        float.didExit = { [unowned self] in self.hoverEnabled = true }
     }
 
     private var trackingArea: NSTrackingArea?

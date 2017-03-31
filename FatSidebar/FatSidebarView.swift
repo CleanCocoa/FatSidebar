@@ -56,6 +56,7 @@ public class FatSidebarView: NSView {
             image: image,
             style: style,
             callback: callback)
+        item.selectionHandler = { [unowned self] in self.selectItem($0) }
 
         items.append(item)
         addSubview(item)
@@ -79,7 +80,8 @@ public class FatSidebarView: NSView {
             image: image,
             style: style,
             callback: callback)
-
+        item.selectionHandler = { [unowned self] in self.selectItem($0) }
+        
         items.insert(item, at: index + 1)
         addSubview(item)
 

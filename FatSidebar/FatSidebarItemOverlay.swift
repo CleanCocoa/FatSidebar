@@ -5,7 +5,7 @@ import Cocoa
 class FatSidebarItemOverlay: FatSidebarItem {
 
     static var hoverStarted: Notification.Name { return Notification.Name(rawValue: "fat sidebar hover did start") }
-    var didExit: (() -> Void)?
+    var overlayFinished: (() -> Void)?
 
     private var trackingArea: NSTrackingArea?
 
@@ -51,6 +51,6 @@ class FatSidebarItemOverlay: FatSidebarItem {
 
         self.removeFromSuperview()
 
-        didExit?()
+        overlayFinished?()
     }
 }
