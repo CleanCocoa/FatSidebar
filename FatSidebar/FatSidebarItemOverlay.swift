@@ -33,8 +33,8 @@ class FatSidebarItemOverlay: FatSidebarItem {
 
     func hoverDidStart(notification: Notification) {
 
-        guard let overlay = notification.object as? FatSidebarItemOverlay else { return }
-        if overlay === self { return }
+        if let overlay = notification.object as? FatSidebarItemOverlay,
+            overlay === self { return }
 
         endHover()
     }

@@ -23,6 +23,13 @@ public class FatSidebarItem: NSView {
 
         /// Displays image only, label in overlay view on hover
         case small
+
+        public var supportsHovering: Bool {
+            switch self {
+            case .regular: return false
+            case .small: return true
+            }
+        }
     }
 
     public let style: Style
@@ -309,13 +316,17 @@ public class FatSidebarItem: NSView {
         }
     }
 
-    private var isHoveringEnabled: Bool {
-        return overlay == nil && self.style == .small
-    }
+    private var isDisplayingOverlay: Bool { return overlay != nil }
 
     public override func mouseEntered(with event: NSEvent) {
 
-        guard isHoveringEnabled else { return }
+        if isDisplayingOverlay { return }
+
+        NotificationCenter.default.post(
+            name: FatSidebarItemOverlay.hoverStarted,
+            object: self)
+
+        guard style.supportsHovering else { return }
 
         showHoverItem()
     }
