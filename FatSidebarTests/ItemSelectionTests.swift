@@ -256,4 +256,129 @@ class ItemSelectionTests: XCTestCase {
         XCTAssertNil(sidebar.selectedItem)
         XCTAssert(sidebar.selectedItems.isEmpty)
     }
+
+
+    // MARK: - Toggle
+
+    func testToggleItem_EmptySidebar_Unselected_DoesNotSelectItem() {
+
+        let sidebar = FatSidebar()
+        let unknownItem = FatSidebarItem(title: "unknown", callback: irrelevantCallback)
+        unknownItem.isSelected = false
+
+        let result = sidebar.toggleItem(unknownItem)
+
+        XCTAssertFalse(result)
+        XCTAssertFalse(unknownItem.isSelected)
+    }
+
+    func testToggleItem_EmptySidebar_Selected_DoesNotDeselectItem() {
+
+        let sidebar = FatSidebar()
+        let unknownItem = FatSidebarItem(title: "unknown", callback: irrelevantCallback)
+        unknownItem.isSelected = true
+
+        let result = sidebar.toggleItem(unknownItem)
+
+        XCTAssertFalse(result)
+        XCTAssert(unknownItem.isSelected)
+    }
+
+    func testToggleItem_SidebarWithDifferentItem_UnselectedItem_DoesNotDeselectItem() {
+
+        let sidebar = FatSidebar()
+        _ = sidebar.appendItem(title: "known", callback: irrelevantCallback)
+
+        let unknownItem = FatSidebarItem(title: "unknown", callback: irrelevantCallback)
+        unknownItem.isSelected = false
+
+        let result = sidebar.toggleItem(unknownItem)
+
+        XCTAssertFalse(result)
+        XCTAssertFalse(unknownItem.isSelected)
+    }
+
+    func testToggleItem_SidebarWithDifferentItem_SelectedItem_DoesNotDeselectItem() {
+
+        let sidebar = FatSidebar()
+        _ = sidebar.appendItem(title: "known", callback: irrelevantCallback)
+
+        let unknownItem = FatSidebarItem(title: "unknown", callback: irrelevantCallback)
+        unknownItem.isSelected = true
+
+        let result = sidebar.toggleItem(unknownItem)
+
+        XCTAssertFalse(result)
+        XCTAssert(unknownItem.isSelected)
+    }
+
+    func testToggleItem_SidebarWithSameItem_ItemIsUnselected_SelectsItem() {
+
+        let sidebar = FatSidebar()
+        let knownItem = sidebar.appendItem(title: "known", callback: irrelevantCallback)
+        knownItem.isSelected = false
+
+        let result = sidebar.toggleItem(knownItem)
+
+        XCTAssert(result)
+        XCTAssert(knownItem.isSelected)
+    }
+
+    func testToggleItem_SidebarWithSameItem_ItemIsSelected_DeselectsItem() {
+
+        let sidebar = FatSidebar()
+        let knownItem = sidebar.appendItem(title: "known", callback: irrelevantCallback)
+        knownItem.isSelected = true
+
+        let result = sidebar.toggleItem(knownItem)
+
+        XCTAssert(result)
+        XCTAssertFalse(knownItem.isSelected)
+    }
+
+    func testToggleItem_SidebarWithSameItemAndOtherItem_BothSelected_DeselectsAll() {
+
+        let sidebar = FatSidebar()
+        let firstItem = sidebar.appendItem(title: "first", callback: irrelevantCallback)
+        firstItem.isSelected = true
+        let secondItem = sidebar.appendItem(title: "second", callback: irrelevantCallback)
+        secondItem.isSelected = true
+
+        let result = sidebar.toggleItem(firstItem)
+
+        XCTAssert(result)
+        XCTAssertFalse(firstItem.isSelected)
+        XCTAssertFalse(secondItem.isSelected)
+    }
+
+    func testToggleItem_SidebarWithSameItemAndOtherItem_PassedItemIsSelected_DeselectsItem() {
+
+        let sidebar = FatSidebar()
+        let firstItem = sidebar.appendItem(title: "first", callback: irrelevantCallback)
+        firstItem.isSelected = true
+        let secondItem = sidebar.appendItem(title: "second", callback: irrelevantCallback)
+        secondItem.isSelected = false
+
+        let result = sidebar.toggleItem(firstItem)
+
+        XCTAssert(result)
+        XCTAssertFalse(firstItem.isSelected)
+        XCTAssertFalse(secondItem.isSelected)
+    }
+
+    func testToggleItem_SidebarWithSameItemAndOtherItem_PassedItemIsUnselected_SelectsItemAndDeselectsOtherItem() {
+
+        let sidebar = FatSidebar()
+        let firstItem = sidebar.appendItem(title: "first", callback: irrelevantCallback)
+        firstItem.isSelected = true
+        let secondItem = sidebar.appendItem(title: "second", callback: irrelevantCallback)
+        secondItem.isSelected = false
+
+        let result = sidebar.toggleItem(secondItem)
+
+        XCTAssert(result)
+        XCTAssertFalse(firstItem.isSelected)
+        XCTAssert(secondItem.isSelected)
+    }
+
 }

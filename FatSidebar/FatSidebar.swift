@@ -106,6 +106,17 @@ public class FatSidebar: NSView {
         return sidebarView.removeAllItems()
     }
 
+    /// Selects `item` if it was unselected; deselects it
+    /// it if was selected. Applies to items that are part
+    /// of the sidebar, only.
+    ///
+    /// - returns: `true` if `item` is part of the sidebar and was toggled.
+    @discardableResult
+    public func toggleItem(_ item: FatSidebarItem) -> Bool {
+
+        return sidebarView.toggleItem(item)
+    }
+
     /// - returns: `true` if `item` is part of the sidebar.
     @discardableResult
     public func selectItem(_ item: FatSidebarItem) -> Bool {

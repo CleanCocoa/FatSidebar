@@ -99,7 +99,27 @@ public class FatSidebarView: NSView {
         return removedItems
     }
 
+
+    // MARK: -
     // MARK: Selection
+
+    /// Selects `item` if it was unselected; deselects it
+    /// it if was selected. Applies to items that are part
+    /// of the sidebar, only.
+    ///
+    /// - returns: `true` if `item` is part of the sidebar and was toggled.
+    @discardableResult
+    public func toggleItem(_ item: FatSidebarItem) -> Bool {
+
+        guard self.contains(item) else { return false }
+
+        let wasSelected = item.isSelected
+        selectedItems.forEach { self.deselectItem($0) }
+
+        if !wasSelected { selectItem(item) }
+
+        return true
+    }
 
     /// - returns: `true` if `item` is part of the sidebar.
     @discardableResult
