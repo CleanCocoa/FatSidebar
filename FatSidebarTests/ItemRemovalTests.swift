@@ -16,6 +16,36 @@ func sidebarWithItems(_ count: Int) -> FatSidebar {
 
 class ItemRemovalTests: XCTestCase {
 
+    // MARK: Remove Single Item
+
+    func testRemove_UnknownItem_DoesNotChangeItemCount() {
+
+        let sidebar = sidebarWithItems(5)
+        let unknownItem = FatSidebarItem(title: "unknown", callback: irrelevantCallback)
+        XCTAssertEqual(sidebar.itemCount, 5)
+
+        let result = sidebar.removeItem(unknownItem)
+
+        XCTAssertFalse(result)
+        XCTAssertEqual(sidebar.itemCount, 5)
+    }
+
+    func testRemove_KnownItem_ChangesItemCount() {
+
+        let sidebar = sidebarWithItems(4)
+        let item = sidebar.appendItem(title: "unknown", callback: irrelevantCallback)
+        XCTAssertEqual(sidebar.itemCount, 5)
+        XCTAssert(sidebar.contains(item))
+
+        let result = sidebar.removeItem(item)
+
+        XCTAssert(result)
+        XCTAssertEqual(sidebar.itemCount, 4)
+        XCTAssertFalse(sidebar.contains(item))
+    }
+
+    // MARK: Remove All
+
     func testRemoveAll_EmptySidebar_KeepsCountAt0() {
 
         let sidebar = FatSidebar()

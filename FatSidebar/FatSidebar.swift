@@ -111,6 +111,12 @@ public class FatSidebar: NSView {
         return sidebarView.removeAllItems()
     }
 
+    @discardableResult
+    public func removeItem(_ item: FatSidebarItem) -> Bool {
+
+        return sidebarView.removeItem(item)
+    }
+
     public var selectionMode: FatSidebarView.SelectionMode {
         get { return sidebarView.selectionMode }
         set { sidebarView.selectionMode = newValue }

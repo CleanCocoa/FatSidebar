@@ -135,6 +135,17 @@ public class FatSidebarView: NSView {
         return removedItems
     }
 
+    @discardableResult
+    public func removeItem(_ item: FatSidebarItem) -> Bool {
+
+        guard let index = items.index(of: item)
+            else { return false }
+
+        item.removeFromSuperview()
+        items.remove(at: index)
+
+        return true
+    }
 
     // MARK: -
     // MARK: Selection
