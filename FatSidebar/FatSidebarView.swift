@@ -11,6 +11,12 @@ public class FatSidebarView: NSView {
         }
     }
 
+    public var animated: Bool = false {
+        didSet {
+            items.forEach { $0.animated = animated }
+        }
+    }
+
     fileprivate func applyThemeToItems() {
 
         for item in items {
@@ -56,6 +62,7 @@ public class FatSidebarView: NSView {
             title: title,
             image: image,
             style: style,
+            animated: self.animated,
             callback: callback)
         item.selectionHandler = { [unowned self] in self.itemSelected($0) }
 

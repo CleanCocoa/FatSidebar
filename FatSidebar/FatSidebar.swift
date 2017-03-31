@@ -18,6 +18,11 @@ public class FatSidebar: NSView {
         }
     }
 
+    public var animated: Bool {
+        get { return sidebarView.animated }
+        set { sidebarView.animated = newValue }
+    }
+
     public convenience init() {
 
         self.init(frame: NSRect.zero)

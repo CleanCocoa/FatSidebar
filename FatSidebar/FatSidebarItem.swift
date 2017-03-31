@@ -35,6 +35,7 @@ public class FatSidebarItem: NSView {
     public let style: Style
     public let callback: (FatSidebarItem) -> Void
     public var selectionHandler: ((FatSidebarItem) -> Void)?
+    public var animated: Bool
 
     let label: NSTextField
     public var title: String {
@@ -57,6 +58,7 @@ public class FatSidebarItem: NSView {
         title: String,
         image: NSImage? = nil,
         style: Style = .regular,
+        animated: Bool = false,
         frame: NSRect = NSRect.zero,
         callback: @escaping (FatSidebarItem) -> Void) {
 
@@ -74,8 +76,10 @@ public class FatSidebarItem: NSView {
         }()
         self.imageView.image = image
 
-        self.callback = callback
         self.style = style
+        self.animated = animated
+
+        self.callback = callback
 
         super.init(frame: frame)
 
@@ -353,13 +357,16 @@ public class FatSidebarItem: NSView {
             overlay.overlayFinished = { [unowned self] in self.overlay = nil }
 
             windowContentView.addSubview(overlay)
-            overlay.frame = {
-                // Proportional right spacing looks best in all circumstances:
-                let rightPadding: CGFloat = self.frame.height * 0.1
+            (animated
+                ? overlay.animator()
+                : overlay)
+                .frame = {
+                    // Proportional right spacing looks best in all circumstances:
+                    let rightPadding: CGFloat = self.frame.height * 0.1
 
-                var frame = overlayFrame
-                frame.size.width += self.label.frame.width + rightPadding
-                return frame
+                    var frame = overlayFrame
+                    frame.size.width += self.label.frame.width + rightPadding
+                    return frame
             }()
 
             NotificationCenter.default.addObserver(
