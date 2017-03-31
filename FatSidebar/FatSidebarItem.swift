@@ -94,16 +94,24 @@ public class FatSidebarItem: NSView {
         topSpacing.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(topSpacing)
         self.addConstraints([
-            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.height, multiplier: 0.2, constant: 1),
-            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            // 1px width, horizontally centered
+            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 1),
+            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0),
+
+            // 20% size
+            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.height, multiplier: 0.2, constant: 1)
             ])
 
         let bottomSpacing = NSView()
         bottomSpacing.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(bottomSpacing)
         self.addConstraints([
-            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.height, multiplier: 0.3, constant: 1),
-            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            // 1px width, horizontally centered
+            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 1),
+            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0),
+
+            // 30% size
+            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.height, multiplier: 0.3, constant: 1)
             ])
 
         let viewsDict: [String : Any] = [
@@ -142,16 +150,24 @@ public class FatSidebarItem: NSView {
         topSpacing.translatesAutoresizingMaskIntoConstraints = false
         imageContainer.addSubview(topSpacing)
         self.addConstraints([
-            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.height, multiplier: 0.1, constant: 1),
-            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            // 1px width, horizontally centered
+            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 1),
+            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0),
+
+            // 10% size
+            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.height, multiplier: 0.1, constant: 1)
             ])
 
         let bottomSpacing = NSView()
         bottomSpacing.translatesAutoresizingMaskIntoConstraints = false
         imageContainer.addSubview(bottomSpacing)
         self.addConstraints([
-            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.height, multiplier: 0.1, constant: 1),
-            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            // 1px width, horizontally centered
+            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 1),
+            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0),
+
+            // 10% size
+            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.height, multiplier: 0.1, constant: 1)
             ])
 
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -170,7 +186,6 @@ public class FatSidebarItem: NSView {
             withVisualFormat: "V:|[container]|",
             options: [], metrics: nil, views: viewsDict))
         self.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|[container][label]",
             options: [], metrics: nil, views: viewsDict))
         imageContainer.addConstraints(NSLayoutConstraint.constraints(
             withVisualFormat: "V:|[topSpace][imageView][bottomSpace]|",
