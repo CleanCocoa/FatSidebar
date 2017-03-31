@@ -53,4 +53,19 @@ class FatSidebarItemOverlay: FatSidebarItem {
 
         overlayFinished?()
     }
+
+    var scrolledOffset: CGFloat?
+
+    func didScroll(_ notification: Notification) {
+
+        guard let scrollView = notification.object as? NSScrollView,
+            let scrolledOffset = scrolledOffset
+            else { return }
+
+        let diff = scrolledOffset - scrollView.scrolledY
+
+        self.frame.origin.y -= diff
+
+        self.scrolledOffset = scrollView.scrolledY
+    }
 }

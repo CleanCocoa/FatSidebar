@@ -10,6 +10,10 @@ extension NSLayoutConstraint {
     }
 }
 
+extension NSScrollView {
+    var scrolledY: CGFloat { return self.contentView.bounds.origin.y }
+}
+
 public class FatSidebarItem: NSView {
 
     public enum Style {
@@ -294,7 +298,17 @@ public class FatSidebarItem: NSView {
 
     // MARK: - Mouse Hover
 
-    private var overlay: FatSidebarItemOverlay?
+    private var overlay: FatSidebarItemOverlay? {
+        didSet {
+
+            guard overlay == nil,
+                let oldOverlay = oldValue
+                else { return }
+
+            NotificationCenter.default.removeObserver(oldOverlay)
+        }
+    }
+
     private var isHoveringEnabled: Bool {
         return overlay == nil && self.style == .small
     }
@@ -328,7 +342,7 @@ public class FatSidebarItem: NSView {
             overlay.overlayFinished = { [unowned self] in self.overlay = nil }
 
             windowContentView.addSubview(overlay)
-            overlay.animator().frame = {
+            overlay.frame = {
                 // Proportional right spacing looks best in all circumstances:
                 let rightPadding: CGFloat = self.frame.height * 0.1
 
@@ -342,6 +356,16 @@ public class FatSidebarItem: NSView {
                 selector: #selector(FatSidebarItemOverlay.hoverDidStart),
                 name: FatSidebarItemOverlay.hoverStarted,
                 object: nil)
+
+            guard let scrollView = enclosingScrollView
+                else { return overlay }
+
+            overlay.scrolledOffset = scrollView.scrolledY
+            NotificationCenter.default.addObserver(
+                overlay,
+                selector: #selector(FatSidebarItemOverlay.didScroll),
+                name: .NSScrollViewDidLiveScroll,
+                object: scrollView)
             
             return overlay
         }()
