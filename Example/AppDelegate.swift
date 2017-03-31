@@ -46,13 +46,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             callback: { _ in print("Inbox") })
         fatSidebar.appendItem(
             title: "My Bestest Favorites",
-            image: templated(#imageLiteral(resourceName: "heart.png")).image(tintColor: #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)),
+            image: templated(#imageLiteral(resourceName: "heart.png")),
             style: .small,
             callback: { _ in print("Favs") })
         fatSidebar.appendItem(
             title: "Ideas",
             image: templated(#imageLiteral(resourceName: "lightbulb.png")),
-            style: .small,
+            style: .regular,
             callback: { _ in print("Ideas") })
     }
 
