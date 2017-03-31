@@ -106,6 +106,11 @@ public class FatSidebar: NSView {
         return sidebarView.removeAllItems()
     }
 
+    public var selectionMode: FatSidebarView.SelectionMode {
+        get { return sidebarView.selectionMode }
+        set { sidebarView.selectionMode = newValue }
+    }
+
     /// Selects `item` if it was unselected; deselects it
     /// it if was selected. Applies to items that are part
     /// of the sidebar, only.

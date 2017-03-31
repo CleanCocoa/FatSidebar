@@ -38,6 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
         fatSidebar.theme = OmniFocusTheme()
+        fatSidebar.selectionMode = .toggle
         fatSidebar.appendItem(
             title: "Inbox",
             image: templated(#imageLiteral(resourceName: "inbox.png")).image(tintColor: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)),

@@ -44,20 +44,38 @@ public class FatSidebarView: NSView {
 
     // MARK: Insertion
 
-    @discardableResult
-    public func appendItem(
+    fileprivate func fatSidebarItem(
         title: String,
-        image: NSImage? = nil,
-        style: FatSidebarItem.Style = .regular,
-        callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem {
+        image: NSImage?,
+        style: FatSidebarItem.Style,
+        callback: @escaping (FatSidebarItem) -> Void)
+        -> FatSidebarItem
+    {
 
         let item = FatSidebarItem(
             title: title,
             image: image,
             style: style,
             callback: callback)
-        item.selectionHandler = { [unowned self] in self.selectItem($0) }
+        item.selectionHandler = { [unowned self] in self.itemSelected($0) }
 
+        return item
+    }
+
+    @discardableResult
+    public func appendItem(
+        title: String,
+        image: NSImage? = nil,
+        style: FatSidebarItem.Style = .regular,
+        callback: @escaping (FatSidebarItem) -> Void)
+        -> FatSidebarItem
+    {
+
+        let item = fatSidebarItem(
+            title: title,
+            image: image,
+            style: style,
+            callback: callback)
         items.append(item)
         addSubview(item)
 
@@ -71,23 +89,34 @@ public class FatSidebarView: NSView {
         title: String,
         image: NSImage? = nil,
         style: FatSidebarItem.Style = .regular,
-        callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem? {
+        callback: @escaping (FatSidebarItem) -> Void)
+        -> FatSidebarItem?
+    {
 
         guard let index = items.index(where: { $0 === item }) else { return nil }
 
-        let item = FatSidebarItem(
+        let item = fatSidebarItem(
             title: title,
             image: image,
             style: style,
             callback: callback)
-        item.selectionHandler = { [unowned self] in self.selectItem($0) }
-        
         items.insert(item, at: index + 1)
         addSubview(item)
 
         return item
     }
 
+    /// Internal selection callback that performs user-facing selection
+    /// depending on `selectionMode`.
+    fileprivate func itemSelected(_ item: FatSidebarItem) {
+
+        switch selectionMode {
+        case .select: self.selectItem(item)
+        case .toggle: self.toggleItem(item)
+        }
+    }
+
+    
     // MARK: Removal
 
     @discardableResult
@@ -102,6 +131,18 @@ public class FatSidebarView: NSView {
 
     // MARK: -
     // MARK: Selection
+
+    public enum SelectionMode {
+        /// Clicking an item selects it.
+        /// Clicking multiple times on the same item doesn't alter the selection.
+        case select
+
+        /// Clicking an item first selects it; clicking again
+        /// deselects it.
+        case toggle
+    }
+
+    public var selectionMode: SelectionMode = .select
 
     /// Selects `item` if it was unselected; deselects it
     /// it if was selected. Applies to items that are part
