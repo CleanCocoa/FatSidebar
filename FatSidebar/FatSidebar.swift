@@ -8,6 +8,11 @@ public class FatSidebar: NSView {
     let scrollView = NSScrollView()
     let sidebarView =  FatSidebarView()//frame: NSRect(x: 0, y: 0, width: 100, height: 100))
 
+    public var itemContextualMenu: NSMenu? {
+        get { return sidebarView.itemContextualMenu }
+        set { sidebarView.itemContextualMenu = newValue }
+    }
+
     public var theme: FatSidebarTheme {
         get { return sidebarView.theme }
         set {

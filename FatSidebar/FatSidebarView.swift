@@ -24,6 +24,12 @@ public class FatSidebarView: NSView {
         }
     }
 
+    var itemContextualMenu: NSMenu? {
+        didSet {
+            items.forEach { $0.menu = itemContextualMenu }
+        }
+    }
+
     // MARK: - Content
 
     fileprivate var items: [FatSidebarItem] = [] {
@@ -64,6 +70,7 @@ public class FatSidebarView: NSView {
             style: style,
             animated: self.animated,
             callback: callback)
+        item.menu = self.itemContextualMenu
         item.selectionHandler = { [unowned self] in self.itemSelected($0) }
 
         return item

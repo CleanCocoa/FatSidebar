@@ -16,6 +16,7 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Example" customModuleProvider="target">
             <connections>
                 <outlet property="fatSidebar" destination="o0R-pj-jhq" id="F8R-gZ-oW4"/>
+                <outlet property="itemContextualMenu" destination="PdI-4o-eeW" id="Fx5-5B-Blz"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -755,5 +756,16 @@
                 </constraints>
             </view>
         </window>
+        <menu id="PdI-4o-eeW">
+            <items>
+                <menuItem title="Remove Saved Search" id="5Z3-JC-v10">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="removeFatSidebarItem:" target="-1" id="Vca-5V-1g9"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="-263" y="380"/>
+        </menu>
     </objects>
 </document>

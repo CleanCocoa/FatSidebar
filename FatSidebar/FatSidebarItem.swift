@@ -306,6 +306,18 @@ public class FatSidebarItem: NSView {
         callback(self)
     }
 
+    @IBAction public func removeFatSidebarItem(_ sender: Any?) {
+
+        // Forward event from here because if the sidebar
+        // would receive the NSMenuItem action, it wouldn't
+        // be able to figure out the affected item.
+        guard let sidebar = self.superview as? FatSidebarView else {
+            preconditionFailure("Expected superview to be FatSidebarView")
+        }
+
+        sidebar.removeItem(self)
+    }
+
 
     // MARK: - Mouse Hover
 
@@ -353,8 +365,11 @@ public class FatSidebarItem: NSView {
             overlay.theme = self.theme
             overlay.isSelected = self.isSelected
 
-            overlay.selectionHandler = { [unowned self] _ in self.selectionHandler?(self) }
-            overlay.overlayFinished = { [unowned self] in self.overlay = nil }
+            overlay.selectionHandler = { [weak self] _ in
+                guard let item = self else { return }
+                item.selectionHandler?(item)
+            }
+            overlay.overlayFinished = { [weak self] in self?.overlay = nil }
 
             windowContentView.addSubview(overlay)
             (animated

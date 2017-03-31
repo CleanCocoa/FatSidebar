@@ -32,6 +32,7 @@ extension NSImage {
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    @IBOutlet weak var itemContextualMenu: NSMenu!
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var fatSidebar: FatSidebar!
 
@@ -40,6 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         fatSidebar.theme = OmniFocusTheme()
         fatSidebar.selectionMode = .toggle
         fatSidebar.animated = true
+        fatSidebar.itemContextualMenu = itemContextualMenu
         fatSidebar.appendItem(
             title: "Inbox",
             image: templated(#imageLiteral(resourceName: "inbox.png")).image(tintColor: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)),
