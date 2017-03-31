@@ -295,13 +295,21 @@ public class FatSidebarItem: NSView {
     // MARK: - Mouse Hover
 
     private var overlay: FatSidebarItemOverlay?
-    private var isHoveringEnabled: Bool { return overlay == nil }
+    private var isHoveringEnabled: Bool {
+        return overlay == nil && self.style == .small
+    }
 
     public override func mouseEntered(with event: NSEvent) {
 
-        guard isHoveringEnabled,
-            self.style == .small,
-            let superview = self.superview
+        guard isHoveringEnabled else { return }
+
+        showHoverItem()
+    }
+
+    private func showHoverItem() {
+
+        guard let superview = self.superview,
+            let windowContentView = self.window?.contentView
             else { return }
 
         self.overlay = {
@@ -319,10 +327,13 @@ public class FatSidebarItem: NSView {
             overlay.selectionHandler = { [unowned self] _ in self.selectionHandler?(self) }
             overlay.overlayFinished = { [unowned self] in self.overlay = nil }
 
-            self.window?.contentView?.addSubview(overlay)
+            windowContentView.addSubview(overlay)
             overlay.animator().frame = {
+                // Proportional right spacing looks best in all circumstances:
+                let rightPadding: CGFloat = self.frame.height * 0.1
+
                 var frame = overlayFrame
-                frame.size.width += self.label.frame.width + 8
+                frame.size.width += self.label.frame.width + rightPadding
                 return frame
             }()
 
@@ -331,7 +342,7 @@ public class FatSidebarItem: NSView {
                 selector: #selector(FatSidebarItemOverlay.hoverDidStart),
                 name: FatSidebarItemOverlay.hoverStarted,
                 object: nil)
-
+            
             return overlay
         }()
     }
