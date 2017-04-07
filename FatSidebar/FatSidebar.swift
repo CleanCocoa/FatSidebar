@@ -10,10 +10,15 @@ public protocol FatSidebarDelegate: class {
     func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int)
 }
 
+public protocol FatSidebarSelectionChangeDelegate: class {
+    func sidebar(_ sidebar: FatSidebar, didChangeSelection selectionIndex: Int)
+}
+
 /// Top-level module facade, acting as a composite view that scrolls.
-public class FatSidebar: NSView, DragViewContainerDelegate {
+public class FatSidebar: NSView {
 
     public weak var delegate: FatSidebarDelegate?
+    public weak var selectionDelegate: FatSidebarSelectionChangeDelegate?
 
     let scrollView = NSScrollView()
     let sidebarView = FatSidebarView()
@@ -46,16 +51,16 @@ public class FatSidebar: NSView, DragViewContainerDelegate {
 
         super.init(frame: frameRect)
 
-        sidebarView.dragDelegate = self
         layoutSubviews()
+        observeSidebarSelectionChanges()
     }
 
     public required init?(coder: NSCoder) {
 
         super.init(coder: coder)
 
-        sidebarView.dragDelegate = self
         layoutSubviews()
+        observeSidebarSelectionChanges()
     }
 
     fileprivate func layoutSubviews() {
@@ -85,11 +90,39 @@ public class FatSidebar: NSView, DragViewContainerDelegate {
         scrollView.constrainToSuperviewBounds()
     }
 
-    // MARK: - Dragging Progress
+    private var selectionChangeObserver: AnyObject!
+    private var moveObserver: AnyObject!
 
-    public func container(_ container: DragViewContainer, didDragView view: NSView, from: Int, to: Int) {
+    fileprivate func observeSidebarSelectionChanges() {
 
-        self.delegate?.sidebar(self, didMoveItemFrom: from, to: to)
+        let notificationCenter = NotificationCenter.default
+
+        selectionChangeObserver = notificationCenter.addObserver(
+            forName: FatSidebarView.didSelectItemNotification,
+            object: sidebarView,
+            queue: nil) { [unowned self] in self.selectionDidChange($0) }
+
+        moveObserver = notificationCenter.addObserver(
+            forName: FatSidebarView.didReorderItemNotification,
+            object: sidebarView,
+            queue: nil) { [unowned self] in self.itemDidMove($0) }
+    }
+
+    fileprivate func selectionDidChange(_ notification: Notification) {
+
+        guard let index = notification.userInfo?["index"] as? Int else { return }
+
+        selectionDelegate?.sidebar(self, didChangeSelection: index)
+    }
+
+    fileprivate func itemDidMove(_ notification: Notification) {
+
+        guard let userInfo = notification.userInfo,
+            let fromIndex = userInfo["from"] as? Int,
+            let toIndex = userInfo["to"] as? Int
+            else { return }
+
+        self.delegate?.sidebar(self, didMoveItemFrom: fromIndex, to: toIndex)
     }
 
     // MARK: - Sidebar Façade
@@ -113,7 +146,9 @@ public class FatSidebar: NSView, DragViewContainerDelegate {
         title: String,
         image: NSImage? = nil,
         style: FatSidebarItem.Style = .regular,
-        callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem {
+        callback: ((FatSidebarItem) -> Void)? = nil)
+        -> FatSidebarItem
+    {
 
         return sidebarView.appendItem(title: title, image: image, style: style, callback: callback)
     }
@@ -125,7 +160,9 @@ public class FatSidebar: NSView, DragViewContainerDelegate {
         title: String,
         image: NSImage? = nil,
         style: FatSidebarItem.Style = .regular,
-        callback: @escaping (FatSidebarItem) -> Void) -> FatSidebarItem? {
+        callback: ((FatSidebarItem) -> Void)? = nil)
+        -> FatSidebarItem?
+    {
 
         return sidebarView.insertItem(after: item, title: title, image: image, style: style, callback: callback)
     }

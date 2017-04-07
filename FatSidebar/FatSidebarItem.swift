@@ -33,7 +33,7 @@ public class FatSidebarItem: NSView {
     }
 
     public let style: Style
-    public let callback: (FatSidebarItem) -> Void
+    public let callback: ((FatSidebarItem) -> Void)?
     public var selectionHandler: ((FatSidebarItem) -> Void)?
     public var animated: Bool
 
@@ -60,7 +60,7 @@ public class FatSidebarItem: NSView {
         style: Style = .regular,
         animated: Bool = false,
         frame: NSRect = NSRect.zero,
-        callback: @escaping (FatSidebarItem) -> Void) {
+        callback: ((FatSidebarItem) -> Void)?) {
 
         self.label = NSTextField.newWrappingLabel(title: title, controlSize: NSSmallControlSize)
         self.label.alignment = .center
@@ -357,7 +357,7 @@ public class FatSidebarItem: NSView {
 
     public func sendAction() {
 
-        callback(self)
+        callback?(self)
     }
 
     @IBAction public func removeFatSidebarItem(_ sender: Any?) {

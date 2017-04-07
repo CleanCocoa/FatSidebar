@@ -2,15 +2,12 @@
 
 import Cocoa
 
-public protocol DragViewContainer {
+protocol DragViewContainer {
 
-    var dragDelegate: DragViewContainerDelegate? { get }
     var draggingZOffset: NSSize { get }
     func reorder(subview: NSView, event: NSEvent)
-}
 
-public protocol DragViewContainerDelegate: class {
-    func container(_ container: DragViewContainer, didDragView view: NSView, from: Int, to: Int)
+    func didDrag(view: NSView, from: Int, to: Int)
 }
 
 private func fillHorizontal(_ subview: NSView) -> [NSLayoutConstraint] {
@@ -24,9 +21,9 @@ private func fillHorizontal(_ subview: NSView) -> [NSLayoutConstraint] {
 
 extension DragViewContainer where Self: NSView {
 
-    public var draggingZOffset: NSSize { return NSSize(width: 0, height: 2) }
+    var draggingZOffset: NSSize { return NSSize(width: 0, height: 2) }
 
-    public func reorder(subview: NSView, event: NSEvent) {
+    func reorder(subview: NSView, event: NSEvent) {
 
         guard let windowContentView = window?.contentView else { preconditionFailure("Expected window with contentView") }
 
@@ -108,9 +105,8 @@ extension DragViewContainer where Self: NSView {
                 stop.pointee = true
                 subview.mouseUp(with: dragEvent)
 
-                self.dragDelegate?.container(
-                    self,
-                    didDragView: subview,
+                self.didDrag(
+                    view: subview,
                     from: draggedItemIndex,
                     to: draggedItemIndex + draggedPositionOffset)
 

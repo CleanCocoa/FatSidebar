@@ -13,7 +13,12 @@ func addAspectRatioConstraint(view: NSView) {
 /// Cusom view that displays a list of `FatSidebarItem`s.
 public class FatSidebarView: NSView, DragViewContainer {
 
-    public weak var dragDelegate: DragViewContainerDelegate?
+    /// Fired when an item was selected or deselected through toggling.
+    /// - note: Does not replace `didSelectItemNotification` or `didDeselectItemNotification`.
+    static let didToggleItemNotification = Notification.Name("FatSidebarView_didToggleItemNotification")
+    static let didSelectItemNotification = Notification.Name("FatSidebarView_didSelectItemNotification")
+    static let didDeselectItemNotification = Notification.Name("FatSidebarView_didDeselectItemNotification")
+    static let didReorderItemNotification = Notification.Name("FatSidebarView_didReorderItemNotification")
 
     public var theme: FatSidebarTheme = DefaultTheme() {
         didSet {
@@ -74,7 +79,7 @@ public class FatSidebarView: NSView, DragViewContainer {
         title: String,
         image: NSImage?,
         style: FatSidebarItem.Style,
-        callback: @escaping (FatSidebarItem) -> Void)
+        callback: ((FatSidebarItem) -> Void)?)
         -> FatSidebarItem
     {
 
@@ -95,7 +100,7 @@ public class FatSidebarView: NSView, DragViewContainer {
         title: String,
         image: NSImage? = nil,
         style: FatSidebarItem.Style = .regular,
-        callback: @escaping (FatSidebarItem) -> Void)
+        callback: ((FatSidebarItem) -> Void)? = nil)
         -> FatSidebarItem
     {
 
@@ -118,7 +123,7 @@ public class FatSidebarView: NSView, DragViewContainer {
         title: String,
         image: NSImage? = nil,
         style: FatSidebarItem.Style = .regular,
-        callback: @escaping (FatSidebarItem) -> Void)
+        callback: ((FatSidebarItem) -> Void)? = nil)
         -> FatSidebarItem?
     {
 
@@ -170,6 +175,25 @@ public class FatSidebarView: NSView, DragViewContainer {
         return true
     }
 
+
+    // MARK: - 
+    // MARK: Dragging
+
+    public func didDrag(view: NSView, from: Int, to: Int) {
+
+        guard let item = view as? FatSidebarItem else {
+            preconditionFailure("Expected `didDrag` to receive FatSidebarItem")
+        }
+
+        let distance = to - from
+        self.items.move(item, by: distance)
+
+        NotificationCenter.default.post(
+            name: FatSidebarView.didReorderItemNotification,
+            object: self,
+            userInfo: ["from" : from, "to" : to])
+    }
+
     // MARK: -
     // MARK: Selection
 
@@ -189,29 +213,41 @@ public class FatSidebarView: NSView, DragViewContainer {
     /// it if was selected. Applies to items that are part
     /// of the sidebar, only.
     ///
+    /// - note: Deselects other selected items.
     /// - returns: `true` if `item` is part of the sidebar and was toggled.
     @discardableResult
     public func toggleItem(_ item: FatSidebarItem) -> Bool {
 
-        guard self.contains(item) else { return false }
+        guard let index = items.index(of: item) else { return false }
 
         let wasSelected = item.isSelected
         selectedItems.forEach { self.deselectItem($0) }
 
         if !wasSelected { selectItem(item) }
 
+        NotificationCenter.default.post(
+            name: FatSidebarView.didToggleItemNotification,
+            object: self,
+            userInfo: ["index" : index])
+
         return true
     }
 
+    /// - note: Deselects other selected items.
     /// - returns: `true` if `item` is part of the sidebar.
     @discardableResult
     public func selectItem(_ item: FatSidebarItem) -> Bool {
 
-        guard self.contains(item) else { return false }
+        guard let index = self.items.index(of: item)
+            else { return false }
 
-        for existingItem in items {
-            existingItem.isSelected = (existingItem === item)
-        }
+        selectedItems.forEach { self.deselectItem($0) }
+        item.isSelected = true
+
+        NotificationCenter.default.post(
+            name: FatSidebarView.didSelectItemNotification,
+            object: self,
+            userInfo: ["index" : index])
 
         return true
     }
@@ -221,11 +257,16 @@ public class FatSidebarView: NSView, DragViewContainer {
     @discardableResult
     public func deselectItem(_ item: FatSidebarItem) -> Bool {
 
-        guard self.contains(item),
+        guard let index = self.items.index(of: item),
             item.isSelected
             else { return false }
 
         item.isSelected = false
+
+        NotificationCenter.default.post(
+            name: FatSidebarView.didDeselectItemNotification,
+            object: self,
+            userInfo: ["index" : index])
 
         return true
     }

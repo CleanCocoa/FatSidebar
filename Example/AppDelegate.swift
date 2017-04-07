@@ -30,7 +30,7 @@ extension NSImage {
 
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate, FatSidebarSelectionChangeDelegate {
 
     @IBOutlet weak var addItemController: AddItemController!
     @IBOutlet weak var itemContextualMenu: NSMenu!
@@ -40,6 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
         fatSidebar.delegate = self
+        fatSidebar.selectionDelegate = self
         fatSidebar.theme = OmniFocusTheme()
         fatSidebar.selectionMode = .toggle
         fatSidebar.animated = true
@@ -47,18 +48,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
         fatSidebar.appendItem(
             title: "Inbox",
             image: templated(#imageLiteral(resourceName: "inbox.png")).image(tintColor: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)),
-            style: .small,
-            callback: { _ in print("Inbox") })
+            style: .small)
         fatSidebar.appendItem(
             title: "My Bestest Favorites",
             image: templated(#imageLiteral(resourceName: "heart.png")),
-            style: .small,
-            callback: { _ in print("Favs") })
+            style: .small)
         fatSidebar.appendItem(
             title: "Ideas",
             image: templated(#imageLiteral(resourceName: "lightbulb.png")),
-            style: .regular,
-            callback: { _ in print("Ideas") })
+            style: .regular)
     }
 
     @IBAction func addSidebarItem(_ sender: Any?) {
@@ -83,5 +81,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
     func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int) {
 
         Swift.print("\(oldIndex) -> \(newIndex)")
+    }
+
+    func sidebar(_ sidebar: FatSidebar, didChangeSelection selectionIndex: Int) {
+
+        Swift.print("Selected \(selectionIndex)")
     }
 }
