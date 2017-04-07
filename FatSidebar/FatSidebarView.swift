@@ -2,6 +2,14 @@
 
 import Cocoa
 
+func addAspectRatioConstraint(view: NSView) {
+
+    view.addConstraint(NSLayoutConstraint(
+        item: view, attribute: .height, relatedBy: .equal,
+        toItem: view, attribute: .width,
+        multiplier: 1, constant: 0))
+}
+
 /// Cusom view that displays a list of `FatSidebarItem`s.
 public class FatSidebarView: NSView, DragViewContainer {
 
@@ -94,6 +102,7 @@ public class FatSidebarView: NSView, DragViewContainer {
             image: image,
             style: style,
             callback: callback)
+        addAspectRatioConstraint(view: item)
         addSubview(item)
         items.append(item)
 
@@ -118,6 +127,7 @@ public class FatSidebarView: NSView, DragViewContainer {
             image: image,
             style: style,
             callback: callback)
+        addAspectRatioConstraint(view: item)
         addSubview(item)
         items.insert(item, at: index + 1)
 

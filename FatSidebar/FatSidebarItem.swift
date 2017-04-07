@@ -84,20 +84,11 @@ public class FatSidebarItem: NSView {
         super.init(frame: frame)
 
         self.translatesAutoresizingMaskIntoConstraints = false
-        addAspectRatioConstraint()
         layoutSubviews(style: style)
     }
 
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) not implemented")
-    }
-
-    fileprivate func addAspectRatioConstraint() {
-
-        self.addConstraint(NSLayoutConstraint(
-            item: self, attribute: .height, relatedBy: .equal,
-            toItem: self, attribute: .width,
-            multiplier: 1, constant: 0))
     }
 
     fileprivate func layoutSubviews(style: Style) {
@@ -111,6 +102,7 @@ public class FatSidebarItem: NSView {
 
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
         self.imageView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: NSLayoutConstraintOrientation.vertical)
+        self.imageView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: NSLayoutConstraintOrientation.horizontal)
         self.addSubview(self.imageView)
 
         self.label.translatesAutoresizingMaskIntoConstraints = false
