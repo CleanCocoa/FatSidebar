@@ -293,6 +293,10 @@ public class FatSidebarItem: NSView {
 
     // MARK: Dragging
 
+    /// Shared flag to make sure that when some item is being clicked, moving
+    /// the mouse does not trigger hover effects on adjacent items.
+    private static var startedDragging = false
+
     struct Dragging {
         static let threshold: TimeInterval = 0.4
         let initialEvent: NSEvent
@@ -317,6 +321,8 @@ public class FatSidebarItem: NSView {
             initialEvent: event,
             dragTimer: dragTimer,
             isDragging: false)
+
+        FatSidebarItem.startedDragging = true
     }
 
     func mouseHeld(_ timer: Timer) {
@@ -332,6 +338,8 @@ public class FatSidebarItem: NSView {
 
     public override func mouseUp(with event: NSEvent) {
 
+        FatSidebarItem.startedDragging = false
+        
         isHighlighted = false
 
         defer {
@@ -382,6 +390,7 @@ public class FatSidebarItem: NSView {
 
     public override func mouseEntered(with event: NSEvent) {
 
+        if FatSidebarItem.startedDragging { return }
         if isDisplayingOverlay { return }
 
         NotificationCenter.default.post(
