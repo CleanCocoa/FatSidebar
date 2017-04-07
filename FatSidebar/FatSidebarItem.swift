@@ -406,6 +406,7 @@ public class FatSidebarItem: NSView {
                 callback: self.callback)
             overlay.theme = self.theme
             overlay.isSelected = self.isSelected
+            overlay.translatesAutoresizingMaskIntoConstraints = true
 
             overlay.selectionHandler = { [weak self] _ in
                 guard let item = self else { return }
