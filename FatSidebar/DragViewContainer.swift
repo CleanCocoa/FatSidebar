@@ -4,8 +4,13 @@ import Cocoa
 
 public protocol DragViewContainer {
 
+    var dragDelegate: DragViewContainerDelegate? { get }
     var draggingZOffset: NSSize { get }
     func reorder(subview: NSView, event: NSEvent)
+}
+
+public protocol DragViewContainerDelegate: class {
+    func container(_ container: DragViewContainer, didDragView view: NSView, from: Int, to: Int)
 }
 
 private func fillHorizontal(_ subview: NSView) -> [NSLayoutConstraint] {
@@ -71,6 +76,9 @@ extension DragViewContainer where Self: NSView {
         subview.isHidden = true
         var previousY = initialY
 
+        let draggedItemIndex = subviews.index(of: subview)!
+        var draggedPositionOffset = 0
+
         window?.trackEvents(
             matching: [.leftMouseUp, .leftMouseDragged],
             timeout: Date.distantFuture.timeIntervalSinceNow,
@@ -99,6 +107,13 @@ extension DragViewContainer where Self: NSView {
                 })
                 stop.pointee = true
                 subview.mouseUp(with: dragEvent)
+
+                self.dragDelegate?.container(
+                    self,
+                    didDragView: subview,
+                    from: draggedItemIndex,
+                    to: draggedItemIndex + draggedPositionOffset)
+
                 return
             }
 
@@ -123,10 +138,12 @@ extension DragViewContainer where Self: NSView {
 
             if movingUp && subview != self.subviews.first! {
                 moveSubview(.up)
+                draggedPositionOffset -= 1
             }
 
             if movingDown && subview != self.subviews.last! {
                 moveSubview(.down)
+                draggedPositionOffset += 1
             }
 
             previousY = nextY

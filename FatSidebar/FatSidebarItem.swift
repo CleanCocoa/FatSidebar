@@ -339,7 +339,7 @@ public class FatSidebarItem: NSView {
     public override func mouseUp(with event: NSEvent) {
 
         FatSidebarItem.startedDragging = false
-        
+
         isHighlighted = false
 
         defer {

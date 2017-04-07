@@ -13,6 +13,8 @@ func addAspectRatioConstraint(view: NSView) {
 /// Cusom view that displays a list of `FatSidebarItem`s.
 public class FatSidebarView: NSView, DragViewContainer {
 
+    public weak var dragDelegate: DragViewContainerDelegate?
+
     public var theme: FatSidebarTheme = DefaultTheme() {
         didSet {
             applyThemeToItems()

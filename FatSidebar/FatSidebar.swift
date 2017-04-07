@@ -6,11 +6,17 @@ class FlippedView: NSView {
     override var isFlipped: Bool { return true }
 }
 
+public protocol FatSidebarDelegate: class {
+    func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int)
+}
+
 /// Top-level module facade, acting as a composite view that scrolls.
-public class FatSidebar: NSView {
+public class FatSidebar: NSView, DragViewContainerDelegate {
+
+    public weak var delegate: FatSidebarDelegate?
 
     let scrollView = NSScrollView()
-    let sidebarView =  FatSidebarView()//frame: NSRect(x: 0, y: 0, width: 100, height: 100))
+    let sidebarView = FatSidebarView()
 
     public var itemContextualMenu: NSMenu? {
         get { return sidebarView.itemContextualMenu }
@@ -33,16 +39,14 @@ public class FatSidebar: NSView {
     }
 
     public convenience init() {
-
         self.init(frame: NSRect.zero)
-
-        layoutSubviews()
     }
 
     public override init(frame frameRect: NSRect) {
 
         super.init(frame: frameRect)
 
+        sidebarView.dragDelegate = self
         layoutSubviews()
     }
 
@@ -50,6 +54,7 @@ public class FatSidebar: NSView {
 
         super.init(coder: coder)
 
+        sidebarView.dragDelegate = self
         layoutSubviews()
     }
 
@@ -78,6 +83,13 @@ public class FatSidebar: NSView {
         flippedView.constrainToSuperviewBoundsOpenBottom()
 
         scrollView.constrainToSuperviewBounds()
+    }
+
+    // MARK: - Dragging Progress
+
+    public func container(_ container: DragViewContainer, didDragView view: NSView, from: Int, to: Int) {
+
+        self.delegate?.sidebar(self, didMoveItemFrom: from, to: to)
     }
 
     // MARK: - Sidebar Façade

@@ -30,7 +30,7 @@ extension NSImage {
 
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
 
     @IBOutlet weak var addItemController: AddItemController!
     @IBOutlet weak var itemContextualMenu: NSMenu!
@@ -39,6 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
+        fatSidebar.delegate = self
         fatSidebar.theme = OmniFocusTheme()
         fatSidebar.selectionMode = .toggle
         fatSidebar.animated = true
@@ -79,4 +80,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             callback: { print("New: \($0)") })
     }
 
+    func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int) {
+
+        Swift.print("\(oldIndex) -> \(newIndex)")
+    }
 }
