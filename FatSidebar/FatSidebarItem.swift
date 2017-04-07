@@ -390,16 +390,10 @@ public class FatSidebarItem: NSView {
                 name: FatSidebarItemOverlay.hoverStarted,
                 object: nil)
 
-            guard let scrollView = enclosingScrollView
-                else { return overlay }
+            if let scrollView = enclosingScrollView {
+                overlay.setupScrollSyncing(scrollView: scrollView)
+            }
 
-            overlay.scrolledOffset = scrollView.scrolledY
-            NotificationCenter.default.addObserver(
-                overlay,
-                selector: #selector(FatSidebarItemOverlay.didScroll),
-                name: .NSScrollViewDidLiveScroll,
-                object: scrollView)
-            
             return overlay
         }()
     }

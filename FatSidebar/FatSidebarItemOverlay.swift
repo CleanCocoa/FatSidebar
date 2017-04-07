@@ -4,6 +4,8 @@ import Cocoa
 
 class FatSidebarItemOverlay: FatSidebarItem {
 
+    // MARK: - Hovering 
+
     static var hoverStarted: Notification.Name { return Notification.Name(rawValue: "fat sidebar hover did start") }
     var overlayFinished: (() -> Void)?
 
@@ -54,7 +56,21 @@ class FatSidebarItemOverlay: FatSidebarItem {
         overlayFinished?()
     }
 
-    var scrolledOffset: CGFloat?
+
+    // MARK: - Scrolling
+
+    func setupScrollSyncing(scrollView: NSScrollView) {
+
+        self.scrolledOffset = scrollView.scrolledY
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didScroll(_:)),
+            name: .NSScrollViewDidLiveScroll,
+            object: scrollView)
+    }
+
+    fileprivate var scrolledOffset: CGFloat?
 
     func didScroll(_ notification: Notification) {
 
