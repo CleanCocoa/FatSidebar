@@ -4,6 +4,14 @@ import Cocoa
 
 class FatSidebarItemOverlay: FatSidebarItem {
 
+    weak var base: FatSidebarItem!
+
+    override func mouseHeld(_ timer: Timer) {
+
+        self.animator().alphaValue = 0.0
+        base.mouseHeld(timer)
+    }
+
     // MARK: - Hovering 
 
     static var hoverStarted: Notification.Name { return Notification.Name(rawValue: "fat sidebar hover did start") }

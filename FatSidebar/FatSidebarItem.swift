@@ -294,7 +294,8 @@ public class FatSidebarItem: NSView {
     // MARK: Dragging
 
     struct Dragging {
-        static let threshold: TimeInterval = 0.2
+        static let threshold: TimeInterval = 0.4
+        let initialEvent: NSEvent
         var dragTimer: Timer?
         var isDragging = false
     }
@@ -312,7 +313,10 @@ public class FatSidebarItem: NSView {
             userInfo: event,
             repeats: false)
 
-        self.dragging = Dragging(dragTimer: dragTimer, isDragging: false)
+        self.dragging = Dragging(
+            initialEvent: event,
+            dragTimer: dragTimer,
+            isDragging: false)
     }
 
     func mouseHeld(_ timer: Timer) {
@@ -404,6 +408,7 @@ public class FatSidebarItem: NSView {
                 style: self.style,
                 frame: overlayFrame,
                 callback: self.callback)
+            overlay.base = self
             overlay.theme = self.theme
             overlay.isSelected = self.isSelected
             overlay.translatesAutoresizingMaskIntoConstraints = true
