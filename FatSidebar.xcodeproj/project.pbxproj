@@ -28,6 +28,7 @@
 		507A3E8F1E9779E600D0C3FD /* NSView+ImageRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507A3E8E1E9779E600D0C3FD /* NSView+ImageRepresentation.swift */; };
 		507A3E911E9779FB00D0C3FD /* Array+Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507A3E901E9779FB00D0C3FD /* Array+Move.swift */; };
 		507A3E931E977A0F00D0C3FD /* DragViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507A3E921E977A0F00D0C3FD /* DragViewContainer.swift */; };
+		507A3E951E97E71B00D0C3FD /* FatSidebarItemConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507A3E941E97E71B00D0C3FD /* FatSidebarItemConfiguration.swift */; };
 		507CF3711E8797D000623B5E /* FatSidebar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; };
 		507CF3781E8797D000623B5E /* FatSidebar.h in Headers */ = {isa = PBXBuildFile; fileRef = 507CF36A1E8797D000623B5E /* FatSidebar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		507CF3881E8797E000623B5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3871E8797E000623B5E /* AppDelegate.swift */; };
@@ -95,6 +96,7 @@
 		507A3E8E1E9779E600D0C3FD /* NSView+ImageRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSView+ImageRepresentation.swift"; sourceTree = "<group>"; };
 		507A3E901E9779FB00D0C3FD /* Array+Move.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Move.swift"; sourceTree = "<group>"; };
 		507A3E921E977A0F00D0C3FD /* DragViewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragViewContainer.swift; sourceTree = "<group>"; };
+		507A3E941E97E71B00D0C3FD /* FatSidebarItemConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatSidebarItemConfiguration.swift; sourceTree = "<group>"; };
 		507CF3671E8797D000623B5E /* FatSidebar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FatSidebar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CF36A1E8797D000623B5E /* FatSidebar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FatSidebar.h; sourceTree = "<group>"; };
 		507CF36B1E8797D000623B5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				506D6CA51E894F8400C366BF /* FatSidebar.swift */,
 				507CF3921E87982A00623B5E /* FatSidebarView.swift */,
 				506D6C7C1E879AA500C366BF /* FatSidebarItem.swift */,
+				507A3E941E97E71B00D0C3FD /* FatSidebarItemConfiguration.swift */,
 				50A60C811E8CF0E30052849E /* FatSidebarItemOverlay.swift */,
 				507A3E8B1E9779BF00D0C3FD /* Dragging */,
 				506D6C921E88301C00C366BF /* Theming */,
@@ -394,6 +397,7 @@
 				506D6C8E1E87D67400C366BF /* DefaultTheme.swift in Sources */,
 				507A3E911E9779FB00D0C3FD /* Array+Move.swift in Sources */,
 				506D6C941E88302500C366BF /* Borders.swift in Sources */,
+				507A3E951E97E71B00D0C3FD /* FatSidebarItemConfiguration.swift in Sources */,
 				507CF3931E87982A00623B5E /* FatSidebarView.swift in Sources */,
 				506D6CA81E8951E300C366BF /* NSView+ConstrainToSuperviewBounds.swift in Sources */,
 				506D6C8C1E87D64A00C366BF /* StatefulColor.swift in Sources */,

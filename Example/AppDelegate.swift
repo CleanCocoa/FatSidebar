@@ -74,8 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate, FatSideb
         fatSidebar.appendItem(
             title: newItem.title,
             image: newItem.image,
-            style: .small,
-            callback: { print("New: \($0)") })
+            style: .small)
     }
 
     func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int) {

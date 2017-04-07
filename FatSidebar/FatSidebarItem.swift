@@ -54,15 +54,28 @@ public class FatSidebarItem: NSView {
         }
     }
 
-    required public init(
+    convenience public init(
         title: String,
         image: NSImage? = nil,
         style: Style = .regular,
         animated: Bool = false,
-        frame: NSRect = NSRect.zero,
         callback: ((FatSidebarItem) -> Void)?) {
 
-        self.label = NSTextField.newWrappingLabel(title: title, controlSize: NSSmallControlSize)
+        let configuration = FatSidebarItemConfiguration(
+            title: title,
+            image: image,
+            style: style,
+            animated: animated,
+            callback: callback)
+
+        self.init(configuration: configuration)
+    }
+
+    required public init(configuration: FatSidebarItemConfiguration) {
+
+        self.label = NSTextField.newWrappingLabel(
+            title: configuration.title,
+            controlSize: NSSmallControlSize)
         self.label.alignment = .center
 
         self.imageView = NSImageView()
@@ -74,14 +87,14 @@ public class FatSidebarItem: NSView {
             shadow.shadowOffset = NSSize(width: 0, height: -1)
             return shadow
         }()
-        self.imageView.image = image
+        self.imageView.image = configuration.image
 
-        self.style = style
-        self.animated = animated
+        self.style = configuration.style
+        self.animated = configuration.animated
 
-        self.callback = callback
+        self.callback = configuration.callback
 
-        super.init(frame: frame)
+        super.init(frame: NSZeroRect)
 
         self.translatesAutoresizingMaskIntoConstraints = false
         layoutSubviews(style: style)
@@ -415,8 +428,8 @@ public class FatSidebarItem: NSView {
                 title: self.title,
                 image: self.image,
                 style: self.style,
-                frame: overlayFrame,
                 callback: self.callback)
+            overlay.frame = overlayFrame
             overlay.base = self
             overlay.theme = self.theme
             overlay.isSelected = self.isSelected

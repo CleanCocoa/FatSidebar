@@ -75,20 +75,9 @@ public class FatSidebarView: NSView, DragViewContainer {
 
     // MARK: Insertion
 
-    fileprivate func fatSidebarItem(
-        title: String,
-        image: NSImage?,
-        style: FatSidebarItem.Style,
-        callback: ((FatSidebarItem) -> Void)?)
-        -> FatSidebarItem
-    {
+    fileprivate func fatSidebarItem(configuration: FatSidebarItemConfiguration) -> FatSidebarItem {
 
-        let item = FatSidebarItem(
-            title: title,
-            image: image,
-            style: style,
-            animated: self.animated,
-            callback: callback)
+        let item = FatSidebarItem(configuration: configuration)
         item.menu = self.itemContextualMenu
         item.selectionHandler = { [unowned self] in self.itemSelected($0) }
 
@@ -104,11 +93,19 @@ public class FatSidebarView: NSView, DragViewContainer {
         -> FatSidebarItem
     {
 
-        let item = fatSidebarItem(
+        let configuration = FatSidebarItemConfiguration(
             title: title,
             image: image,
             style: style,
             callback: callback)
+
+        return self.appendItem(configuration: configuration)
+    }
+
+    @discardableResult
+    public func appendItem(configuration: FatSidebarItemConfiguration) -> FatSidebarItem {
+
+        let item = fatSidebarItem(configuration: configuration)
         addAspectRatioConstraint(view: item)
         addSubview(item)
         items.append(item)
@@ -126,14 +123,26 @@ public class FatSidebarView: NSView, DragViewContainer {
         callback: ((FatSidebarItem) -> Void)? = nil)
         -> FatSidebarItem?
     {
-
-        guard let index = items.index(where: { $0 === item }) else { return nil }
-
-        let item = fatSidebarItem(
+        let configuration = FatSidebarItemConfiguration(
             title: title,
             image: image,
             style: style,
             callback: callback)
+
+        return self.insertItem(configuration: configuration, after: item)
+    }
+
+    /// - returns: `nil` if `item` is not part of this sidebar, an instance of `FatSidebarItem` otherwise.
+    @discardableResult
+    public func insertItem(
+        configuration: FatSidebarItemConfiguration,
+        after item: FatSidebarItem)
+        -> FatSidebarItem?
+    {
+
+        guard let index = items.index(where: { $0 === item }) else { return nil }
+
+        let item = fatSidebarItem(configuration: configuration)
         addAspectRatioConstraint(view: item)
         addSubview(item)
         items.insert(item, at: index + 1)

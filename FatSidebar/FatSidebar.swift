@@ -14,6 +14,7 @@ public protocol FatSidebarSelectionChangeDelegate: class {
     func sidebar(_ sidebar: FatSidebar, didChangeSelection selectionIndex: Int)
 }
 
+
 /// Top-level module facade, acting as a composite view that scrolls.
 public class FatSidebar: NSView {
 
@@ -142,6 +143,11 @@ public class FatSidebar: NSView {
     }
 
     @discardableResult
+    public func appendItem(configuration: FatSidebarItemConfiguration) -> FatSidebarItem {
+        return sidebarView.appendItem(configuration: configuration)
+    }
+
+    @discardableResult
     public func appendItem(
         title: String,
         image: NSImage? = nil,
@@ -151,6 +157,16 @@ public class FatSidebar: NSView {
     {
 
         return sidebarView.appendItem(title: title, image: image, style: style, callback: callback)
+    }
+
+    /// - returns: `nil` if `item` is not part of this sidebar, an instance of `FatSidebarItem` otherwise.
+    @discardableResult
+    public func insertItem(
+        configuration: FatSidebarItemConfiguration,
+        after item: FatSidebarItem)
+        -> FatSidebarItem?
+    {
+        return sidebarView.insertItem(configuration: configuration, after: item)
     }
 
     /// - returns: `nil` if `item` is not part of this sidebar, an instance of `FatSidebarItem` otherwise.
