@@ -9,25 +9,15 @@ func templated(_ image: NSImage) -> NSImage {
     return result
 }
 
-extension NSImage {
-    func image(tintColor: NSColor) -> NSImage {
-        if self.isTemplate == false {
-            return self
-        }
+extension SavedSearch {
+    static var defaultImage: NSImage {
+        return templated(#imageLiteral(resourceName: "layers.png"))
+    }
 
-        let image = self.copy() as! NSImage
-        image.lockFocus()
-
-        tintColor.set()
-        NSRectFillUsingOperation(NSMakeRect(0, 0, image.size.width, image.size.height), NSCompositingOperation.sourceAtop)
-
-        image.unlockFocus()
-        image.isTemplate = false
-        
-        return image
+    init(fromNewItem newItem: NewItem) {
+        self.init(title: newItem.title, image: newItem.image ?? SavedSearch.defaultImage)
     }
 }
-
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate, FatSidebarSelectionChangeDelegate {
@@ -37,6 +27,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate, FatSideb
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var fatSidebar: FatSidebar!
 
+    var savedSearches: [SavedSearch] = [
+        SavedSearch(title: "Inbox",
+                    image: templated(#imageLiteral(resourceName: "inbox.png")).image(tintColor: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1))),
+
+        SavedSearch(title: "My Bestest Favorites",
+                    image: templated(#imageLiteral(resourceName: "heart.png"))),
+
+        SavedSearch(title: "Ideas",
+                    image: templated(#imageLiteral(resourceName: "lightbulb.png")))
+    ]
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
         fatSidebar.delegate = self
@@ -45,18 +46,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate, FatSideb
         fatSidebar.selectionMode = .toggle
         fatSidebar.animated = true
         fatSidebar.itemContextualMenu = itemContextualMenu
-        fatSidebar.appendItem(
-            title: "Inbox",
-            image: templated(#imageLiteral(resourceName: "inbox.png")).image(tintColor: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)),
-            style: .small)
-        fatSidebar.appendItem(
-            title: "My Bestest Favorites",
-            image: templated(#imageLiteral(resourceName: "heart.png")),
-            style: .small)
-        fatSidebar.appendItem(
-            title: "Ideas",
-            image: templated(#imageLiteral(resourceName: "lightbulb.png")),
-            style: .regular)
+
+        for savedSearch in savedSearches {
+            fatSidebar.appendItem(savedSearch)
+        }
     }
 
     @IBAction func addSidebarItem(_ sender: Any?) {
@@ -71,19 +64,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate, FatSideb
 
     private func appendNewItem(_ newItem: NewItem) {
 
-        fatSidebar.appendItem(
-            title: newItem.title,
-            image: newItem.image,
-            style: .small)
+        let savedSearch = SavedSearch(fromNewItem: newItem)
+        fatSidebar.appendItem(savedSearch)
+        savedSearches.append(savedSearch)
     }
 
     func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int) {
 
-        Swift.print("\(oldIndex) -> \(newIndex)")
+        guard oldIndex != newIndex else { return }
+
+        let item = savedSearches.remove(at: oldIndex)
+        savedSearches.insert(item, at: newIndex)
     }
 
     func sidebar(_ sidebar: FatSidebar, didChangeSelection selectionIndex: Int) {
 
-        Swift.print("Selected \(selectionIndex)")
+        Swift.print("Selected \(savedSearches[selectionIndex])")
     }
 }

@@ -99,12 +99,13 @@ public class FatSidebarView: NSView, DragViewContainer {
             style: style,
             callback: callback)
 
-        return self.appendItem(configuration: configuration)
+        return self.appendItem(configuration)
     }
 
     @discardableResult
-    public func appendItem(configuration: FatSidebarItemConfiguration) -> FatSidebarItem {
+    public func appendItem(_ convertible: FatSidebarItemConvertible) -> FatSidebarItem {
 
+        let configuration = convertible.configuration
         let item = fatSidebarItem(configuration: configuration)
         addAspectRatioConstraint(view: item)
         addSubview(item)
@@ -129,19 +130,20 @@ public class FatSidebarView: NSView, DragViewContainer {
             style: style,
             callback: callback)
 
-        return self.insertItem(configuration: configuration, after: item)
+        return self.insertItem(configuration, after: item)
     }
 
     /// - returns: `nil` if `item` is not part of this sidebar, an instance of `FatSidebarItem` otherwise.
     @discardableResult
     public func insertItem(
-        configuration: FatSidebarItemConfiguration,
+        _ convertible: FatSidebarItemConvertible,
         after item: FatSidebarItem)
         -> FatSidebarItem?
     {
 
         guard let index = items.index(where: { $0 === item }) else { return nil }
 
+        let configuration = convertible.configuration
         let item = fatSidebarItem(configuration: configuration)
         addAspectRatioConstraint(view: item)
         addSubview(item)

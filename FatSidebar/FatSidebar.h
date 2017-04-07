@@ -1,10 +1,4 @@
-//
-//  FatSidebar.h
-//  FatSidebar
-//
-//  Created by Christian Tietze on 26/03/17.
-//  Copyright © 2017 Christian Tietze. All rights reserved.
-//
+//  Copyright © 2017 Christian Tietze. All rights reserved. Distributed under the MIT License.
 
 #import <Cocoa/Cocoa.h>
 

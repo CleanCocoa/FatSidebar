@@ -143,8 +143,9 @@ public class FatSidebar: NSView {
     }
 
     @discardableResult
-    public func appendItem(configuration: FatSidebarItemConfiguration) -> FatSidebarItem {
-        return sidebarView.appendItem(configuration: configuration)
+    public func appendItem(_ convertible: FatSidebarItemConvertible) -> FatSidebarItem {
+
+        return sidebarView.appendItem(convertible)
     }
 
     @discardableResult
@@ -162,11 +163,11 @@ public class FatSidebar: NSView {
     /// - returns: `nil` if `item` is not part of this sidebar, an instance of `FatSidebarItem` otherwise.
     @discardableResult
     public func insertItem(
-        configuration: FatSidebarItemConfiguration,
+        _ convertible: FatSidebarItemConvertible,
         after item: FatSidebarItem)
         -> FatSidebarItem?
     {
-        return sidebarView.insertItem(configuration: configuration, after: item)
+        return sidebarView.insertItem(convertible, after: item)
     }
 
     /// - returns: `nil` if `item` is not part of this sidebar, an instance of `FatSidebarItem` otherwise.

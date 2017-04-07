@@ -29,6 +29,8 @@
 		507A3E911E9779FB00D0C3FD /* Array+Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507A3E901E9779FB00D0C3FD /* Array+Move.swift */; };
 		507A3E931E977A0F00D0C3FD /* DragViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507A3E921E977A0F00D0C3FD /* DragViewContainer.swift */; };
 		507A3E951E97E71B00D0C3FD /* FatSidebarItemConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507A3E941E97E71B00D0C3FD /* FatSidebarItemConfiguration.swift */; };
+		507A3E971E97EEC200D0C3FD /* SavedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507A3E961E97EEC200D0C3FD /* SavedSearch.swift */; };
+		507A3E9B1E97EF0000D0C3FD /* NSImage+Tinted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507A3E9A1E97EF0000D0C3FD /* NSImage+Tinted.swift */; };
 		507CF3711E8797D000623B5E /* FatSidebar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507CF3671E8797D000623B5E /* FatSidebar.framework */; };
 		507CF3781E8797D000623B5E /* FatSidebar.h in Headers */ = {isa = PBXBuildFile; fileRef = 507CF36A1E8797D000623B5E /* FatSidebar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		507CF3881E8797E000623B5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF3871E8797E000623B5E /* AppDelegate.swift */; };
@@ -97,6 +99,8 @@
 		507A3E901E9779FB00D0C3FD /* Array+Move.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Move.swift"; sourceTree = "<group>"; };
 		507A3E921E977A0F00D0C3FD /* DragViewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragViewContainer.swift; sourceTree = "<group>"; };
 		507A3E941E97E71B00D0C3FD /* FatSidebarItemConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatSidebarItemConfiguration.swift; sourceTree = "<group>"; };
+		507A3E961E97EEC200D0C3FD /* SavedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedSearch.swift; sourceTree = "<group>"; };
+		507A3E9A1E97EF0000D0C3FD /* NSImage+Tinted.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImage+Tinted.swift"; sourceTree = "<group>"; };
 		507CF3671E8797D000623B5E /* FatSidebar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FatSidebar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		507CF36A1E8797D000623B5E /* FatSidebar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FatSidebar.h; sourceTree = "<group>"; };
 		507CF36B1E8797D000623B5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -175,6 +179,25 @@
 			name = Dragging;
 			sourceTree = "<group>";
 		};
+		507A3E981E97EEDA00D0C3FD /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				50A60C871E8E7CDE0052849E /* AddItemController.swift */,
+				506D6CA31E8931F600C366BF /* Theme.swift */,
+				507CF3891E8797E000623B5E /* Assets.xcassets */,
+				507CF38B1E8797E000623B5E /* MainMenu.xib */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		507A3E991E97EEE500D0C3FD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				507A3E961E97EEC200D0C3FD /* SavedSearch.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		507CF35D1E8797D000623B5E = {
 			isa = PBXGroup;
 			children = (
@@ -230,12 +253,11 @@
 			isa = PBXGroup;
 			children = (
 				507CF3871E8797E000623B5E /* AppDelegate.swift */,
-				50A60C871E8E7CDE0052849E /* AddItemController.swift */,
-				506D6CA31E8931F600C366BF /* Theme.swift */,
-				507CF3891E8797E000623B5E /* Assets.xcassets */,
-				507CF38B1E8797E000623B5E /* MainMenu.xib */,
-				507CF38E1E8797E000623B5E /* Info.plist */,
+				507A3E991E97EEE500D0C3FD /* Model */,
+				507A3E981E97EEDA00D0C3FD /* UI */,
 				506D6CA11E8914BE00C366BF /* icons */,
+				507CF38E1E8797E000623B5E /* Info.plist */,
+				507A3E9A1E97EF0000D0C3FD /* NSImage+Tinted.swift */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -427,7 +449,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				507A3E9B1E97EF0000D0C3FD /* NSImage+Tinted.swift in Sources */,
 				50A60C881E8E7CDE0052849E /* AddItemController.swift in Sources */,
+				507A3E971E97EEC200D0C3FD /* SavedSearch.swift in Sources */,
 				507CF3881E8797E000623B5E /* AppDelegate.swift in Sources */,
 				506D6CA41E8931F600C366BF /* Theme.swift in Sources */,
 			);
