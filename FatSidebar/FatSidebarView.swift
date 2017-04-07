@@ -3,7 +3,7 @@
 import Cocoa
 
 /// Cusom view that displays a list of `FatSidebarItem`s.
-public class FatSidebarView: NSView {
+public class FatSidebarView: NSView, DragViewContainer {
 
     public var theme: FatSidebarTheme = DefaultTheme() {
         didSet {
@@ -37,6 +37,10 @@ public class FatSidebarView: NSView {
             applyThemeToItems()
             layoutItems()
         }
+    }
+
+    fileprivate func layoutItems() {
+        layoutSubviews(self.subviews)
     }
 
     public var itemCount: Int {
@@ -90,8 +94,8 @@ public class FatSidebarView: NSView {
             image: image,
             style: style,
             callback: callback)
-        items.append(item)
         addSubview(item)
+        items.append(item)
 
         return item
     }
@@ -114,8 +118,8 @@ public class FatSidebarView: NSView {
             image: image,
             style: style,
             callback: callback)
-        items.insert(item, at: index + 1)
         addSubview(item)
+        items.insert(item, at: index + 1)
 
         return item
     }
@@ -229,49 +233,7 @@ public class FatSidebarView: NSView {
     }
 
 
-    // MARK: - 
-    // MARK: Layout
-
-    fileprivate var laidOutItemBox: NSRect = NSRect.zero
-    public override var intrinsicContentSize: NSSize {
-        return NSSize(width: 22, height: laidOutItemBox.height)
-    }
-
-    public override var frame: NSRect {
-        get {
-            return laidOutItemBox
-        }
-        set {
-            super.frame = newValue // Seems to trigger notifications that make this work
-            layoutItems()
-        }
-    }
-
-    public override var isFlipped: Bool { return true }
-
-    fileprivate func layoutItems() {
-
-        let availableWidth = super.frame.width
-        let itemSize = NSSize(quadratic: availableWidth)
-
-        var allItemsFrame = NSRect.zero
-        for (i, item) in items.enumerated() {
-
-            let origin = NSPoint(
-                x: 0,
-                y: CGFloat(i) * itemSize.height)
-            let newItemFrame = NSRect(origin: origin, size: itemSize)
-
-            item.frame = newItemFrame
-
-            allItemsFrame = allItemsFrame.union(newItemFrame)
-        }
-
-        laidOutItemBox = allItemsFrame
-
-        invalidateIntrinsicContentSize()
-    }
-
+    // MARK: -
     // MARK: Drawing
 
     public override func draw(_ dirtyRect: NSRect) {

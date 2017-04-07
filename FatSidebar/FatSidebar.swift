@@ -2,6 +2,10 @@
 
 import Cocoa
 
+class FlippedView: NSView {
+    override var isFlipped: Bool { return true }
+}
+
 /// Top-level module facade, acting as a composite view that scrolls.
 public class FatSidebar: NSView {
 
@@ -51,6 +55,7 @@ public class FatSidebar: NSView {
 
     fileprivate func layoutSubviews() {
 
+        scrollView.identifier = "SidebarScrollView"
         scrollView.borderType = .noBorder
         scrollView.backgroundColor = theme.sidebarBackground
         scrollView.hasVerticalScroller = false
@@ -61,15 +66,18 @@ public class FatSidebar: NSView {
         // Disable before changing `documentView`:
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         sidebarView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.documentView = sidebarView
+
+        let flippedView = FlippedView()
+        flippedView.identifier = "FlippedDocView"
+        flippedView.translatesAutoresizingMaskIntoConstraints = false
+        flippedView.addSubview(sidebarView)
+        sidebarView.identifier = "SidebarView"
+        sidebarView.constrainToSuperviewBounds()
+
+        scrollView.documentView = flippedView
+        flippedView.constrainToSuperviewBoundsOpenBottom()
 
         scrollView.constrainToSuperviewBounds()
-
-        guard let clipView = sidebarView.superview
-            else { preconditionFailure("FatSidebarView needs to be embedded in a superview") }
-        
-        clipView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[subview]-0-|", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": sidebarView]))
-        clipView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[subview]", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": sidebarView]))
     }
 
     // MARK: - Sidebar Façade
