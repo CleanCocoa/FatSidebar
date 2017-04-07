@@ -299,14 +299,53 @@ public class FatSidebarItem: NSView {
         }
     }
 
+    // MARK: Dragging
+
+    struct Dragging {
+        static let threshold: TimeInterval = 0.2
+        var dragTimer: Timer?
+        var isDragging = false
+    }
+
+    var dragging: Dragging?
+
     public override func mouseDown(with event: NSEvent) {
 
         isHighlighted = true
+
+        let dragTimer = Timer.scheduledTimer(
+            timeInterval: Dragging.threshold,
+            target: self,
+            selector: #selector(mouseHeld(_:)),
+            userInfo: event,
+            repeats: false)
+
+        self.dragging = Dragging(dragTimer: dragTimer, isDragging: false)
+    }
+
+    func mouseHeld(_ timer: Timer) {
+
+        self.dragging?.isDragging = true
+
+        guard let event = timer.userInfo as? NSEvent,
+            let target = superview as? DragViewContainer
+            else  { return }
+
+        target.reorder(subview: self, event: event)
     }
 
     public override func mouseUp(with event: NSEvent) {
 
         isHighlighted = false
+
+        defer {
+            dragging?.dragTimer?.invalidate()
+            dragging = nil
+        }
+
+        guard let dragging = dragging,
+            !dragging.isDragging
+            else { return }
 
         selectionHandler?(self)
         sendAction()

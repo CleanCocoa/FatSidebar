@@ -98,6 +98,7 @@ extension DragViewContainer where Self: NSView {
                     subview.isHidden = false
                 })
                 stop.pointee = true
+                subview.mouseUp(with: dragEvent)
                 return
             }
 
