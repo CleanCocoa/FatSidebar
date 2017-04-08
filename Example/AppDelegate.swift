@@ -45,6 +45,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate, FatSideb
         fatSidebar.theme = OmniFocusTheme()
         fatSidebar.selectionMode = .toggle
         fatSidebar.animated = true
+
+        fatSidebar.sidebarContextualMenu = itemContextualMenu
         fatSidebar.itemContextualMenu = itemContextualMenu
 
         for savedSearch in savedSearches {

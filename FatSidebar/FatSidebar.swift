@@ -24,9 +24,16 @@ public class FatSidebar: NSView {
     let scrollView = NSScrollView()
     let sidebarView = FatSidebarView()
 
+    /// Contextual menu that's activated when clicked on a sidebar item.
     public var itemContextualMenu: NSMenu? {
         get { return sidebarView.itemContextualMenu }
         set { sidebarView.itemContextualMenu = newValue }
+    }
+
+    /// Contextual menu that's acticated when clicked in outside any sidebar item.
+    public var sidebarContextualMenu: NSMenu? {
+        get { return scrollView.contentView.menu }
+        set { scrollView.contentView.menu = newValue }
     }
 
     public var theme: FatSidebarTheme {
