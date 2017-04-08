@@ -111,12 +111,12 @@ public class FatSidebar: NSView {
         selectionChangeObserver = notificationCenter.addObserver(
             forName: FatSidebarView.didSelectItemNotification,
             object: sidebarView,
-            queue: nil) { [unowned self] in self.selectionDidChange($0) }
+            queue: nil) { [weak self] in self?.selectionDidChange($0) }
 
         moveObserver = notificationCenter.addObserver(
             forName: FatSidebarView.didReorderItemNotification,
             object: sidebarView,
-            queue: nil) { [unowned self] in self.itemDidMove($0) }
+            queue: nil) { [weak self] in self?.itemDidMove($0) }
     }
 
     fileprivate func selectionDidChange(_ notification: Notification) {
