@@ -1,3 +1,7 @@
+<div align="center">
+    <img src="assets/title.png" width="300"/>
+</div>
+
 # FatSidebar
 
 ![Swift 3](https://img.shields.io/badge/Swift-3.0-blue.svg?style=flat)
