@@ -68,6 +68,7 @@ extension DragViewContainer where Self: NSView {
 
             draggingView.layer?.shadowRadius = 3
             draggingView.layer?.shadowOffset = NSSize(width: 0, height: -2)
+            draggingView.alphaValue = 0.8
         })
 
         subview.isHidden = true
@@ -97,6 +98,7 @@ extension DragViewContainer where Self: NSView {
 
                     draggingView.layer?.shadowRadius = 0
                     draggingView.layer?.shadowOffset = NSSize(width: 0, height: 0)
+                    draggingView.alphaValue = 1.0
                 }, completionHandler: {
                     draggingView.removeFromSuperview()
                     windowContentView.removeConstraints(draggingViewPositionConstraints)
