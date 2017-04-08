@@ -153,19 +153,27 @@ public class FatSidebarItem: NSView {
         ]
 
         self.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|[topSpace][imageView]-(>=4@1000)-[label]-(>=4@1000)-|",
+            withVisualFormat: "V:|[topSpace][imageView][bottomSpace]|",
             options: [], metrics: nil, views: viewsDict))
         self.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:[imageView]-(0@250)-[bottomSpace]|",
+            withVisualFormat: "V:[label]-(>=4@1000)-|",
+            options: [], metrics: nil, views: viewsDict))
+        self.addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "V:[label]-(4@250)-|",
             options: [], metrics: nil, views: viewsDict))
 
-        self.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|-4-[label]-4-|",
-            options: [], metrics: nil, views: viewsDict))
         self.addConstraints([
-            NSLayoutConstraint(item: self.label, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: bottomSpacing, attribute: NSLayoutAttribute.centerY, multiplier: 0.95, constant: 0).prioritized(250),
-            NSLayoutConstraint(item: self.imageView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            NSLayoutConstraint(item: self.label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.label, attribute: .centerY, relatedBy: .equal, toItem: bottomSpacing, attribute: .centerY, multiplier: 0.95, constant: 0).prioritized(250),
+            NSLayoutConstraint(item: self.imageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0)
             ])
+        label.setNeedsDisplay()
+    }
+
+    public override func layout() {
+
+        self.label.preferredMaxLayoutWidth = NSWidth(self.label.alignmentRect(forFrame: self.frame))
+        super.layout()
     }
 
     fileprivate func layoutSmallSubviews() {
