@@ -70,26 +70,47 @@ class FatSidebarItemOverlay: FatSidebarItem {
     func setupScrollSyncing(scrollView: NSScrollView) {
 
         self.scrolledOffset = scrollView.scrolledY
+        self.windowHeight = scrollView.window?.frame.height
 
+        scrollView.postsBoundsChangedNotifications = true
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(didScroll(_:)),
-            name: .NSScrollViewDidLiveScroll,
-            object: scrollView)
+            name: .NSViewBoundsDidChange,
+            object: scrollView.contentView)
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didResizeWindow(_:)),
+            name: .NSWindowDidResize,
+            object: scrollView.window)
+    }
+
+    fileprivate var windowHeight: CGFloat?
+
+    func didResizeWindow(_ notification: Notification) {
+
+        guard let window = notification.object as? NSWindow,
+            let oldHeight = windowHeight
+            else { return }
+
+        let newHeight = window.frame.height
+        let diff = oldHeight - newHeight
+        self.frame.origin.y -= diff
+        self.windowHeight = newHeight
     }
 
     fileprivate var scrolledOffset: CGFloat?
 
     func didScroll(_ notification: Notification) {
 
-        guard let scrollView = notification.object as? NSScrollView,
+        guard let contentView = notification.object as? NSView,
+            let scrollView = contentView.superview as? NSScrollView,
             let scrolledOffset = scrolledOffset
             else { return }
 
         let diff = scrolledOffset - scrollView.scrolledY
-
         self.frame.origin.y -= diff
-
         self.scrolledOffset = scrollView.scrolledY
     }
 }
