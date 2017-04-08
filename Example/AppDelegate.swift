@@ -20,10 +20,14 @@ extension SavedSearch {
             image: newItem.image ?? SavedSearch.defaultImage,
             tintColor: newItem.tintColor)
     }
+
+    var newItem: NewItem {
+        return NewItem(title: self.title, image: self.image, tintColor: self.tintColor)
+    }
 }
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate, FatSidebarSelectionChangeDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
 
     @IBOutlet weak var addItemController: AddItemController!
     @IBOutlet weak var itemContextualMenu: NSMenu!
@@ -47,12 +51,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate, FatSideb
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
         fatSidebar.delegate = self
-        fatSidebar.selectionDelegate = self
         fatSidebar.theme = OmniFocusTheme()
         fatSidebar.selectionMode = .toggleOne
 
         fatSidebar.sidebarContextualMenu = itemContextualMenu
         fatSidebar.itemContextualMenu = itemContextualMenu
+
+        replaceSidebarWithModel()
+    }
+
+    fileprivate func replaceSidebarWithModel() {
+
+        fatSidebar.removeAllItems()
 
         for savedSearch in savedSearches {
             fatSidebar.appendItem(savedSearch)
@@ -82,6 +92,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate, FatSideb
 
         let item = savedSearches.remove(at: oldIndex)
         savedSearches.insert(item, at: newIndex)
+    }
+
+    func sidebar(_ sidebar: FatSidebar, editItem index: Int) {
+
+        let oldValues = savedSearches[index].newItem
+        addItemController.showSheet(in: self.window, initialValues: oldValues) { item in
+
+            guard let item = item else { return }
+
+            let savedSearch = SavedSearch(fromNewItem: item)
+            self.savedSearches.remove(at: index)
+            self.savedSearches.insert(savedSearch, at: index)
+
+            self.replaceSidebarWithModel()
+        }
     }
 
     func sidebar(_ sidebar: FatSidebar, didChangeSelection selectionIndex: Int) {

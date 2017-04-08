@@ -877,7 +877,7 @@ Gw
                                     <constraint firstAttribute="width" constant="44" id="cS0-GX-0ZC"/>
                                     <constraint firstAttribute="width" secondItem="WNP-ao-kAS" secondAttribute="height" multiplier="44:23" id="vkH-ei-cJr"/>
                                 </constraints>
-                                <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="color" red="0.35637060218042749" green="0.35540069113744255" blue="0.3956792091836735" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="colorChanged:" target="u4l-yW-Ovo" id="TeL-KH-Hpd"/>
                                 </connections>

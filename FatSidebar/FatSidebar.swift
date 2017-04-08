@@ -7,8 +7,14 @@ class FlippedView: NSView {
 }
 
 public protocol FatSidebarDelegate: class {
+    /// Triggered after the user finishes dragging an item into a new place. 
     func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int)
+
+    /// Triggered when an item is single-clicked and its status changes. 
+    /// Already selected items that cannot be deselected will not trigger this.
     func sidebar(_ sidebar: FatSidebar, didChangeSelection selectionIndex: Int)
+
+    /// Triggered by double-clicking an item.
     func sidebar(_ sidebar: FatSidebar, editItem index: Int)
 }
 

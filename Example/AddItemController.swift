@@ -21,6 +21,7 @@ class AddItemController: NSWindowController, NSTextFieldDelegate {
         didSet {
             displayTitle()
             displayImage()
+            displayTintColor()
         }
     }
 
@@ -32,6 +33,13 @@ class AddItemController: NSWindowController, NSTextFieldDelegate {
     private func displayImage() {
 
         iconImageView.image = viewModel.image
+    }
+
+    private func displayTintColor() {
+
+        guard let color = viewModel.tintColor else { return }
+
+        tintColorWell.color = color
     }
 
     @IBAction func browseImage(_ sender: Any) {
@@ -78,11 +86,14 @@ class AddItemController: NSWindowController, NSTextFieldDelegate {
     // MARK: -
     // MARK: Showing as Sheet
 
-    func showSheet(in hostingWindow: NSWindow, completion: @escaping (NewItem?) -> Void) {
+    func showSheet(
+        in hostingWindow: NSWindow,
+        initialValues: NewItem? = nil,
+        completion: @escaping (NewItem?) -> Void) {
 
         guard let window = self.window else { preconditionFailure("expected window outlet") }
 
-        self.viewModel = .empty
+        self.viewModel = initialValues ?? NewItem.empty
 
         hostingWindow.beginSheet(window) {
 
