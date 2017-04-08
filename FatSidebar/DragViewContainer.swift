@@ -167,7 +167,7 @@ extension DragViewContainer where Self: NSView {
                     toItem:     prev != nil ? prev!     : self,
                     attribute:  prev != nil ? .bottom   : .top,
                     multiplier: 1,
-                    constant:   prev != nil ? 1         : 0)
+                    constant:   0)
             )
             prev = subview
         }
