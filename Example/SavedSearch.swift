@@ -19,6 +19,7 @@ extension SavedSearch: FatSidebarItemConvertible {
         return FatSidebarItemConfiguration(
             title: self.title,
             image: self.image,
-            style: .small)
+            style: .small,
+            animated: true)
     }
 }

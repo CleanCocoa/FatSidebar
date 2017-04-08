@@ -46,6 +46,9 @@ public class FatSidebar: NSView {
         }
     }
 
+    /// Changing this value reconfigures all existing items, too.
+    ///
+    /// - note: New items will not inherit this value. Their configuration wins.
     public var animated: Bool {
         get { return sidebarView.animated }
         set { sidebarView.animated = newValue }
