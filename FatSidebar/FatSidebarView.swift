@@ -18,7 +18,10 @@ public class FatSidebarView: NSView, DragViewContainer {
     static let didToggleItemNotification = Notification.Name("FatSidebarView_didToggleItemNotification")
     static let didSelectItemNotification = Notification.Name("FatSidebarView_didSelectItemNotification")
     static let didDeselectItemNotification = Notification.Name("FatSidebarView_didDeselectItemNotification")
+
     static let didReorderItemNotification = Notification.Name("FatSidebarView_didReorderItemNotification")
+
+    static let didDoubleClickItemNotification = Notification.Name("FatSidebarView_didDoubleClickItemNotification")
 
     public var theme: FatSidebarTheme = DefaultTheme() {
         didSet {
@@ -80,6 +83,7 @@ public class FatSidebarView: NSView, DragViewContainer {
         let item = FatSidebarItem(configuration: configuration)
         item.menu = self.itemContextualMenu
         item.selectionHandler = { [unowned self] in self.itemSelected($0) }
+        item.doubleClickHandler = { [unowned self] in self.itemDoubleClicked($0) }
 
         return item
     }
@@ -166,6 +170,15 @@ public class FatSidebarView: NSView, DragViewContainer {
         }
     }
 
+    fileprivate func itemDoubleClicked(_ item: FatSidebarItem) {
+
+        guard let index = self.items.index(of: item) else { return }
+
+        NotificationCenter.default.post(
+            name: FatSidebarView.didDoubleClickItemNotification,
+            object: self,
+            userInfo: ["index" : index])
+    }
     
     // MARK: Removal
 

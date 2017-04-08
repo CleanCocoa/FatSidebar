@@ -8,10 +8,8 @@ class FlippedView: NSView {
 
 public protocol FatSidebarDelegate: class {
     func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int)
-}
-
-public protocol FatSidebarSelectionChangeDelegate: class {
     func sidebar(_ sidebar: FatSidebar, didChangeSelection selectionIndex: Int)
+    func sidebar(_ sidebar: FatSidebar, editItem index: Int)
 }
 
 
@@ -19,7 +17,6 @@ public protocol FatSidebarSelectionChangeDelegate: class {
 public class FatSidebar: NSView {
 
     public weak var delegate: FatSidebarDelegate?
-    public weak var selectionDelegate: FatSidebarSelectionChangeDelegate?
 
     let scrollView = NSScrollView()
     let sidebarView = FatSidebarView()
@@ -103,6 +100,7 @@ public class FatSidebar: NSView {
 
     private var selectionChangeObserver: AnyObject!
     private var moveObserver: AnyObject!
+    private var doubleClickObserver: AnyObject!
 
     fileprivate func observeSidebarSelectionChanges() {
 
@@ -117,13 +115,18 @@ public class FatSidebar: NSView {
             forName: FatSidebarView.didReorderItemNotification,
             object: sidebarView,
             queue: nil) { [weak self] in self?.itemDidMove($0) }
+
+        doubleClickObserver = notificationCenter.addObserver(
+            forName: FatSidebarView.didDoubleClickItemNotification,
+            object: sidebarView,
+            queue: nil) { [weak self] in self?.itemWasDoubleClicked($0) }
     }
 
     fileprivate func selectionDidChange(_ notification: Notification) {
 
         guard let index = notification.userInfo?["index"] as? Int else { return }
 
-        selectionDelegate?.sidebar(self, didChangeSelection: index)
+        delegate?.sidebar(self, didChangeSelection: index)
     }
 
     fileprivate func itemDidMove(_ notification: Notification) {
@@ -135,6 +138,16 @@ public class FatSidebar: NSView {
 
         self.delegate?.sidebar(self, didMoveItemFrom: fromIndex, to: toIndex)
     }
+
+    fileprivate func itemWasDoubleClicked(_ notification: Notification) {
+
+        guard let userInfo = notification.userInfo,
+            let index = userInfo["index"] as? Int
+            else { return }
+
+        self.delegate?.sidebar(self, editItem: index)
+    }
+    
 
     // MARK: - Sidebar Façade
 
