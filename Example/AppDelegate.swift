@@ -43,7 +43,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate, FatSideb
         fatSidebar.delegate = self
         fatSidebar.selectionDelegate = self
         fatSidebar.theme = OmniFocusTheme()
-        fatSidebar.selectionMode = .toggle
+        fatSidebar.selectionMode = .toggleOne
 
         fatSidebar.sidebarContextualMenu = itemContextualMenu
         fatSidebar.itemContextualMenu = itemContextualMenu

@@ -157,8 +157,12 @@ public class FatSidebarView: NSView, DragViewContainer {
     fileprivate func itemSelected(_ item: FatSidebarItem) {
 
         switch selectionMode {
-        case .select: self.selectItem(item)
-        case .toggle: self.toggleItem(item)
+        case .selectOne:
+            self.selectItem(item)
+
+        case .toggleOne,
+             .toggleMultiple:
+            self.toggleItem(item)
         }
     }
 
@@ -211,14 +215,28 @@ public class FatSidebarView: NSView, DragViewContainer {
     public enum SelectionMode {
         /// Clicking an item selects it.
         /// Clicking multiple times on the same item doesn't alter the selection.
-        case select
+        ///
+        /// Behaves like a radio button.
+        case selectOne
 
         /// Clicking an item first selects it; clicking again
         /// deselects it.
-        case toggle
+        ///
+        /// Behaves like a radio button that allows empty selection.
+        case toggleOne
+
+        /// Behaves like a check box.
+        case toggleMultiple
+
+        var allowsMultiple: Bool {
+            switch self {
+            case .toggleMultiple: return true
+            default: return false
+            }
+        }
     }
 
-    public var selectionMode: SelectionMode = .select
+    public var selectionMode: SelectionMode = .selectOne
 
     /// Selects `item` if it was unselected; deselects it
     /// it if was selected. Applies to items that are part
@@ -231,10 +249,14 @@ public class FatSidebarView: NSView, DragViewContainer {
 
         guard let index = items.index(of: item) else { return false }
 
-        let wasSelected = item.isSelected
-        selectedItems.forEach { self.deselectItem($0) }
+        if !selectionMode.allowsMultiple {
+            selectedItems
+                .filter { $0 !== item }
+                .forEach { self.deselectItem($0) }
+        }
 
-        if !wasSelected { selectItem(item) }
+        if item.isSelected { deselectItem(item) }
+        else { selectItem(item) }
 
         NotificationCenter.default.post(
             name: FatSidebarView.didToggleItemNotification,
@@ -252,7 +274,9 @@ public class FatSidebarView: NSView, DragViewContainer {
         guard let index = self.items.index(of: item)
             else { return false }
 
-        selectedItems.forEach { self.deselectItem($0) }
+        if !selectionMode.allowsMultiple {
+            selectedItems.forEach { self.deselectItem($0) }
+        }
         item.isSelected = true
 
         NotificationCenter.default.post(
