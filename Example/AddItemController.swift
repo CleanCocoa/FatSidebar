@@ -3,15 +3,19 @@
 import Cocoa
 
 struct NewItem {
-    static var empty: NewItem { return NewItem(title: "", image: nil) }
+    static var empty: NewItem { return NewItem(title: "", image: nil, tintColor: nil) }
     var title: String = ""
     var image: NSImage?
+    var tintColor: NSColor?
 }
 
 class AddItemController: NSWindowController, NSTextFieldDelegate {
 
     @IBOutlet weak var titleTextField: NSTextField!
     @IBOutlet weak var iconImageView: NSImageView!
+
+    @IBOutlet weak var enableTintCheckBox: NSButton!
+    @IBOutlet weak var tintColorWell: NSColorWell!
 
     private var viewModel: NewItem! {
         didSet {
@@ -56,6 +60,19 @@ class AddItemController: NSWindowController, NSTextFieldDelegate {
             else { return }
 
         viewModel.title = textField.stringValue
+    }
+
+    @IBAction func toggleTint(_ sender: Any) {
+
+        tintColorWell.isEnabled = (enableTintCheckBox.state == NSOnState)
+        viewModel.tintColor = tintColorWell.isEnabled
+            ? tintColorWell.color
+            : nil
+    }
+
+    @IBAction func colorChanged(_ sender: Any) {
+
+        viewModel.tintColor = tintColorWell.color
     }
 
     // MARK: -

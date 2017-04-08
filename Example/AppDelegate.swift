@@ -15,7 +15,10 @@ extension SavedSearch {
     }
 
     init(fromNewItem newItem: NewItem) {
-        self.init(title: newItem.title, image: newItem.image ?? SavedSearch.defaultImage)
+        self.init(
+            title: newItem.title,
+            image: newItem.image ?? SavedSearch.defaultImage,
+            tintColor: newItem.tintColor)
     }
 }
 
@@ -29,13 +32,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate, FatSideb
 
     var savedSearches: [SavedSearch] = [
         SavedSearch(title: "Inbox",
-                    image: templated(#imageLiteral(resourceName: "inbox.png")).image(tintColor: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1))),
+                    image: templated(#imageLiteral(resourceName: "inbox.png")),
+                    tintColor: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)),
 
         SavedSearch(title: "My Bestest Favorites",
-                    image: templated(#imageLiteral(resourceName: "heart.png"))),
+                    image: templated(#imageLiteral(resourceName: "heart.png")),
+                    tintColor: nil),
 
         SavedSearch(title: "Ideas",
-                    image: templated(#imageLiteral(resourceName: "lightbulb.png")))
+                    image: templated(#imageLiteral(resourceName: "lightbulb.png")),
+                    tintColor: nil)
     ]
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
