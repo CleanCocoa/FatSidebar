@@ -172,7 +172,10 @@ public class FatSidebarItem: NSView {
 
     public override func layout() {
 
-        self.label.preferredMaxLayoutWidth = NSWidth(self.label.alignmentRect(forFrame: self.frame))
+        if self.style == .regular {
+            self.label.preferredMaxLayoutWidth = NSWidth(self.label.alignmentRect(forFrame: self.frame))
+        }
+        
         super.layout()
     }
 
@@ -226,15 +229,11 @@ public class FatSidebarItem: NSView {
             withVisualFormat: "V:|[container]|",
             options: [], metrics: nil, views: viewsDict))
         self.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|[container]-1-[label]",
+            withVisualFormat: "H:|[container]-1-[label]", // Open to the right
             options: [], metrics: nil, views: viewsDict))
         imageContainer.addConstraints(NSLayoutConstraint.constraints(
             withVisualFormat: "V:|[topSpace][imageView][bottomSpace]|",
             options: [], metrics: nil, views: viewsDict))
-        imageContainer.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|[imageView]|",
-            options: [], metrics: nil, views: viewsDict))
-
 
         self.addConstraints([
             NSLayoutConstraint(item: self.label, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0),
