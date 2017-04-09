@@ -51,6 +51,7 @@ public class FatSidebarItem: NSView {
 
     public internal(set) var theme: FatSidebarTheme = DefaultTheme() {
         didSet {
+            adjustLabelFont()
             redraw()
         }
     }
@@ -245,9 +246,17 @@ public class FatSidebarItem: NSView {
 
     // MARK: - Custom Drawing
 
+    fileprivate func adjustLabelFont() {
+
+        self.label.font = theme.itemStyle.font ?? label.fittingSystemFont()
+    }
+
     fileprivate func redraw() {
 
         self.needsDisplay = true
+
+        self.label.textColor = theme.itemStyle.labelColor
+            .color(isHighlighted: self.isHighlighted, isSelected: self.isSelected)
     }
 
     var borderWidth: CGFloat = 1

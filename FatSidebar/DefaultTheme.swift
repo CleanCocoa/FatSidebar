@@ -13,6 +13,8 @@ struct DefaultTheme: FatSidebarTheme {
 
     struct DefaultItemStyle: FatSidebarItemStyle {
 
+        let labelColor = StatefulColor(single: NSColor.controlTextColor)
+
         let background = StatefulColor(
             normal: NSColor.controlColor,
             selected: DefaultTheme.selectedColor,

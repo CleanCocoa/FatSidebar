@@ -5,6 +5,10 @@ import Cocoa
 /// via <http://stackoverflow.com/a/41177330/1460929>
 extension NSTextField {
 
+    func fittingSystemFont() -> NSFont {
+        return NSFont.systemFont(ofSize: NSFont.systemFontSize(for: self.controlSize))
+    }
+
     /// Return an `NSTextField` configured exactly like one created by dragging a “Label” into a storyboard.
     class func newLabel(
         title: String = "",
@@ -19,7 +23,7 @@ extension NSTextField {
         label.isBezeled = false
         label.alignment = .natural
         label.controlSize = controlSize
-        label.font = NSFont.systemFont(ofSize: NSFont.systemFontSize(for: label.controlSize))
+        label.font = label.fittingSystemFont()
         label.lineBreakMode = .byClipping
         label.cell?.isScrollable = true
         label.cell?.wraps = false

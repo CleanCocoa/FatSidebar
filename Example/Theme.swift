@@ -14,6 +14,9 @@ struct OmniFocusTheme: FatSidebarTheme {
 
     struct OmniFocusItemStyle: FatSidebarItemStyle {
 
+        let font: NSFont? = NSFont.systemFont(ofSize: 14)
+        let labelColor = StatefulColor(single: NSColor.controlTextColor)
+
         let background = StatefulColor(
             normal:      OmniFocusTheme.backgroundColor,
             selected:    OmniFocusTheme.selectedColor,
