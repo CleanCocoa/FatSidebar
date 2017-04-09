@@ -16,5 +16,5 @@ public protocol FatSidebarItemStyle {
 }
 
 extension FatSidebarItemStyle {
-    var font: NSFont? { return nil }
+    public var font: NSFont? { return nil }
 }
