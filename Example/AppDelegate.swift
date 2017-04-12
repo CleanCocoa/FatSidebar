@@ -116,7 +116,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
 
     func sidebar(_ sidebar: FatSidebar, didToggleItem selectionIndex: Int) {
 
-        Swift.print("Toggled \(savedSearches[selectionIndex])")
+        Swift.print("Toggled \(savedSearches[selectionIndex]) (active indices: \(sidebar.selectedItemIndexes))")
     }
 
     func sidebar(_ sidebar: FatSidebar, didRemoveItem index: Int) {

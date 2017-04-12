@@ -306,5 +306,10 @@ public class FatSidebar: NSView {
         return sidebarView.selectedItems
     }
 
-
+    /// Collection of indexes of selected items.
+    ///
+    /// **See** `selectedItems` for a list of item instances.
+    public var selectedItemIndexes: [Int] {
+        return sidebarView.selectedItemIndexes
+    }
 }

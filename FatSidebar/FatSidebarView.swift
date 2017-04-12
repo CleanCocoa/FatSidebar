@@ -339,6 +339,15 @@ public class FatSidebarView: NSView, DragViewContainer {
         return items.filter { $0.isSelected }
     }
 
+    /// Collection of indexes of selected items.
+    ///
+    /// **See** `selectedItems` for a list of item instances.
+    public var selectedItemIndexes: [Int] {
+        return items.enumerated()
+            .filter { $0.element.isSelected }
+            .map { $0.offset }
+    }
+
 
     // MARK: -
     // MARK: Drawing
