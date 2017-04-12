@@ -10,10 +10,6 @@ class FlippedView: NSView {
     /// Triggered after the user finishes dragging an item into a new place. 
     func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int)
 
-    /// Triggered when an item is single-clicked and its status changes. 
-    /// Already selected items that cannot be deselected will not trigger this.
-    func sidebar(_ sidebar: FatSidebar, didChangeSelection selectionIndex: Int)
-
     /// Triggered by double-clicking an item.
     func sidebar(_ sidebar: FatSidebar, editItem index: Int)
 
@@ -21,6 +17,13 @@ class FlippedView: NSView {
     ///
     /// - note: `FatSidebarItem.removeFatSidebarItem(_:)` triggers this, too.
     @objc optional func sidebar(_ sidebar: FatSidebar, didRemoveItem index: Int)
+
+    /// Triggered when an item is single-clicked and its status changes.
+    /// Already selected items that cannot be deselected will not trigger this.
+    @objc optional func sidebar(_ sidebar: FatSidebar, didChangeSelection selectionIndex: Int)
+
+    /// Triggered when an item is single-clicked.
+    @objc optional func sidebar(_ sidebar: FatSidebar, didToggleItem selectionIndex: Int)
 }
 
 
@@ -110,6 +113,7 @@ public class FatSidebar: NSView {
     }
 
     private var selectionChangeObserver: AnyObject!
+    private var toggleObserver: AnyObject!
     private var moveObserver: AnyObject!
     private var removalObserver: AnyObject!
     private var doubleClickObserver: AnyObject!
@@ -122,6 +126,11 @@ public class FatSidebar: NSView {
             forName: FatSidebarView.didSelectItemNotification,
             object: sidebarView,
             queue: nil) { [weak self] in self?.selectionDidChange($0) }
+
+        toggleObserver = notificationCenter.addObserver(
+            forName: FatSidebarView.didToggleItemNotification,
+            object: sidebarView,
+            queue: nil) { [weak self] in self?.itemWasToggled($0) }
 
         moveObserver = notificationCenter.addObserver(
             forName: FatSidebarView.didReorderItemNotification,
@@ -143,7 +152,14 @@ public class FatSidebar: NSView {
 
         guard let index = notification.userInfo?["index"] as? Int else { return }
 
-        delegate?.sidebar(self, didChangeSelection: index)
+        delegate?.sidebar?(self, didChangeSelection: index)
+    }
+
+    fileprivate func itemWasToggled(_ notification: Notification) {
+
+        guard let index = notification.userInfo?["index"] as? Int else { return }
+
+        delegate?.sidebar?(self, didToggleItem: index)
     }
 
     fileprivate func itemDidMove(_ notification: Notification) {

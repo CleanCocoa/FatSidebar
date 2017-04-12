@@ -114,6 +114,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
         Swift.print("Selected \(savedSearches[selectionIndex])")
     }
 
+    func sidebar(_ sidebar: FatSidebar, didToggleItem selectionIndex: Int) {
+
+        Swift.print("Toggled \(savedSearches[selectionIndex])")
+    }
+
     func sidebar(_ sidebar: FatSidebar, didRemoveItem index: Int) {
 
         self.savedSearches.remove(at: index)
