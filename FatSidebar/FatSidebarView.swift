@@ -20,6 +20,7 @@ public class FatSidebarView: NSView, DragViewContainer {
     static let didDeselectItemNotification = Notification.Name("FatSidebarView_didDeselectItemNotification")
 
     static let didReorderItemNotification = Notification.Name("FatSidebarView_didReorderItemNotification")
+    static let didRemoveItemNotification = Notification.Name("FatSidebarView_didRemoveItemNotification")
 
     static let didDoubleClickItemNotification = Notification.Name("FatSidebarView_didDoubleClickItemNotification")
 
@@ -199,6 +200,11 @@ public class FatSidebarView: NSView, DragViewContainer {
 
         item.removeFromSuperview()
         items.remove(at: index)
+
+        NotificationCenter.default.post(
+            name: FatSidebarView.didRemoveItemNotification,
+            object: self,
+            userInfo: ["index" : index])
 
         return true
     }

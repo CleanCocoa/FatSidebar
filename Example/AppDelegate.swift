@@ -82,8 +82,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
     private func appendNewItem(_ newItem: NewItem) {
 
         let savedSearch = SavedSearch(fromNewItem: newItem)
-        fatSidebar.appendItem(savedSearch)
         savedSearches.append(savedSearch)
+        self.replaceSidebarWithModel()
     }
 
     func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int) {
@@ -112,5 +112,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
     func sidebar(_ sidebar: FatSidebar, didChangeSelection selectionIndex: Int) {
 
         Swift.print("Selected \(savedSearches[selectionIndex])")
+    }
+
+    func sidebar(_ sidebar: FatSidebar, didRemoveItem index: Int) {
+
+        self.savedSearches.remove(at: index)
+        self.replaceSidebarWithModel()
     }
 }

@@ -6,7 +6,7 @@ class FlippedView: NSView {
     override var isFlipped: Bool { return true }
 }
 
-public protocol FatSidebarDelegate: class {
+@objc public protocol FatSidebarDelegate: class {
     /// Triggered after the user finishes dragging an item into a new place. 
     func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int)
 
@@ -16,6 +16,11 @@ public protocol FatSidebarDelegate: class {
 
     /// Triggered by double-clicking an item.
     func sidebar(_ sidebar: FatSidebar, editItem index: Int)
+
+    /// Triggered when `FatSidebar.removeItem(_:)` is called.
+    ///
+    /// - note: `FatSidebarItem.removeFatSidebarItem(_:)` triggers this, too.
+    @objc optional func sidebar(_ sidebar: FatSidebar, didRemoveItem index: Int)
 }
 
 
@@ -106,6 +111,7 @@ public class FatSidebar: NSView {
 
     private var selectionChangeObserver: AnyObject!
     private var moveObserver: AnyObject!
+    private var removalObserver: AnyObject!
     private var doubleClickObserver: AnyObject!
 
     fileprivate func observeSidebarSelectionChanges() {
@@ -121,6 +127,11 @@ public class FatSidebar: NSView {
             forName: FatSidebarView.didReorderItemNotification,
             object: sidebarView,
             queue: nil) { [weak self] in self?.itemDidMove($0) }
+
+        removalObserver = notificationCenter.addObserver(
+            forName: FatSidebarView.didRemoveItemNotification,
+            object: sidebarView,
+            queue: nil) { [weak self] in self?.itemWasRemoved($0) }
 
         doubleClickObserver = notificationCenter.addObserver(
             forName: FatSidebarView.didDoubleClickItemNotification,
@@ -143,6 +154,15 @@ public class FatSidebar: NSView {
             else { return }
 
         self.delegate?.sidebar(self, didMoveItemFrom: fromIndex, to: toIndex)
+    }
+
+    fileprivate func itemWasRemoved(_ notification: Notification) {
+
+        guard let userInfo = notification.userInfo,
+            let index = userInfo["index"] as? Int
+            else { return }
+
+        self.delegate?.sidebar?(self, didRemoveItem: index)
     }
 
     fileprivate func itemWasDoubleClicked(_ notification: Notification) {
