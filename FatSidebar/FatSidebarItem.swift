@@ -395,6 +395,13 @@ public class FatSidebarItem: NSView {
         callback?(self)
     }
 
+    /// - note: Can be used as action from Interface Builder.
+    @IBAction public func editFatSidebarItem(_ sender: Any?) {
+
+        doubleClickHandler?(self)
+    }
+
+    /// - note: Can be used as action from Interface Builder.
     @IBAction public func removeFatSidebarItem(_ sender: Any?) {
 
         // Forward event from here because if the sidebar

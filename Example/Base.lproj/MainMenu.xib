@@ -766,6 +766,12 @@
                         <action selector="addSidebarItem:" target="-1" id="iQg-at-CJT"/>
                     </connections>
                 </menuItem>
+                <menuItem title="Edit Saved Search…" id="7EN-mH-B0H">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="editFatSidebarItem:" target="-1" id="E2d-sO-jwv"/>
+                    </connections>
+                </menuItem>
                 <menuItem title="Remove Saved Search" id="5Z3-JC-v10">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
