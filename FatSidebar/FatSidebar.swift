@@ -292,6 +292,11 @@ public class FatSidebar: NSView {
         return sidebarView.deselectItem(item)
     }
 
+    public func deselectAllItems() {
+
+        return sidebarView.deselectAllItems()
+    }
+
     /// First selected item (if any).
     ///
     /// **See** `selectedItems` for all selected items.

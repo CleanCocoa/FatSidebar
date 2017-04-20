@@ -294,7 +294,7 @@ public class FatSidebarView: NSView, DragViewContainer {
             else { return false }
 
         if !selectionMode.allowsMultiple {
-            selectedItems.forEach { self.deselectItem($0) }
+            deselectAllItems()
         }
         item.isSelected = true
 
@@ -323,6 +323,11 @@ public class FatSidebarView: NSView, DragViewContainer {
             userInfo: ["index" : index])
 
         return true
+    }
+
+    public func deselectAllItems() {
+
+        selectedItems.forEach { self.deselectItem($0) }
     }
 
     /// First selected item (if any).
