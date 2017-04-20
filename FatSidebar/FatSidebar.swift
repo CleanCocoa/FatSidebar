@@ -284,6 +284,13 @@ public class FatSidebar: NSView {
         return sidebarView.selectItem(item)
     }
 
+    /// - returns: `true` iff `index` is inside item bounds.
+    @discardableResult
+    public func selectItem(at index: Int) -> Bool {
+
+        return sidebarView.selectItem(at: index)
+    }
+
     /// - returns: `true` if `item` is part of the sidebar
     ///            and was selected before, `false` otherwise.
     @discardableResult

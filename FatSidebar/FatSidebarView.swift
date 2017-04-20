@@ -293,10 +293,20 @@ public class FatSidebarView: NSView, DragViewContainer {
         guard let index = self.items.index(of: item)
             else { return false }
 
+        return selectItem(at: index)
+    }
+
+    /// - returns: `true` iff `index` is inside item bounds.
+    @discardableResult
+    public func selectItem(at index: Int) -> Bool {
+
+        guard items.endIndex > index else { return false }
+
         if !selectionMode.allowsMultiple {
             deselectAllItems()
         }
-        item.isSelected = true
+
+        items[index].isSelected = true
 
         NotificationCenter.default.post(
             name: FatSidebarView.didSelectItemNotification,
