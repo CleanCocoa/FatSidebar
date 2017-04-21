@@ -380,6 +380,7 @@ public class FatSidebarItem: NSView {
 
         if event.clickCount == 2 {
             doubleClickHandler?(self)
+            return
         }
 
         guard let dragging = dragging,
