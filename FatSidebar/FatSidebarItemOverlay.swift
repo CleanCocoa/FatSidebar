@@ -15,6 +15,7 @@ class FatSidebarItemOverlay: FatSidebarItem {
     // MARK: - Hovering 
 
     static var hoverStarted: Notification.Name { return Notification.Name(rawValue: "fat sidebar hover did start") }
+    var didExit = false
     var overlayFinished: (() -> Void)?
 
     private var trackingArea: NSTrackingArea?
@@ -22,7 +23,15 @@ class FatSidebarItemOverlay: FatSidebarItem {
     override func updateTrackingAreas() {
         super.updateTrackingAreas()
 
-        if let oldTrackingArea = trackingArea { self.removeTrackingArea(oldTrackingArea) }
+        if let oldTrackingArea = self.trackingArea { self.removeTrackingArea(oldTrackingArea) }
+
+        guard !didExit else { return }
+
+        createAndAssignTrackingArea()
+        fireEnteredOrExitedWithInitialMouseCoordinates()
+    }
+
+    fileprivate func createAndAssignTrackingArea() {
 
         let newTrackingArea = NSTrackingArea(
             rect: self.bounds,
@@ -33,7 +42,25 @@ class FatSidebarItemOverlay: FatSidebarItem {
         self.trackingArea = newTrackingArea
     }
 
+    fileprivate func fireEnteredOrExitedWithInitialMouseCoordinates() {
+
+        guard let absoluteMousePoint = self.window?.mouseLocationOutsideOfEventStream else { return }
+
+        let mousePoint = self.convert(absoluteMousePoint, from: nil)
+
+        if NSPointInRect(mousePoint, self.bounds) {
+            mouseDidEnter()
+        } else {
+            mouseDidExit()
+        }
+    }
+
     override func mouseEntered(with event: NSEvent) {
+        mouseDidEnter()
+    }
+
+    /// - note: Use when event is not available, as in `updateTrackingRect`.
+    fileprivate func mouseDidEnter() {
 
         self.window?.disableCursorRects()
         NSCursor.pointingHand().set()
@@ -50,7 +77,13 @@ class FatSidebarItemOverlay: FatSidebarItem {
     }
 
     override func mouseExited(with event: NSEvent) {
+        mouseDidExit()
+    }
 
+    /// - note: Use when event is not available, as in `updateTrackingRect`.
+    fileprivate func mouseDidExit() {
+
+        didExit = true // Call before endHover to prevend updateTrackingRect loop
         endHover()
     }
 

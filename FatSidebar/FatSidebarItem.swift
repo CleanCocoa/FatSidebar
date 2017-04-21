@@ -475,6 +475,16 @@ public class FatSidebarItem: NSView {
             }
             overlay.overlayFinished = { [weak self] in self?.overlay = nil }
 
+            NotificationCenter.default.addObserver(
+                overlay,
+                selector: #selector(FatSidebarItemOverlay.hoverDidStart),
+                name: FatSidebarItemOverlay.hoverStarted,
+                object: nil)
+
+            if let scrollView = enclosingScrollView {
+                overlay.setupScrollSyncing(scrollView: scrollView)
+            }
+
             windowContentView.addSubview(overlay)
             (animated
                 ? overlay.animator()
@@ -487,16 +497,6 @@ public class FatSidebarItem: NSView {
                     frame.size.width += self.label.frame.width + rightPadding
                     return frame
             }()
-
-            NotificationCenter.default.addObserver(
-                overlay,
-                selector: #selector(FatSidebarItemOverlay.hoverDidStart),
-                name: FatSidebarItemOverlay.hoverStarted,
-                object: nil)
-
-            if let scrollView = enclosingScrollView {
-                overlay.setupScrollSyncing(scrollView: scrollView)
-            }
 
             return overlay
         }()
