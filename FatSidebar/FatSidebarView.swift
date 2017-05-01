@@ -22,6 +22,7 @@ public class FatSidebarView: NSView, DragViewContainer {
     static let didReorderItemNotification = Notification.Name("FatSidebarView_didReorderItemNotification")
     static let didRemoveItemNotification = Notification.Name("FatSidebarView_didRemoveItemNotification")
 
+    static let didStartEditingItemNotification = Notification.Name("FatSidebarView_didStartEditingItemNotification")
     static let didDoubleClickItemNotification = Notification.Name("FatSidebarView_didDoubleClickItemNotification")
 
     public var theme: FatSidebarTheme = DefaultTheme() {
@@ -85,6 +86,7 @@ public class FatSidebarView: NSView, DragViewContainer {
         item.menu = self.itemContextualMenu
         item.selectionHandler = { [unowned self] in self.itemSelected($0) }
         item.doubleClickHandler = { [unowned self] in self.itemDoubleClicked($0) }
+        item.editHandler = { [unowned self] in self.itemBeginsEditing($0) }
 
         return item
     }
@@ -177,6 +179,16 @@ public class FatSidebarView: NSView, DragViewContainer {
 
         NotificationCenter.default.post(
             name: FatSidebarView.didDoubleClickItemNotification,
+            object: self,
+            userInfo: ["index" : index])
+    }
+
+    fileprivate func itemBeginsEditing(_ item: FatSidebarItem) {
+
+        guard let index = self.items.index(of: item) else { return }
+
+        NotificationCenter.default.post(
+            name: FatSidebarView.didStartEditingItemNotification,
             object: self,
             userInfo: ["index" : index])
     }

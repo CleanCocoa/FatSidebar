@@ -8,10 +8,16 @@ class FlippedView: NSView {
 
 @objc public protocol FatSidebarDelegate: class {
     /// Triggered after the user finishes dragging an item into a new place. 
-    func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int)
+    @objc optional func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int)
 
-    /// Triggered by double-clicking an item.
-    func sidebar(_ sidebar: FatSidebar, editItem index: Int)
+    /// Triggered when `FatSidebarItem.editFatSidebarItem(_:)` is called.
+    @objc optional func sidebar(_ sidebar: FatSidebar, editItem index: Int)
+
+    /// Triggered when double-clicking an item.
+    ///
+    /// - note: Double clicking may be confusing for the user when you have 
+    ///   the sidebar configures for toggling items.
+    @objc optional func sidebar(_ sidebar: FatSidebar, didDoubleClickItem index: Int)
 
     /// Triggered when `FatSidebar.removeItem(_:)` is called.
     ///
@@ -116,6 +122,7 @@ public class FatSidebar: NSView {
     private var toggleObserver: AnyObject!
     private var moveObserver: AnyObject!
     private var removalObserver: AnyObject!
+    private var itemEditingObserver: AnyObject!
     private var doubleClickObserver: AnyObject!
 
     fileprivate func observeSidebarSelectionChanges() {
@@ -141,6 +148,11 @@ public class FatSidebar: NSView {
             forName: FatSidebarView.didRemoveItemNotification,
             object: sidebarView,
             queue: nil) { [weak self] in self?.itemWasRemoved($0) }
+
+        itemEditingObserver = notificationCenter.addObserver(
+            forName: FatSidebarView.didStartEditingItemNotification,
+            object: sidebarView,
+            queue: nil) { [weak self] in self?.itemStartsEditing($0) }
 
         doubleClickObserver = notificationCenter.addObserver(
             forName: FatSidebarView.didDoubleClickItemNotification,
@@ -169,7 +181,7 @@ public class FatSidebar: NSView {
             let toIndex = userInfo["to"] as? Int
             else { return }
 
-        self.delegate?.sidebar(self, didMoveItemFrom: fromIndex, to: toIndex)
+        self.delegate?.sidebar?(self, didMoveItemFrom: fromIndex, to: toIndex)
     }
 
     fileprivate func itemWasRemoved(_ notification: Notification) {
@@ -181,13 +193,22 @@ public class FatSidebar: NSView {
         self.delegate?.sidebar?(self, didRemoveItem: index)
     }
 
+    fileprivate func itemStartsEditing(_ notification: Notification) {
+
+        guard let userInfo = notification.userInfo,
+            let index = userInfo["index"] as? Int
+            else { return }
+
+        self.delegate?.sidebar?(self, editItem: index)
+    }
+
     fileprivate func itemWasDoubleClicked(_ notification: Notification) {
 
         guard let userInfo = notification.userInfo,
             let index = userInfo["index"] as? Int
             else { return }
 
-        self.delegate?.sidebar(self, editItem: index)
+        self.delegate?.sidebar?(self, didDoubleClickItem: index)
     }
     
 

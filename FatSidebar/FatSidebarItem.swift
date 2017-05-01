@@ -35,6 +35,7 @@ public class FatSidebarItem: NSView {
     public let style: Style
     public let callback: ((FatSidebarItem) -> Void)?
     public var selectionHandler: ((FatSidebarItem) -> Void)?
+    public var editHandler: ((FatSidebarItem) -> Void)?
     public var doubleClickHandler: ((FatSidebarItem) -> Void)?
     public var animated: Bool
 
@@ -338,7 +339,6 @@ public class FatSidebarItem: NSView {
 
     public override func mouseDown(with event: NSEvent) {
 
-
         isHighlighted = true
 
         let dragTimer = Timer.scheduledTimer(
@@ -399,7 +399,7 @@ public class FatSidebarItem: NSView {
     /// - note: Can be used as action from Interface Builder.
     @IBAction public func editFatSidebarItem(_ sender: Any?) {
 
-        doubleClickHandler?(self)
+        editHandler?(self)
     }
 
     /// - note: Can be used as action from Interface Builder.
@@ -465,6 +465,10 @@ public class FatSidebarItem: NSView {
             overlay.isSelected = self.isSelected
             overlay.translatesAutoresizingMaskIntoConstraints = true
 
+            overlay.editHandler = { [weak self] _ in
+                guard let item = self else { return }
+                item.editHandler?(item)
+            }
             overlay.doubleClickHandler = { [weak self] _ in
                 guard let item = self else { return }
                 item.doubleClickHandler?(item)

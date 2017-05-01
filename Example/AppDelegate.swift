@@ -94,6 +94,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
         savedSearches.insert(item, at: newIndex)
     }
 
+    func sidebar(_ sidebar: FatSidebar, didDoubleClickItem index: Int) {
+
+        self.sidebar(sidebar, editItem: index)
+    }
+
     func sidebar(_ sidebar: FatSidebar, editItem index: Int) {
 
         let oldValues = savedSearches[index].newItem
