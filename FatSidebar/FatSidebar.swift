@@ -125,6 +125,7 @@ public class FatSidebar: NSView {
 
     private var selectionChangeObserver: AnyObject!
     private var toggleObserver: AnyObject!
+    private var pushObserver: AnyObject!
     private var moveObserver: AnyObject!
     private var removalObserver: AnyObject!
     private var itemEditingObserver: AnyObject!
@@ -143,6 +144,11 @@ public class FatSidebar: NSView {
             forName: FatSidebarView.didToggleItemNotification,
             object: sidebarView,
             queue: nil) { [weak self] in self?.itemWasToggled($0) }
+
+        pushObserver = notificationCenter.addObserver(
+            forName: FatSidebarView.didPushItemNotification,
+            object: sidebarView,
+            queue: nil) { [weak self] in self?.itemWasPushed($0) }
 
         moveObserver = notificationCenter.addObserver(
             forName: FatSidebarView.didReorderItemNotification,
@@ -172,12 +178,18 @@ public class FatSidebar: NSView {
         delegate?.sidebar?(self, didChangeSelection: index)
     }
 
+    fileprivate func itemWasPushed(_ notification: Notification) {
+
+        guard let index = notification.userInfo?["index"] as? Int else { return }
+
+        delegate?.sidebar?(self, didPushItem: index)
+    }
+
     fileprivate func itemWasToggled(_ notification: Notification) {
 
         guard let index = notification.userInfo?["index"] as? Int else { return }
 
         delegate?.sidebar?(self, didToggleItem: index)
-        delegate?.sidebar?(self, didPushItem: index)
     }
 
     fileprivate func itemDidMove(_ notification: Notification) {
