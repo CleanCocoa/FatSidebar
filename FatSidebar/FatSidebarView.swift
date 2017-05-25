@@ -13,6 +13,8 @@ func addAspectRatioConstraint(view: NSView) {
 /// Cusom view that displays a list of `FatSidebarItem`s.
 public class FatSidebarView: NSView, DragViewContainer {
 
+    /// Fired when an item was clicked, no matter its selection state.
+    static let didPushItemNotification = Notification.Name("FatSidebarView_didPushItemNotification")
     /// Fired when an item was selected or deselected through toggling.
     /// - note: Does not replace `didSelectItemNotification` or `didDeselectItemNotification`.
     static let didToggleItemNotification = Notification.Name("FatSidebarView_didToggleItemNotification")
@@ -166,10 +168,15 @@ public class FatSidebarView: NSView, DragViewContainer {
         switch selectionMode {
         case .selectOne:
             self.selectItem(item)
+            self.pushItem(item)
 
         case .toggleOne,
              .toggleMultiple:
             self.toggleItem(item)
+            self.pushItem(item)
+
+        case .push:
+            self.pushItem(item)
         }
     }
 
@@ -244,6 +251,12 @@ public class FatSidebarView: NSView, DragViewContainer {
     // MARK: Selection
 
     public enum SelectionMode {
+
+        // Trigger action but don't select. 
+        //
+        // Like NSButton's "Push Momentarily".
+        case push
+
         /// Clicking an item selects it.
         /// Clicking multiple times on the same item doesn't alter the selection.
         ///
@@ -291,6 +304,19 @@ public class FatSidebarView: NSView, DragViewContainer {
 
         NotificationCenter.default.post(
             name: FatSidebarView.didToggleItemNotification,
+            object: self,
+            userInfo: ["index" : index])
+
+        return true
+    }
+
+    @discardableResult
+    public func pushItem(_ item: FatSidebarItem) -> Bool {
+
+        guard let index = items.index(of: item) else { return false }
+
+        NotificationCenter.default.post(
+            name: FatSidebarView.didPushItemNotification,
             object: self,
             userInfo: ["index" : index])
 

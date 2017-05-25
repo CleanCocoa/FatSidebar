@@ -28,7 +28,12 @@ class FlippedView: NSView {
     /// Already selected items that cannot be deselected will not trigger this.
     @objc optional func sidebar(_ sidebar: FatSidebar, didChangeSelection selectionIndex: Int)
 
-    /// Triggered when an item is single-clicked.
+    /// Triggered when an item is single-clicked, no matter its selection state.
+    @objc optional func sidebar(_ sidebar: FatSidebar, didPushItem selectionIndex: Int)
+
+    /// Triggered when an item is single-clicked. 
+    /// Deprecated in favor of `sidebar(_:didPushItem:)`.
+    @available(*, deprecated: 1.3.0, renamed: "sidebar(_:didPushItem:)")
     @objc optional func sidebar(_ sidebar: FatSidebar, didToggleItem selectionIndex: Int)
 }
 
@@ -172,6 +177,7 @@ public class FatSidebar: NSView {
         guard let index = notification.userInfo?["index"] as? Int else { return }
 
         delegate?.sidebar?(self, didToggleItem: index)
+        delegate?.sidebar?(self, didPushItem: index)
     }
 
     fileprivate func itemDidMove(_ notification: Notification) {
