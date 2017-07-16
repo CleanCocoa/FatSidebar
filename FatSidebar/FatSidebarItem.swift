@@ -459,6 +459,8 @@ public class FatSidebarItem: NSView {
                 image: self.image,
                 style: self.style,
                 callback: self.callback)
+            overlay.wantsLayer = true
+            overlay.layer?.zPosition = CGFloat(Float.greatestFiniteMagnitude)
             overlay.frame = overlayFrame
             overlay.base = self
             overlay.theme = self.theme
@@ -489,7 +491,10 @@ public class FatSidebarItem: NSView {
                 overlay.setupScrollSyncing(scrollView: scrollView)
             }
 
-            windowContentView.addSubview(overlay)
+            windowContentView.addSubview(
+                overlay,
+                positioned: .above,
+                relativeTo: windowContentView.subviews.first ?? self)
             (animated
                 ? overlay.animator()
                 : overlay)
