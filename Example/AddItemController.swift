@@ -45,7 +45,7 @@ class AddItemController: NSWindowController, NSTextFieldDelegate {
     @IBAction func browseImage(_ sender: Any) {
 
         let panel = NSOpenPanel()
-        panel.allowedFileTypes = NSImage.imageTypes()
+        panel.allowedFileTypes = NSImage.imageTypes
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
         panel.canChooseFiles = true
@@ -53,7 +53,7 @@ class AddItemController: NSWindowController, NSTextFieldDelegate {
 
         let response = panel.runModal()
 
-        if response == NSFileHandlingPanelOKButton,
+        if response == .OK,
             let url = panel.urls.first,
             let image = NSImage(contentsOf: url) {
 
@@ -72,7 +72,7 @@ class AddItemController: NSWindowController, NSTextFieldDelegate {
 
     @IBAction func toggleTint(_ sender: Any) {
 
-        tintColorWell.isEnabled = (enableTintCheckBox.state == NSOnState)
+        tintColorWell.isEnabled = (enableTintCheckBox.state == .on)
         viewModel.tintColor = tintColorWell.isEnabled
             ? tintColorWell.color
             : nil
@@ -115,22 +115,22 @@ class AddItemController: NSWindowController, NSTextFieldDelegate {
         case create
         case cancel
 
-        init?(modalResponse: NSModalResponse) {
+        init?(modalResponse: NSApplication.ModalResponse) {
 
             switch modalResponse {
-            case NSModalResponseOK:
+            case .OK:
                 self = .create
-            case NSModalResponseCancel:
+            case .cancel:
                 self = .cancel
 
             default: return nil
             }
         }
 
-        var modalResponse: NSModalResponse {
+        var modalResponse: NSApplication.ModalResponse {
             switch self {
-            case .create: return NSModalResponseOK
-            case .cancel: return NSModalResponseCancel
+            case .create: return .OK
+            case .cancel: return .cancel
             }
         }
     }

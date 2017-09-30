@@ -19,7 +19,7 @@ extension NSView {
 
         let image = NSImage(size: self.bounds.size)
         image.lockFocus()
-        let ctx = NSGraphicsContext.current()?.cgContext
+        let ctx = NSGraphicsContext.current?.cgContext
         self.layer?.render(in: ctx!)
         image.unlockFocus()
 

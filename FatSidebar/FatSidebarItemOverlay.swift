@@ -63,12 +63,12 @@ class FatSidebarItemOverlay: FatSidebarItem {
     fileprivate func mouseDidEnter() {
 
         self.window?.disableCursorRects()
-        NSCursor.pointingHand().set()
+        NSCursor.pointingHand.set()
 
         NotificationCenter.default.post(name: FatSidebarItemOverlay.hoverStarted, object: self)
     }
 
-    func hoverDidStart(notification: Notification) {
+    @objc func hoverDidStart(notification: Notification) {
 
         if let overlay = notification.object as? FatSidebarItemOverlay,
             overlay === self { return }
@@ -109,19 +109,19 @@ class FatSidebarItemOverlay: FatSidebarItem {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(didScroll(_:)),
-            name: .NSViewBoundsDidChange,
+            name: NSView.boundsDidChangeNotification,
             object: scrollView.contentView)
 
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(didResizeWindow(_:)),
-            name: .NSWindowDidResize,
+            name: NSWindow.didResizeNotification,
             object: scrollView.window)
     }
 
     fileprivate var windowHeight: CGFloat?
 
-    func didResizeWindow(_ notification: Notification) {
+    @objc func didResizeWindow(_ notification: Notification) {
 
         guard let window = notification.object as? NSWindow,
             let oldHeight = windowHeight
@@ -135,7 +135,7 @@ class FatSidebarItemOverlay: FatSidebarItem {
 
     fileprivate var scrolledOffset: CGFloat?
 
-    func didScroll(_ notification: Notification) {
+    @objc func didScroll(_ notification: Notification) {
 
         guard let contentView = notification.object as? NSView,
             let scrollView = contentView.superview as? NSScrollView,

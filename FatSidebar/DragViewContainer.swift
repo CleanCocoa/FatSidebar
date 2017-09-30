@@ -83,6 +83,7 @@ extension DragViewContainer where Self: NSView {
             mode: .eventTrackingRunLoopMode)
         { [unowned self] (dragEvent, stop) in
 
+            guard let dragEvent = dragEvent else { return }
             guard dragEvent.type != .leftMouseUp else {
 
                 draggingView.layoutSubtreeIfNeeded()

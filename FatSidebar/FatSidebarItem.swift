@@ -4,8 +4,8 @@ import Cocoa
 
 extension NSLayoutConstraint {
 
-    func prioritized(_ priority: NSLayoutPriority) -> NSLayoutConstraint {
-        self.priority = priority
+    func prioritized(_ priority: Float) -> NSLayoutConstraint {
+        self.priority = NSLayoutConstraint.Priority(rawValue: priority)
         return self
     }
 }
@@ -78,7 +78,7 @@ public class FatSidebarItem: NSView {
 
         self.label = NSTextField.newWrappingLabel(
             title: configuration.title,
-            controlSize: NSSmallControlSize)
+            controlSize: .small)
         self.label.alignment = .center
 
         self.imageView = NSImageView()
@@ -117,8 +117,8 @@ public class FatSidebarItem: NSView {
     fileprivate func layoutRegularSubviews() {
 
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
-        self.imageView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: NSLayoutConstraintOrientation.vertical)
-        self.imageView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: NSLayoutConstraintOrientation.horizontal)
+        self.imageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        self.imageView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         self.addSubview(self.imageView)
 
         self.label.translatesAutoresizingMaskIntoConstraints = false
@@ -129,11 +129,11 @@ public class FatSidebarItem: NSView {
         self.addSubview(topSpacing)
         self.addConstraints([
             // 1px width, horizontally centered
-            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 1),
-            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: topSpacing, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 1),
+            NSLayoutConstraint(item: topSpacing, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0),
 
             // 20% size
-            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.height, multiplier: 0.2, constant: 1)
+            NSLayoutConstraint(item: topSpacing, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0.2, constant: 1)
             ])
 
         let bottomSpacing = NSView()
@@ -141,11 +141,11 @@ public class FatSidebarItem: NSView {
         self.addSubview(bottomSpacing)
         self.addConstraints([
             // 1px width, horizontally centered
-            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 1),
-            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: bottomSpacing, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 1),
+            NSLayoutConstraint(item: bottomSpacing, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0),
 
             // 30% size
-            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.height, multiplier: 0.3, constant: 1)
+            NSLayoutConstraint(item: bottomSpacing, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0.3, constant: 1)
             ])
 
         let viewsDict: [String : Any] = [
@@ -196,11 +196,11 @@ public class FatSidebarItem: NSView {
         imageContainer.addSubview(topSpacing)
         self.addConstraints([
             // 1px width, horizontally centered
-            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 1),
-            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: topSpacing, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 1),
+            NSLayoutConstraint(item: topSpacing, attribute: .centerX, relatedBy: .equal, toItem: imageContainer, attribute: .centerX, multiplier: 1, constant: 0),
 
             // 10% size
-            NSLayoutConstraint(item: topSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.height, multiplier: 0.1, constant: 1)
+            NSLayoutConstraint(item: topSpacing, attribute: .height, relatedBy: .equal, toItem: imageContainer, attribute: .height, multiplier: 0.1, constant: 1)
             ])
 
         let bottomSpacing = NSView()
@@ -208,16 +208,16 @@ public class FatSidebarItem: NSView {
         imageContainer.addSubview(bottomSpacing)
         self.addConstraints([
             // 1px width, horizontally centered
-            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 1),
-            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: bottomSpacing, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 1),
+            NSLayoutConstraint(item: bottomSpacing, attribute: .centerX, relatedBy: .equal, toItem: imageContainer, attribute: .centerX, multiplier: 1, constant: 0),
 
             // 10% size
-            NSLayoutConstraint(item: bottomSpacing, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.height, multiplier: 0.1, constant: 1)
+            NSLayoutConstraint(item: bottomSpacing, attribute: .height, relatedBy: .equal, toItem: imageContainer, attribute: .height, multiplier: 0.1, constant: 1)
             ])
 
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
-        self.imageView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: NSLayoutConstraintOrientation.vertical)
-        self.imageView.setContentCompressionResistancePriority(NSLayoutPriorityDefaultLow, for: NSLayoutConstraintOrientation.horizontal)
+        self.imageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        self.imageView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         imageContainer.addSubview(self.imageView)
 
         let viewsDict: [String : Any] = [
@@ -239,9 +239,9 @@ public class FatSidebarItem: NSView {
             options: [], metrics: nil, views: viewsDict))
 
         self.addConstraints([
-            NSLayoutConstraint(item: self.label, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: imageContainer, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.imageView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: imageContainer, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            NSLayoutConstraint(item: self.label, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: imageContainer, attribute: .width, relatedBy: .equal, toItem: imageContainer, attribute: .height, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.imageView, attribute: .centerX, relatedBy: .equal, toItem: imageContainer, attribute: .centerX, multiplier: 1, constant: 0)
             ])
     }
 
@@ -273,7 +273,7 @@ public class FatSidebarItem: NSView {
     fileprivate func drawBackground(_ dirtyRect: NSRect) {
 
         theme.itemStyle.background.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
-        NSRectFill(dirtyRect)
+        dirtyRect.fill()
     }
 
     fileprivate func drawBorders(_ dirtyRect: NSRect) {
@@ -282,28 +282,28 @@ public class FatSidebarItem: NSView {
 
             let border = NSRect(x: 0, y: 0, width: borderWidth, height: dirtyRect.height)
             leftBorderColor.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
-            NSRectFill(border)
+            border.fill()
         }
 
         if let topBorderColor = theme.itemStyle.borders.top {
 
             let border = NSRect(x: 0, y: dirtyRect.maxY - borderWidth, width: dirtyRect.width, height: borderWidth)
             topBorderColor.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
-            NSRectFill(border)
+            border.fill()
         }
 
         if let rightBorderColor = theme.itemStyle.borders.right {
 
             let border = NSRect(x: dirtyRect.maxX - borderWidth, y: 0, width: borderWidth, height: dirtyRect.height)
             rightBorderColor.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
-            NSRectFill(border)
+            border.fill()
         }
 
         if let bottomBorderColor = theme.itemStyle.borders.bottom {
 
             let border = NSRect(x: 0, y: dirtyRect.minY, width: dirtyRect.width, height: borderWidth)
             bottomBorderColor.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
-            NSRectFill(border)
+            border.fill()
         }
     }
 
@@ -356,7 +356,7 @@ public class FatSidebarItem: NSView {
         FatSidebarItem.startedDragging = true
     }
 
-    func mouseHeld(_ timer: Timer) {
+    @objc func mouseHeld(_ timer: Timer) {
 
         self.dragging?.isDragging = true
 

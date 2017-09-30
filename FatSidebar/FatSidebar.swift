@@ -41,6 +41,10 @@ class FlippedView: NSView {
 /// Top-level module facade, acting as a composite view that scrolls.
 public class FatSidebar: NSView {
 
+    public static var sidebarScrollViewIdentifier: NSUserInterfaceItemIdentifier { return .init(rawValue: "SidebarScrollView") }
+    public static var sidebarViewIdentifier: NSUserInterfaceItemIdentifier { return .init(rawValue: "SidebarView") }
+    internal static var flippedDocViewIdentifier: NSUserInterfaceItemIdentifier { return .init(rawValue: "FlippedDocView") }
+
     public weak var delegate: FatSidebarDelegate?
 
     let scrollView = NSScrollView()
@@ -98,7 +102,7 @@ public class FatSidebar: NSView {
 
     fileprivate func layoutSubviews() {
 
-        scrollView.identifier = "SidebarScrollView"
+        scrollView.identifier = FatSidebar.sidebarScrollViewIdentifier
         scrollView.borderType = .noBorder
         scrollView.backgroundColor = theme.sidebarBackground
         scrollView.hasVerticalScroller = false
@@ -111,10 +115,10 @@ public class FatSidebar: NSView {
         sidebarView.translatesAutoresizingMaskIntoConstraints = false
 
         let flippedView = FlippedView()
-        flippedView.identifier = "FlippedDocView"
+        flippedView.identifier = FatSidebar.flippedDocViewIdentifier
         flippedView.translatesAutoresizingMaskIntoConstraints = false
         flippedView.addSubview(sidebarView)
-        sidebarView.identifier = "SidebarView"
+        sidebarView.identifier = FatSidebar.sidebarViewIdentifier
         sidebarView.constrainToSuperviewBounds()
 
         scrollView.documentView = flippedView
