@@ -97,6 +97,7 @@ public class FatSidebarView: NSView, DragViewContainer {
     public func appendItem(
         title: String,
         image: NSImage? = nil,
+        shadow: NSShadow? = nil,
         style: FatSidebarItem.Style = .regular,
         callback: ((FatSidebarItem) -> Void)? = nil)
         -> FatSidebarItem
@@ -105,6 +106,7 @@ public class FatSidebarView: NSView, DragViewContainer {
         let configuration = FatSidebarItemConfiguration(
             title: title,
             image: image,
+            shadow: shadow,
             style: style,
             callback: callback)
 
@@ -129,6 +131,7 @@ public class FatSidebarView: NSView, DragViewContainer {
         after item: FatSidebarItem,
         title: String,
         image: NSImage? = nil,
+        shadow: NSShadow? = nil,
         style: FatSidebarItem.Style = .regular,
         callback: ((FatSidebarItem) -> Void)? = nil)
         -> FatSidebarItem?
@@ -136,6 +139,7 @@ public class FatSidebarView: NSView, DragViewContainer {
         let configuration = FatSidebarItemConfiguration(
             title: title,
             image: image,
+            shadow: shadow,
             style: style,
             callback: callback)
 

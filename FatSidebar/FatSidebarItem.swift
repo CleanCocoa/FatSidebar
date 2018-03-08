@@ -60,6 +60,7 @@ public class FatSidebarItem: NSView {
     convenience public init(
         title: String,
         image: NSImage? = nil,
+        shadow: NSShadow? = nil,
         style: Style = .regular,
         animated: Bool = false,
         callback: ((FatSidebarItem) -> Void)?) {
@@ -67,6 +68,7 @@ public class FatSidebarItem: NSView {
         let configuration = FatSidebarItemConfiguration(
             title: title,
             image: image,
+            shadow: shadow,
             style: style,
             animated: animated,
             callback: callback)
@@ -83,13 +85,7 @@ public class FatSidebarItem: NSView {
 
         self.imageView = NSImageView()
         self.imageView.wantsLayer = true
-        self.imageView.shadow = {
-            let shadow = NSShadow()
-            shadow.shadowBlurRadius = 0
-            shadow.shadowColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.6881610577)
-            shadow.shadowOffset = NSSize(width: 0, height: -1)
-            return shadow
-        }()
+        self.imageView.shadow = configuration.shadow
         self.imageView.image = configuration.image
 
         self.style = configuration.style

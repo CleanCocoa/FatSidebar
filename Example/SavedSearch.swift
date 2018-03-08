@@ -22,6 +22,14 @@ extension SavedSearch: CustomStringConvertible {
     }
 }
 
+let sharedShadow: NSShadow = {
+    let shadow = NSShadow()
+    shadow.shadowBlurRadius = 0
+    shadow.shadowColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.6881610577)
+    shadow.shadowOffset = NSSize(width: 0, height: -1)
+    return shadow
+}()
+
 extension SavedSearch: FatSidebarItemConvertible {
     var configuration: FatSidebarItemConfiguration {
 
@@ -36,6 +44,7 @@ extension SavedSearch: FatSidebarItemConvertible {
         return FatSidebarItemConfiguration(
             title: self.title,
             image: image,
+            shadow: sharedShadow,
             style: .small,
             animated: true)
     }
