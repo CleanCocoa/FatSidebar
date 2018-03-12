@@ -45,7 +45,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
 
         SavedSearch(title: "Ideas",
                     image: templated(#imageLiteral(resourceName: "lightbulb.png")),
-                    tintColor: nil)
+                    tintColor: nil),
+
+        SavedSearch(title: "Ideas",
+                    image: templated(#imageLiteral(resourceName: "building.pdf")),
+                    tintColor: #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1))
     ]
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {

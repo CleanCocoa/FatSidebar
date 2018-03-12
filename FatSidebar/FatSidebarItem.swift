@@ -197,6 +197,7 @@ public class FatSidebarItem: NSView {
             NSLayoutConstraint(item: topSpacing, attribute: .centerX, relatedBy: .equal, toItem: imageContainer, attribute: .centerX, multiplier: 1, constant: 0),
 
             // 10% size
+//            NSLayoutConstraint(item: topSpacing, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 2)
             NSLayoutConstraint(item: topSpacing, attribute: .height, relatedBy: .equal, toItem: imageContainer, attribute: .height, multiplier: 0.1, constant: 1)
             ])
 
@@ -209,12 +210,15 @@ public class FatSidebarItem: NSView {
             NSLayoutConstraint(item: bottomSpacing, attribute: .centerX, relatedBy: .equal, toItem: imageContainer, attribute: .centerX, multiplier: 1, constant: 0),
 
             // 10% size
+//            NSLayoutConstraint(item: bottomSpacing, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 2)
             NSLayoutConstraint(item: bottomSpacing, attribute: .height, relatedBy: .equal, toItem: imageContainer, attribute: .height, multiplier: 0.1, constant: 1)
             ])
 
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
         self.imageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         self.imageView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        self.imageView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        self.imageView.setContentHuggingPriority(.defaultLow, for: .vertical)
         imageContainer.addSubview(self.imageView)
 
         let viewsDict: [String : Any] = [
