@@ -87,6 +87,7 @@ public class FatSidebarItem: NSView {
         self.imageView.wantsLayer = true
         self.imageView.shadow = configuration.shadow
         self.imageView.image = configuration.image
+        self.imageView.imageScaling = .scaleProportionallyUpOrDown
 
         self.style = configuration.style
         self.animated = configuration.animated
