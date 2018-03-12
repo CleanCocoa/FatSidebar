@@ -234,6 +234,9 @@ public class FatSidebarItem: NSView {
         imageContainer.addConstraints(NSLayoutConstraint.constraints(
             withVisualFormat: "V:|[topSpace][imageView][bottomSpace]|",
             options: [], metrics: nil, views: viewsDict))
+        imageContainer.addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "H:|[imageView]|",
+            options: [], metrics: nil, views: viewsDict))
 
         self.addConstraints([
             NSLayoutConstraint(item: self.label, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0),
