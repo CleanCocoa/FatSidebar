@@ -197,8 +197,8 @@ public class FatSidebarItem: NSView {
             NSLayoutConstraint(item: topSpacing, attribute: .centerX, relatedBy: .equal, toItem: imageContainer, attribute: .centerX, multiplier: 1, constant: 0),
 
             // 10% size
-//            NSLayoutConstraint(item: topSpacing, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 2)
-            NSLayoutConstraint(item: topSpacing, attribute: .height, relatedBy: .equal, toItem: imageContainer, attribute: .height, multiplier: 0.1, constant: 1)
+            NSLayoutConstraint(item: topSpacing, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 2)
+//            NSLayoutConstraint(item: topSpacing, attribute: .height, relatedBy: .equal, toItem: imageContainer, attribute: .height, multiplier: 0.1, constant: 1)
             ])
 
         let bottomSpacing = NSView()
@@ -210,8 +210,8 @@ public class FatSidebarItem: NSView {
             NSLayoutConstraint(item: bottomSpacing, attribute: .centerX, relatedBy: .equal, toItem: imageContainer, attribute: .centerX, multiplier: 1, constant: 0),
 
             // 10% size
-//            NSLayoutConstraint(item: bottomSpacing, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 2)
-            NSLayoutConstraint(item: bottomSpacing, attribute: .height, relatedBy: .equal, toItem: imageContainer, attribute: .height, multiplier: 0.1, constant: 1)
+            NSLayoutConstraint(item: bottomSpacing, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 2)
+//            NSLayoutConstraint(item: bottomSpacing, attribute: .height, relatedBy: .equal, toItem: imageContainer, attribute: .height, multiplier: 0.1, constant: 1)
             ])
 
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -245,7 +245,9 @@ public class FatSidebarItem: NSView {
         self.addConstraints([
             NSLayoutConstraint(item: self.label, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: imageContainer, attribute: .width, relatedBy: .equal, toItem: imageContainer, attribute: .height, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.imageView, attribute: .centerX, relatedBy: .equal, toItem: imageContainer, attribute: .centerX, multiplier: 1, constant: 0)
+            NSLayoutConstraint(item: self.imageView, attribute: .centerX, relatedBy: .equal, toItem: imageContainer, attribute: .centerX, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: .lessThanOrEqual, toItem: imageView, attribute: .height, multiplier: 1, constant: 0).prioritized(250),
+
             ])
     }
 
