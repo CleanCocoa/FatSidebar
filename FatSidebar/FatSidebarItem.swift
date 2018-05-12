@@ -22,7 +22,7 @@ public class FatSidebarItem: NSView {
         case regular
 
         /// Displays image only, label in overlay view on hover
-        case small
+        case small(iconSize: CGFloat, padding: CGFloat)
 
         public var supportsHovering: Bool {
             switch self {
@@ -107,7 +107,8 @@ public class FatSidebarItem: NSView {
     fileprivate func layoutSubviews(style: Style) {
         switch style {
         case .regular: layoutRegularSubviews()
-        case .small: layoutSmallSubviews()
+        case let .small(iconSize: iconSize, padding: padding):
+            layoutSmallSubviews(iconSize: iconSize, padding: padding)
         }
     }
 
@@ -172,61 +173,30 @@ public class FatSidebarItem: NSView {
 
     public override func layout() {
 
-        if self.style == .regular {
+        if case .regular = self.style {
             self.label.preferredMaxLayoutWidth = NSWidth(self.label.alignmentRect(forFrame: self.frame))
         }
         
         super.layout()
     }
 
-    fileprivate func layoutSmallSubviews() {
+    fileprivate func layoutSmallSubviews(iconSize: CGFloat, padding: CGFloat) {
 
         self.label.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(label)
 
         let imageContainer = NSView()
+        imageContainer.identifier = .init(rawValue: "imageContainer")
         imageContainer.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(imageContainer)
 
-        let topSpacing = NSView()
-        topSpacing.translatesAutoresizingMaskIntoConstraints = false
-        imageContainer.addSubview(topSpacing)
-        self.addConstraints([
-            // 1px width, horizontally centered
-            NSLayoutConstraint(item: topSpacing, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 1),
-            NSLayoutConstraint(item: topSpacing, attribute: .centerX, relatedBy: .equal, toItem: imageContainer, attribute: .centerX, multiplier: 1, constant: 0),
-
-            // 10% size
-            NSLayoutConstraint(item: topSpacing, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 2)
-//            NSLayoutConstraint(item: topSpacing, attribute: .height, relatedBy: .equal, toItem: imageContainer, attribute: .height, multiplier: 0.1, constant: 1)
-            ])
-
-        let bottomSpacing = NSView()
-        bottomSpacing.translatesAutoresizingMaskIntoConstraints = false
-        imageContainer.addSubview(bottomSpacing)
-        self.addConstraints([
-            // 1px width, horizontally centered
-            NSLayoutConstraint(item: bottomSpacing, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 1),
-            NSLayoutConstraint(item: bottomSpacing, attribute: .centerX, relatedBy: .equal, toItem: imageContainer, attribute: .centerX, multiplier: 1, constant: 0),
-
-            // 10% size
-            NSLayoutConstraint(item: bottomSpacing, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 2)
-//            NSLayoutConstraint(item: bottomSpacing, attribute: .height, relatedBy: .equal, toItem: imageContainer, attribute: .height, multiplier: 0.1, constant: 1)
-            ])
-
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
-        self.imageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-        self.imageView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        self.imageView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        self.imageView.setContentHuggingPriority(.defaultLow, for: .vertical)
         imageContainer.addSubview(self.imageView)
 
         let viewsDict: [String : Any] = [
-            "topSpace" : topSpacing,
             "container" : imageContainer,
             "imageView" : self.imageView,
             "label" : self.label,
-            "bottomSpace" : bottomSpacing
         ]
 
         self.addConstraints(NSLayoutConstraint.constraints(
@@ -236,17 +206,16 @@ public class FatSidebarItem: NSView {
             withVisualFormat: "H:|[container]-1-[label]", // Open to the right
             options: [], metrics: nil, views: viewsDict))
         imageContainer.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|[topSpace][imageView][bottomSpace]|",
+            withVisualFormat: "V:|-(\(padding))-[imageView]-(\(padding))-|",
             options: [], metrics: nil, views: viewsDict))
         imageContainer.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|[imageView]|",
+            withVisualFormat: "H:|-(\(padding))-[imageView]-(\(padding))-|",
             options: [], metrics: nil, views: viewsDict))
 
         self.addConstraints([
             NSLayoutConstraint(item: self.label, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: imageContainer, attribute: .width, relatedBy: .equal, toItem: imageContainer, attribute: .height, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.imageView, attribute: .centerX, relatedBy: .equal, toItem: imageContainer, attribute: .centerX, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: .lessThanOrEqual, toItem: imageView, attribute: .height, multiplier: 1, constant: 0).prioritized(250),
+            NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: iconSize),
+            NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: .equal, toItem: imageView, attribute: .height, multiplier: 1, constant: 0),
 
             ])
     }
