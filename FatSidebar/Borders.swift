@@ -2,6 +2,8 @@
 
 public struct Borders {
 
+    public static var none: Borders { return Borders(top: nil, bottom: nil, left: nil, right: nil) }
+    
     public let top: StatefulColor?
     public let bottom: StatefulColor?
     public let left: StatefulColor?
