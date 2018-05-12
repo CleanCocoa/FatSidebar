@@ -13,7 +13,6 @@ public struct FatSidebarItemConfiguration: FatSidebarItemConvertible {
     let title: String
     let image: NSImage?
     let shadow: NSShadow?
-    let style: FatSidebarItem.Style
     let animated: Bool
     let callback: ((FatSidebarItem) -> Void)?
 
@@ -21,14 +20,12 @@ public struct FatSidebarItemConfiguration: FatSidebarItemConvertible {
         title: String,
         image: NSImage? = nil,
         shadow: NSShadow? = nil,
-        style: FatSidebarItem.Style = .regular,
         animated: Bool = false,
         callback: ((FatSidebarItem) -> Void)? = nil) {
 
         self.title = title
         self.image = image
         self.shadow = shadow
-        self.style = style
         self.animated = animated
         self.callback = callback
     }

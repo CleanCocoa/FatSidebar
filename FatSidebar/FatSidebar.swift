@@ -72,6 +72,11 @@ public class FatSidebar: NSView {
         }
     }
 
+    public var style: FatSidebarItem.Style {
+        get { return sidebarView.style }
+        set { sidebarView.style = newValue }
+    }
+
     /// Changing this value reconfigures all existing items, too.
     ///
     /// - note: New items will not inherit this value. Their configuration wins.
@@ -260,12 +265,11 @@ public class FatSidebar: NSView {
     public func appendItem(
         title: String,
         image: NSImage? = nil,
-        style: FatSidebarItem.Style = .regular,
         callback: ((FatSidebarItem) -> Void)? = nil)
         -> FatSidebarItem
     {
 
-        return sidebarView.appendItem(title: title, image: image, style: style, callback: callback)
+        return sidebarView.appendItem(title: title, image: image, callback: callback)
     }
 
     /// - returns: `nil` if `item` is not part of this sidebar, an instance of `FatSidebarItem` otherwise.
@@ -284,12 +288,11 @@ public class FatSidebar: NSView {
         after item: FatSidebarItem,
         title: String,
         image: NSImage? = nil,
-        style: FatSidebarItem.Style = .regular,
         callback: ((FatSidebarItem) -> Void)? = nil)
         -> FatSidebarItem?
     {
 
-        return sidebarView.insertItem(after: item, title: title, image: image, style: style, callback: callback)
+        return sidebarView.insertItem(after: item, title: title, image: image, callback: callback)
     }
 
     @discardableResult

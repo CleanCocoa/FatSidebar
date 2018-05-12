@@ -32,7 +32,6 @@ public class FatSidebarItem: NSView {
         }
     }
 
-    public let style: Style
     public let callback: ((FatSidebarItem) -> Void)?
     public var selectionHandler: ((FatSidebarItem) -> Void)?
     public var editHandler: ((FatSidebarItem) -> Void)?
@@ -50,6 +49,13 @@ public class FatSidebarItem: NSView {
         get { return imageView.image }
     }
 
+    public internal(set) var style: Style {
+        didSet {
+            layoutSubviews(style: style)
+            redraw()
+        }
+    }
+
     public internal(set) var theme: FatSidebarTheme = DefaultTheme() {
         didSet {
             adjustLabelFont()
@@ -61,22 +67,23 @@ public class FatSidebarItem: NSView {
         title: String,
         image: NSImage? = nil,
         shadow: NSShadow? = nil,
-        style: Style = .regular,
         animated: Bool = false,
+        style: Style = .regular,
         callback: ((FatSidebarItem) -> Void)?) {
 
         let configuration = FatSidebarItemConfiguration(
             title: title,
             image: image,
             shadow: shadow,
-            style: style,
             animated: animated,
             callback: callback)
 
-        self.init(configuration: configuration)
+        self.init(configuration: configuration, style: style)
     }
 
-    required public init(configuration: FatSidebarItemConfiguration) {
+    required public init(configuration: FatSidebarItemConfiguration, style: Style) {
+
+        self.style = style
 
         self.label = NSTextField.newWrappingLabel(
             title: configuration.title,
@@ -89,7 +96,6 @@ public class FatSidebarItem: NSView {
         self.imageView.image = configuration.image
         self.imageView.imageScaling = .scaleProportionallyUpOrDown
 
-        self.style = configuration.style
         self.animated = configuration.animated
 
         self.callback = configuration.callback
@@ -105,11 +111,31 @@ public class FatSidebarItem: NSView {
     }
 
     fileprivate func layoutSubviews(style: Style) {
+
+        resetSubviews()
+
         switch style {
         case .regular: layoutRegularSubviews()
         case let .small(iconSize: iconSize, padding: padding):
             layoutSmallSubviews(iconSize: iconSize, padding: padding)
         }
+    }
+
+    private var topSpacing: NSView?
+    private var bottomSpacing: NSView?
+    private var imageContainer: NSView?
+    private var styleLayoutConstraints: [NSLayoutConstraint] = []
+
+    private func resetSubviews() {
+
+        self.removeConstraints(styleLayoutConstraints)
+        styleLayoutConstraints = []
+
+        imageContainer?.removeFromSuperview()
+        imageView.removeFromSuperview()
+        label.removeFromSuperview()
+        topSpacing?.removeFromSuperview()
+        bottomSpacing?.removeFromSuperview()
     }
 
     fileprivate func layoutRegularSubviews() {
@@ -125,26 +151,32 @@ public class FatSidebarItem: NSView {
         let topSpacing = NSView()
         topSpacing.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(topSpacing)
-        self.addConstraints([
+        self.topSpacing = topSpacing
+        let topSpacingConstraints = [
             // 1px width, horizontally centered
             NSLayoutConstraint(item: topSpacing, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 1),
             NSLayoutConstraint(item: topSpacing, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0),
 
             // 20% size
             NSLayoutConstraint(item: topSpacing, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0.2, constant: 1)
-            ])
+            ]
+        self.styleLayoutConstraints.append(contentsOf: topSpacingConstraints)
+        self.addConstraints(topSpacingConstraints)
 
         let bottomSpacing = NSView()
         bottomSpacing.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(bottomSpacing)
-        self.addConstraints([
+        self.bottomSpacing = bottomSpacing
+        let bottomSpacingConstraints = [
             // 1px width, horizontally centered
             NSLayoutConstraint(item: bottomSpacing, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 1),
             NSLayoutConstraint(item: bottomSpacing, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0),
 
             // 30% size
             NSLayoutConstraint(item: bottomSpacing, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0.3, constant: 1)
-            ])
+            ]
+        self.styleLayoutConstraints.append(contentsOf: bottomSpacingConstraints)
+        self.addConstraints(bottomSpacingConstraints)
 
         let viewsDict: [String : Any] = [
             "topSpace" : topSpacing,
@@ -153,21 +185,24 @@ public class FatSidebarItem: NSView {
             "bottomSpace" : bottomSpacing
         ]
 
-        self.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|[topSpace][imageView][bottomSpace]|",
-            options: [], metrics: nil, views: viewsDict))
-        self.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:[label]-(>=4@1000)-|",
-            options: [], metrics: nil, views: viewsDict))
-        self.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:[label]-(4@250)-|",
-            options: [], metrics: nil, views: viewsDict))
+        let mainConstraints = [
+            NSLayoutConstraint.constraints(
+                withVisualFormat: "V:|[topSpace][imageView][bottomSpace]|",
+                options: [], metrics: nil, views: viewsDict),
+            NSLayoutConstraint.constraints(
+                withVisualFormat: "V:[label]-(>=4@1000)-|",
+                options: [], metrics: nil, views: viewsDict),
+            NSLayoutConstraint.constraints(
+                withVisualFormat: "V:[label]-(4@250)-|",
+                options: [], metrics: nil, views: viewsDict),
+            ]
+            .flattened()
+            .appending(NSLayoutConstraint(item: self.label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+            .appending(NSLayoutConstraint(item: self.label, attribute: .centerY, relatedBy: .equal, toItem: bottomSpacing, attribute: .centerY, multiplier: 0.95, constant: 0).prioritized(250))
+            .appending(NSLayoutConstraint(item: self.imageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        self.addConstraints(mainConstraints)
+        self.styleLayoutConstraints.append(contentsOf: mainConstraints)
 
-        self.addConstraints([
-            NSLayoutConstraint(item: self.label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.label, attribute: .centerY, relatedBy: .equal, toItem: bottomSpacing, attribute: .centerY, multiplier: 0.95, constant: 0).prioritized(250),
-            NSLayoutConstraint(item: self.imageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0)
-            ])
         label.setNeedsDisplay()
     }
 
@@ -189,8 +224,11 @@ public class FatSidebarItem: NSView {
         imageContainer.identifier = .init(rawValue: "imageContainer")
         imageContainer.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(imageContainer)
+        self.imageContainer = imageContainer
 
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
+        self.imageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        self.imageView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         imageContainer.addSubview(self.imageView)
 
         let viewsDict: [String : Any] = [
@@ -199,25 +237,28 @@ public class FatSidebarItem: NSView {
             "label" : self.label,
         ]
 
-        self.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|[container]|",
-            options: [], metrics: nil, views: viewsDict))
-        self.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|[container]-1-[label]", // Open to the right
-            options: [], metrics: nil, views: viewsDict))
-        imageContainer.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|-(\(padding))-[imageView]-(\(padding))-|",
-            options: [], metrics: nil, views: viewsDict))
+        let mainConstraints: [NSLayoutConstraint] = [
+            NSLayoutConstraint.constraints(
+                withVisualFormat: "V:|[container]|",
+                options: [], metrics: nil, views: viewsDict),
+            NSLayoutConstraint.constraints(
+                withVisualFormat: "H:|[container]-1-[label]", // Open to the right
+                options: [], metrics: nil, views: viewsDict),
+            NSLayoutConstraint.constraints(
+                withVisualFormat: "V:|-(\(padding))-[imageView]-(\(padding))-|",
+                options: [], metrics: nil, views: viewsDict)
+            ]
+            .flattened()
+            .appending(NSLayoutConstraint(item: self.label, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+            .appending(NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: iconSize))
+            .appending(NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: .equal, toItem: imageView, attribute: .height, multiplier: 1, constant: 0))
+
+        self.addConstraints(mainConstraints)
+        self.styleLayoutConstraints.append(contentsOf: mainConstraints)
+
         imageContainer.addConstraints(NSLayoutConstraint.constraints(
             withVisualFormat: "H:|-(\(padding))-[imageView]-(\(padding))-|",
             options: [], metrics: nil, views: viewsDict))
-
-        self.addConstraints([
-            NSLayoutConstraint(item: self.label, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: iconSize),
-            NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: .equal, toItem: imageView, attribute: .height, multiplier: 1, constant: 0),
-
-            ])
     }
 
     // MARK: - Custom Drawing
@@ -502,4 +543,18 @@ public class FatSidebarItem: NSView {
         self.trackingArea = newTrackingArea
     }
 
+}
+
+extension Array {
+    func appending(_ newElement: Element) -> [Element] {
+        var result = self
+        result.append(newElement)
+        return result
+    }
+}
+
+extension Array where Element: Sequence {
+    func flattened() -> [Element.Element] {
+        return self.flatMap { $0 }
+    }
 }
