@@ -274,6 +274,7 @@ public class FatSidebarItem: NSView {
 
         self.label.textColor = theme.itemStyle.labelColor
             .color(isHighlighted: self.isHighlighted, isSelected: self.isSelected)
+        self.label.cell?.backgroundStyle = theme.itemStyle.background.backgroundStyle
     }
 
     var borderWidth: CGFloat = 1

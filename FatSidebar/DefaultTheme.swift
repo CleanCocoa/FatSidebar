@@ -15,10 +15,11 @@ struct DefaultTheme: FatSidebarTheme {
 
         let labelColor = StatefulColor(single: NSColor.controlTextColor)
 
-        let background = StatefulColor(
+        let background = StatefulBackgroundColor(
             normal: NSColor.controlColor,
             selected: DefaultTheme.selectedColor,
-            highlighted: NSColor.lightGray)
+            highlighted: NSColor.lightGray,
+            backgroundStyle: .light)
 
         let borders = Borders(
             bottom: StatefulColor(single: NSColor.darkGray),
