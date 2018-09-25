@@ -69,7 +69,7 @@ extension DragViewContainer where Self: NSView {
             draggingView.layer?.shadowRadius = 3
             draggingView.layer?.shadowOffset = NSSize(width: 0, height: -2)
             draggingView.alphaValue = 0.8
-        })
+        }, completionHandler: nil)
 
         subview.isHidden = true
         var previousY = initialY
@@ -80,7 +80,7 @@ extension DragViewContainer where Self: NSView {
         window?.trackEvents(
             matching: [.leftMouseUp, .leftMouseDragged],
             timeout: Date.distantFuture.timeIntervalSinceNow,
-            mode: .eventTrackingRunLoopMode)
+            mode: .eventTracking)
         { [unowned self] (dragEvent, stop) in
 
             guard let dragEvent = dragEvent else { return }
@@ -91,7 +91,7 @@ extension DragViewContainer where Self: NSView {
                 NSAnimationContext.runAnimationGroup({ context in
                     context.duration = 0.2
                     context.allowsImplicitAnimation = true
-                    context.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+                    context.timingFunction = CAMediaTimingFunction(name: .easeOut)
 
                     yPositionConstraint.constant = subviewFrame.origin.y
                     xPositionConstraint.constant = subviewFrame.origin.x
