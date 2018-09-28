@@ -2,7 +2,7 @@
 
 extension Array where Element : Equatable {
 
-    mutating func move(_ element: Array.Element, by distance: Array.IndexDistance) {
+    mutating func move(_ element: Array.Element, by distance: Int) {
 
         guard let removeIndex = self.index(of: element) else { return }
 

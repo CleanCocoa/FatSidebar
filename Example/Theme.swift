@@ -17,10 +17,11 @@ struct OmniFocusTheme: FatSidebarTheme {
         let font: NSFont? = NSFont.systemFont(ofSize: 14)
         let labelColor = StatefulColor(single: NSColor.controlTextColor)
 
-        let background = StatefulColor(
+        let background = StatefulBackgroundColor(
             normal:      OmniFocusTheme.backgroundColor,
             selected:    OmniFocusTheme.selectedColor,
-            highlighted: OmniFocusTheme.recessedColor)
+            highlighted: OmniFocusTheme.recessedColor,
+            backgroundStyle: .light)
 
         let borders = Borders(
             bottom: StatefulColor(single: OmniFocusTheme.recessedColor),

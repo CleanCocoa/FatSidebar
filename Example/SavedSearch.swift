@@ -45,7 +45,6 @@ extension SavedSearch: FatSidebarItemConvertible {
             title: self.title,
             image: image,
             shadow: sharedShadow,
-            style: .small,
             animated: true)
     }
 }

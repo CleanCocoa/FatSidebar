@@ -27,6 +27,19 @@ public class FatSidebarView: NSView, DragViewContainer {
     static let didStartEditingItemNotification = Notification.Name("FatSidebarView_didStartEditingItemNotification")
     static let didDoubleClickItemNotification = Notification.Name("FatSidebarView_didDoubleClickItemNotification")
 
+    public var style: FatSidebarItem.Style = .regular {
+        didSet {
+            applyStyleToItems()
+        }
+    }
+
+    fileprivate func applyStyleToItems() {
+
+        for item in items {
+            item.style = self.style
+        }
+    }
+
     public var theme: FatSidebarTheme = DefaultTheme() {
         didSet {
             applyThemeToItems()
@@ -84,7 +97,7 @@ public class FatSidebarView: NSView, DragViewContainer {
 
     fileprivate func fatSidebarItem(configuration: FatSidebarItemConfiguration) -> FatSidebarItem {
 
-        let item = FatSidebarItem(configuration: configuration)
+        let item = FatSidebarItem(configuration: configuration, style: style)
         item.menu = self.itemContextualMenu
         item.selectionHandler = { [unowned self] in self.itemSelected($0) }
         item.doubleClickHandler = { [unowned self] in self.itemDoubleClicked($0) }
@@ -98,7 +111,6 @@ public class FatSidebarView: NSView, DragViewContainer {
         title: String,
         image: NSImage? = nil,
         shadow: NSShadow? = nil,
-        style: FatSidebarItem.Style = .regular,
         callback: ((FatSidebarItem) -> Void)? = nil)
         -> FatSidebarItem
     {
@@ -107,7 +119,6 @@ public class FatSidebarView: NSView, DragViewContainer {
             title: title,
             image: image,
             shadow: shadow,
-            style: style,
             callback: callback)
 
         return self.appendItem(configuration)
@@ -132,7 +143,6 @@ public class FatSidebarView: NSView, DragViewContainer {
         title: String,
         image: NSImage? = nil,
         shadow: NSShadow? = nil,
-        style: FatSidebarItem.Style = .regular,
         callback: ((FatSidebarItem) -> Void)? = nil)
         -> FatSidebarItem?
     {
@@ -140,7 +150,6 @@ public class FatSidebarView: NSView, DragViewContainer {
             title: title,
             image: image,
             shadow: shadow,
-            style: style,
             callback: callback)
 
         return self.insertItem(configuration, after: item)

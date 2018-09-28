@@ -61,7 +61,7 @@ class AddItemController: NSWindowController, NSTextFieldDelegate {
         }
     }
 
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
 
         guard let textField = obj.object as? NSTextField,
             textField === self.titleTextField

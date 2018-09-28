@@ -56,6 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
 
         fatSidebar.delegate = self
         fatSidebar.theme = OmniFocusTheme()
+        fatSidebar.style = .small(iconSize: 24, padding: 6)
         fatSidebar.selectionMode = .toggleOne
 
         fatSidebar.sidebarContextualMenu = itemContextualMenu

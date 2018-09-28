@@ -11,7 +11,7 @@ public protocol FatSidebarItemStyle {
     /// Replacement font for item labels. Leave as `nil` to default to system font.
     var font: NSFont? { get }
     var labelColor: StatefulColor { get }
-    var background: StatefulColor { get }
+    var background: StatefulBackgroundColor { get }
     var borders: Borders { get }
 }
 
