@@ -4,7 +4,7 @@
 
 # FatSidebar
 
-![Swift 3](https://img.shields.io/badge/Swift-3.0-blue.svg?style=flat)
+![Swift 4.2](https://img.shields.io/badge/Swift-4.2-blue.svg?style=flat)
 ![Version](https://img.shields.io/github/tag/CleanCocoa/FatSidebar.svg?style=flat)
 ![License](https://img.shields.io/github/license/CleanCocoa/FatSidebar.svg?style=flat)
 ![Platform](https://img.shields.io/badge/platform-macOS-lightgrey.svg?style=flat)
