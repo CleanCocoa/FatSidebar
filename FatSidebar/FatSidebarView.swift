@@ -163,7 +163,7 @@ public class FatSidebarView: NSView, DragViewContainer {
         -> FatSidebarItem?
     {
 
-        guard let index = items.index(where: { $0 === item }) else { return nil }
+        guard let index = items.firstIndex(where: { $0 === item }) else { return nil }
 
         let configuration = convertible.configuration
         let item = fatSidebarItem(configuration: configuration)
@@ -195,7 +195,7 @@ public class FatSidebarView: NSView, DragViewContainer {
 
     fileprivate func itemDoubleClicked(_ item: FatSidebarItem) {
 
-        guard let index = self.items.index(of: item) else { return }
+        guard let index = self.items.firstIndex(of: item) else { return }
 
         NotificationCenter.default.post(
             name: FatSidebarView.didDoubleClickItemNotification,
@@ -205,7 +205,7 @@ public class FatSidebarView: NSView, DragViewContainer {
 
     fileprivate func itemBeginsEditing(_ item: FatSidebarItem) {
 
-        guard let index = self.items.index(of: item) else { return }
+        guard let index = self.items.firstIndex(of: item) else { return }
 
         NotificationCenter.default.post(
             name: FatSidebarView.didStartEditingItemNotification,
@@ -227,7 +227,7 @@ public class FatSidebarView: NSView, DragViewContainer {
     @discardableResult
     public func removeItem(_ item: FatSidebarItem) -> Bool {
 
-        guard let index = items.index(of: item)
+        guard let index = items.firstIndex(of: item)
             else { return false }
 
         item.removeFromSuperview()
@@ -304,7 +304,7 @@ public class FatSidebarView: NSView, DragViewContainer {
     @discardableResult
     public func toggleItem(_ item: FatSidebarItem) -> Bool {
 
-        guard let index = items.index(of: item) else { return false }
+        guard let index = items.firstIndex(of: item) else { return false }
 
         if !selectionMode.allowsMultiple {
             selectedItems
@@ -326,7 +326,7 @@ public class FatSidebarView: NSView, DragViewContainer {
     @discardableResult
     public func pushItem(_ item: FatSidebarItem) -> Bool {
 
-        guard let index = items.index(of: item) else { return false }
+        guard let index = items.firstIndex(of: item) else { return false }
 
         NotificationCenter.default.post(
             name: FatSidebarView.didPushItemNotification,
@@ -341,7 +341,7 @@ public class FatSidebarView: NSView, DragViewContainer {
     @discardableResult
     public func selectItem(_ item: FatSidebarItem) -> Bool {
 
-        guard let index = self.items.index(of: item)
+        guard let index = self.items.firstIndex(of: item)
             else { return false }
 
         return selectItem(at: index)
@@ -372,7 +372,7 @@ public class FatSidebarView: NSView, DragViewContainer {
     @discardableResult
     public func deselectItem(_ item: FatSidebarItem) -> Bool {
 
-        guard let index = self.items.index(of: item),
+        guard let index = self.items.firstIndex(of: item),
             item.isSelected
             else { return false }
 

@@ -4,7 +4,7 @@ extension Array where Element : Equatable {
 
     mutating func move(_ element: Array.Element, by distance: Int) {
 
-        guard let removeIndex = self.index(of: element) else { return }
+        guard let removeIndex = self.firstIndex(of: element) else { return }
 
         let insertIndex = self.index(removeIndex, offsetBy: distance)
         self.remove(at: removeIndex)

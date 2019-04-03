@@ -74,7 +74,7 @@ extension DragViewContainer where Self: NSView {
         subview.isHidden = true
         var previousY = initialY
 
-        let draggedItemIndex = subviews.index(of: subview)!
+        let draggedItemIndex = subviews.firstIndex(of: subview)!
         var draggedPositionOffset = 0
 
         window?.trackEvents(
