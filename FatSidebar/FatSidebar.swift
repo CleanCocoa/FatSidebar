@@ -33,7 +33,7 @@ class FlippedView: NSView {
 
     /// Triggered when an item is single-clicked. 
     /// Deprecated in favor of `sidebar(_:didPushItem:)`.
-    @available(*, deprecated: 1.3.0, renamed: "sidebar(_:didPushItem:)")
+    @available(*, message: "Prefer to use sidebar(_:didPushItem:) until toggling is better supported")
     @objc optional func sidebar(_ sidebar: FatSidebar, didToggleItem selectionIndex: Int)
 }
 
