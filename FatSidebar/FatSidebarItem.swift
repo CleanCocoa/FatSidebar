@@ -437,12 +437,9 @@ public class FatSidebarItem: NSView {
 
     private var overlay: FatSidebarItemOverlay? {
         didSet {
-
-            guard overlay == nil,
-                let oldOverlay = oldValue
-                else { return }
-
-            NotificationCenter.default.removeObserver(oldOverlay)
+            if let oldOverlay = oldValue {
+                NotificationCenter.default.removeObserver(oldOverlay)
+            }
         }
     }
 
