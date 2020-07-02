@@ -81,8 +81,9 @@ extension DragViewContainer where Self: NSView {
             matching: [.leftMouseUp, .leftMouseDragged],
             timeout: Date.distantFuture.timeIntervalSinceNow,
             mode: .eventTracking)
-        { [unowned self] (dragEvent, stop) in
+        { [weak self] (dragEvent, stop) in
 
+            guard let self = self else { return }
             guard let dragEvent = dragEvent else { return }
             guard dragEvent.type != .leftMouseUp else {
 
