@@ -6,7 +6,7 @@ class FlippedView: NSView {
     override var isFlipped: Bool { return true }
 }
 
-@objc public protocol FatSidebarDelegate: class {
+@objc public protocol FatSidebarDelegate: AnyObject {
     /// Triggered after the user finishes dragging an item into a new place. 
     @objc optional func sidebar(_ sidebar: FatSidebar, didMoveItemFrom oldIndex: Int, to newIndex: Int)
 
