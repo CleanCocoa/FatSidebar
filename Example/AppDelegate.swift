@@ -37,7 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
     var savedSearches: [SavedSearch] = [
         SavedSearch(title: "Inbox",
                     image: templated(#imageLiteral(resourceName: "inbox.png")),
-                    tintColor: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)),
+                    tintColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)),
 
         SavedSearch(title: "My Bestest Favorites",
                     image: templated(#imageLiteral(resourceName: "heart.png")),
@@ -52,10 +52,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
                     tintColor: #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1))
     ]
 
+    var theme = DanielsTheme() {
+        didSet {
+            fatSidebar.theme = theme
+        }
+    }
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
         fatSidebar.delegate = self
-        fatSidebar.theme = OmniFocusTheme()
+        fatSidebar.theme = theme
         fatSidebar.style = .small(iconSize: 24, padding: 6)
         fatSidebar.selectionMode = .toggleOne
 
@@ -119,9 +125,27 @@ class AppDelegate: NSObject, NSApplicationDelegate, FatSidebarDelegate {
         }
     }
 
+    var themeToggle = false {
+        didSet {
+            if themeToggle {
+                theme.background = .init(single: #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1))
+            } else {
+                theme.background = DanielsTheme.defaultBackgroundColor
+            }
+        }
+    }
+
     func sidebar(_ sidebar: FatSidebar, didChangeSelection selectionIndex: Int) {
 
         Swift.print("Selected \(savedSearches[selectionIndex])")
+
+        themeToggle = !themeToggle
+        fatSidebar.style = {
+            switch fatSidebar.style {
+            case .regular: return .small(iconSize: 16, padding: 6)
+            case .small: return .regular
+            }
+        }()
     }
 
     func sidebar(_ sidebar: FatSidebar, didPushItem selectionIndex: Int) {

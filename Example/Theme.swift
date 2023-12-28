@@ -31,3 +31,52 @@ struct OmniFocusTheme: FatSidebarTheme {
                 highlighted: OmniFocusTheme.recessedColor))
     }
 }
+
+struct DanielsTheme: FatSidebarTheme {
+
+    static var defaultBackgroundColor: StatefulColor {
+        return StatefulColor(
+            normal: #colorLiteral(red: 0.03137254902, green: 0.3137254902, blue: 0.6666666667, alpha: 1),
+            selected: #colorLiteral(red: 0.03137254902, green: 0.3137254902, blue: 0.6666666667, alpha: 1),
+            highlighted: #colorLiteral(red: 0.08235294118, green: 0.2941176471, blue: 0.5607843137, alpha: 1))
+    }
+
+    private var _itemStyle: ItemStyle
+    var itemStyle: FatSidebarItemStyle { return _itemStyle }
+
+    var background: StatefulColor {
+        didSet {
+            _itemStyle.background = statefulBackgroundColor
+        }
+    }
+    var statefulBackgroundColor: StatefulBackgroundColor {
+        return StatefulBackgroundColor(statefulColor: background, backgroundStyle: .dark)
+    }
+
+    var sidebarBackground: NSColor { return background.normal }
+
+    init(background: StatefulColor, fontSize: CGFloat) {
+        self.background = background
+        self._itemStyle = ItemStyle(
+            background: StatefulBackgroundColor(statefulColor: background, backgroundStyle: .dark),
+            fontSize: fontSize)
+    }
+
+    init() {
+        self.init(background: DanielsTheme.defaultBackgroundColor, fontSize: 14.0)
+    }
+
+    struct ItemStyle: FatSidebarItemStyle {
+
+        let labelColor = StatefulColor(single: NSColor.green)
+        let borders = Borders.none
+
+        var font: NSFont?
+        var background: StatefulBackgroundColor
+
+        init(background: StatefulBackgroundColor, fontSize: CGFloat) {
+            self.background = background
+            self.font = NSFont.systemFont(ofSize: fontSize)
+        }
+    }
+}

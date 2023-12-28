@@ -283,42 +283,42 @@ public class FatSidebarItem: NSView {
 
         super.draw(dirtyRect)
 
-        drawBackground(dirtyRect)
-        drawBorders(dirtyRect)
+        drawBackground()
+        drawBorders()
     }
 
-    fileprivate func drawBackground(_ dirtyRect: NSRect) {
+    fileprivate func drawBackground() {
 
         theme.itemStyle.background.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
-        dirtyRect.fill()
+        bounds.fill()
     }
 
-    fileprivate func drawBorders(_ dirtyRect: NSRect) {
+    fileprivate func drawBorders() {
 
         if let leftBorderColor = theme.itemStyle.borders.left {
 
-            let border = NSRect(x: 0, y: 0, width: borderWidth, height: dirtyRect.height)
+            let border = NSRect(x: 0, y: 0, width: borderWidth, height: bounds.height)
             leftBorderColor.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
             border.fill()
         }
 
         if let topBorderColor = theme.itemStyle.borders.top {
 
-            let border = NSRect(x: 0, y: dirtyRect.maxY - borderWidth, width: dirtyRect.width, height: borderWidth)
+            let border = NSRect(x: 0, y: bounds.maxY - borderWidth, width: bounds.width, height: borderWidth)
             topBorderColor.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
             border.fill()
         }
 
         if let rightBorderColor = theme.itemStyle.borders.right {
 
-            let border = NSRect(x: dirtyRect.maxX - borderWidth, y: 0, width: borderWidth, height: dirtyRect.height)
+            let border = NSRect(x: bounds.maxX - borderWidth, y: 0, width: borderWidth, height: bounds.height)
             rightBorderColor.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
             border.fill()
         }
 
         if let bottomBorderColor = theme.itemStyle.borders.bottom {
 
-            let border = NSRect(x: 0, y: dirtyRect.minY, width: dirtyRect.width, height: borderWidth)
+            let border = NSRect(x: 0, y: bounds.minY, width: bounds.width, height: borderWidth)
             bottomBorderColor.color(isHighlighted: isHighlighted, isSelected: isSelected).setFill()
             border.fill()
         }
